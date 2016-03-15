@@ -30,6 +30,23 @@ As we wait for the threads to finish as you hit 'Ctrl+C' (to exit), the time you
 back will be proportional to you refresh interval (e.g.: max=<INTERVAL>). You can change the update interval in the 
 'vmssconfig.json' file.
 
+## ASCiiVMSSDashboard Commands
+  To issue commands for the Azure Resource Manager API to add and/or delete virtual machines from the Scale Set,
+you just need to type ':'. The cursor will appear at the bottom left of the screen (PROMPT window), and you will
+be able to enter commands. To see a help window with the commands available, just type ':' (to activate the command
+PROMPT window), and 'help'. To hide the help window, just do the same sequence (':' and 'help').
+
+## CAVEATS
+- The ASCiiVMSSDashboard Console should work fine on Linux/Window and MacOS, as we are using uniCurses (needs PDcurses
+on windows). For any reason, the maps are not showing up on windows (tested on windows 10), and the region marks
+throws an exception, so it is disabled for now. Another point is that 'stdscr.nodelay(1)' seems not to be multiplatform,
+and we are using it as a non-block when reading user commands. So, to exit the console on windows I needed to kill
+the python program... 
+- I'm looking for an alternative non-block call to use on windows and fix the code. It would be nice to have any 
+feedback of this program running on MacOS. 
+- If you have problems installing pdcurses on windows (not able to load uniCurses), you can try adding the DLL directly
+on the current directory of the ASCiiVMSSDashboard installation.
+
 ## Using ASCiiVMSSDashboard 
 To use this app (and in general to access Azure Resource Manager from a program without going through 2 factor
 authentication) you need to register your application with Azure and
@@ -40,12 +57,6 @@ these to populate the vmssconfig.json file. For more information on
 how to get this information go here: [Authenticating a service
 principal with Azure Resource Manager][service-principle]. See also:
 [Azure Resource Manager REST calls from Python][python-auth].
-
-## ASCiiVMSSDashboard Commands
-  To issue commands for the Azure Resource Manager API to add and/or delete virtual machines from the Scale Set,
-you just need to type ':'. The cursor will appear at the bottom left of the screen (PROMPT window), and you will
-be able to enter commands. To see a help window with the commands available, just type ':' (to activate the command
-PROMPT window), and 'help'. To hide the help window, just do the same sequence (':' and 'help').
 
 ## Example VMSS ARM Template:
 [Linux VM Scale Set integrated with Azure autoscale][arm-template].
