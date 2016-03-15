@@ -15,6 +15,13 @@ Dashboard to show and configure Azure VM Scale Set status and properties
   8. Run (on Linux): ./console.py or (on Windows): python console.py.
   9. To Exit the Console, just hit: Ctrl+C (for a 'clean' exit, we will wait for the update threads to finish).
 
+## WATCH THE CONSOLE IN ACTION:
+- Subtitle/Captions should be enabled by default, but if not, enable them to follow the action...
+
+[ASCiiVMSSDashboard Screencast](https://www.youtube.com/watch?v=MomiZ9rU9NU)
+
+Enjoy some code and loud music!
+
 ###TIP #1: 
 To not create the .pyc files, I use the following (on Linux): export PYTHONDONTWRITEBYTECODE=1; ./console.py.
 
