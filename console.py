@@ -35,8 +35,11 @@ def main(): #{
 	ourhome = platform.system();
 	stdscr = initscr();
 
-	# Non-block when waiting for getch (cmd prompt)...
-	stdscr.nodelay(1);
+	if (ourhome == "Linux"):
+		# Non-block when waiting for getch (cmd prompt).
+		# This does not work on Windows, so we will not be able to exit nicely...
+		stdscr.nodelay(1);
+
 	termsize = getmaxyx(stdscr);
 	if (termsize[0] >= 50 and termsize[1] >= 200):
 		SZ = 1;
