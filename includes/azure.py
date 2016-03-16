@@ -162,14 +162,12 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 					draw_line(window_information['vmss_info'], 4, 85, 4, "\b");
 					#Now switch the datacenter mark on map...
 					#For now, no maps or region locations on Windows. The next call throws an exception.
-					if (ourhome == "Linux" ):
-						new_window_dc = mark_vmss_dc(continent_old_location, window_continents[continent_old_location], old_location, window_continents[continent_location], location, window_dc);
-						window_dc = new_window_dc;
+					new_window_dc = mark_vmss_dc(continent_old_location, window_continents[continent_old_location], old_location, window_continents[continent_location], location, window_dc);
+					window_dc = new_window_dc;
 			else:
 				#For now, no maps or region locations on Windows. The next call throws an exception.
-				if (ourhome == "Linux" ):
-					new_window_dc = mark_vmss_dc(continent_location, window_continents[continent_location], location, window_continents[continent_location], location, window_dc);
-					window_dc = new_window_dc;
+				new_window_dc = mark_vmss_dc(continent_location, window_continents[continent_location], location, window_continents[continent_location], location, window_dc);
+				window_dc = new_window_dc;
 
 			name = vmssget['name']
 			capacity = vmssget['sku']['capacity']
