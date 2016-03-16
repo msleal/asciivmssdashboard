@@ -115,6 +115,42 @@ def exec_cmd(acess_token, cap, cmd):
 		except:
 			return httperror;
 
+def create_forms(window_info, window_sys, window_status):
+	a = 2; 
+
+	#Let's handle the status wwindow here...
+	wmove(window_status, 1, 12); wclrtoeol(window_status);
+	box(window_status);
+	wmove(window_status, 0, 13); waddstr(window_status, " STATUS ", color_pair(3));
+        wmove(window_status, 1, 22); waddstr(window_status, "|");
+
+	while (a < 5):
+		#Clean up lines...
+		wmove(window_info, a, 1); wclrtoeol(window_info);
+		wmove(window_sys, a, 1); wclrtoeol(window_sys);
+		a += 1;
+
+	#Redraw the box...
+	box(window_info); box(window_sys);
+
+	#Create Info form...
+	wmove(window_info, 0, 5); waddstr(window_info, " GENERAL INFO ", color_pair(3));
+       	wmove(window_info, 2, 2); waddstr(window_info, "RG Name...: ", color_pair(4) + A_BOLD);
+	wmove(window_info, 2, 37); waddstr(window_info, "VMSS Name: ", color_pair(4) + A_BOLD);
+	wmove(window_info, 2, 68); waddstr(window_info, "Tier..: ", color_pair(4) + A_BOLD);
+	wmove(window_info, 3, 2); waddstr(window_info, "IP Address: ", color_pair(4) + A_BOLD);
+	wmove(window_info, 3, 29); waddstr(window_info, "Region: ", color_pair(4) + A_BOLD);
+	wmove(window_info, 3, 68); waddstr(window_info, "SKU...: ", color_pair(4) + A_BOLD);
+	wmove(window_info, 4, 68); waddstr(window_info, "Capacity.: ", color_pair(4) + A_BOLD);
+	wmove(window_info, 4, 2); waddstr(window_info, "DNS Name..: ", color_pair(4) + A_BOLD);
+
+	#Create Sys form...
+	wmove(window_sys, 0, 5); waddstr(window_sys, " SYSTEM INFO ", color_pair(3));
+	wmove(window_sys, 1, 2); waddstr(window_sys, "Operating System..: ", color_pair(4) + A_BOLD);
+	wmove(window_sys, 2, 2); waddstr(window_sys, "Version...........: ", color_pair(4) + A_BOLD);
+	wmove(window_sys, 3, 2); waddstr(window_sys, "Total VMs.........: ", color_pair(4) + A_BOLD);
+	wmove(window_sys, 4, 2); waddstr(window_sys, "Provisioning State: ", color_pair(4) + A_BOLD);
+
 # thread to loop around monitoring the VM Scale Set state and its VMs
 # sleep between loops sets the update frequency
 def get_vmss_properties(access_token, run_event, window_information, panel_information, window_continents, panel_continents):
@@ -135,7 +171,9 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 		try:
 			ourtime = time.strftime("%H:%M:%S");
 			wmove(window_information['status'], 1, 2); waddstr(window_information['status'], ourtime);
-			draw_line(window_information['status'], 1, 12, 10, "\b");
+
+			#Create Forms...
+			create_forms(window_information['vmss_info'], window_information['system'], window_information['status']);
 
 			# get VMSS details
 			vmssget = azurerm.get_vmss(access_token, subscription_id, rgname, vmssname);
@@ -151,15 +189,6 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 
 			if (old_location != ""):
 				if (old_location != location):
-					#First, clean up any old info
-					draw_line(window_information['vmss_info'], 2, 14, 23, "\b");
-					draw_line(window_information['vmss_info'], 2, 48, 20, "\b");
-					draw_line(window_information['vmss_info'], 2, 75, 11, "\b");
-					draw_line(window_information['vmss_info'], 3, 14, 15, "\b");
-					draw_line(window_information['vmss_info'], 3, 37, 15, "\b");
-					draw_line(window_information['vmss_info'], 3, 75, 13, "\b");
-					draw_line(window_information['vmss_info'], 4, 14, 54, "\b");
-					draw_line(window_information['vmss_info'], 4, 85, 4, "\b");
 					#Now switch the datacenter mark on map...
 					#For now, no maps or region locations on Windows. The next call throws an exception.
 					new_window_dc = mark_vmss_dc(continent_old_location, window_continents[continent_old_location], old_location, window_continents[continent_location], location, window_dc);
@@ -204,11 +233,12 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			qtd = vmssvms['value'].__len__();
 			step = qtd / 10;
 			if (step < 1): step = 1;	
-			#Fill some info...
+
+			#Fill Sys info...
 			wmove(window_information['system'], 1, 22); waddstr(window_information['system'], offer);
 			wmove(window_information['system'], 2, 22); waddstr(window_information['system'], sku);
 			wmove(window_information['system'], 3, 22); waddstr(window_information['system'], qtd);
-			draw_line(window_information['system'], 4, 22, 10, "\b");
+
 			cor=6;
 			if (provisioningState == "Updating"): cor=7;
 			wmove(window_information['system'], 4, 22); waddstr(window_information['system'], provisioningState, color_pair(cor));
@@ -290,8 +320,17 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 		if (key == 58):
 			curs_set(True);
 			echo();
-			draw_line(window_information['cmd'], 1, 5, 57, "\b");
-			draw_line(window_information['cmd'], 1, 65, 1, "\b");
+			#Clear the old command from our prompt line...
+			wmove(window_information['cmd'], 1, 5); wclrtoeol(window_information['cmd']); box(window_information['cmd']);
+
+			wmove(window_information['cmd'], 0, 5); waddstr(window_information['cmd'], " PROMPT ", color_pair(3));
+			draw_line(window_information['cmd'], 0, 62, 1, ACS_URCORNER);
+			draw_line(window_information['cmd'], 0, 63, 1, ACS_ULCORNER);
+			draw_line(window_information['cmd'], 1, 62, 2, ACS_VLINE);
+			draw_line(window_information['cmd'], 2, 62, 1, ACS_LRCORNER);
+			draw_line(window_information['cmd'], 2, 63, 1, ACS_LLCORNER);
+			
+			#Read the command...
 			command = mvwgetstr(window_information['cmd'], 1, 5);
 			curs_set(False);
 			noecho();
@@ -309,11 +348,6 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 				if (cmd_status == 2): cor = 4;
 				if (cmd_status == 3): cor = 7;
 				if (cmd_status == 4): cor = 3;
-			draw_line(window_information['cmd'], 0, 62, 1, ACS_URCORNER);
-			draw_line(window_information['cmd'], 0, 63, 1, ACS_ULCORNER);
-			draw_line(window_information['cmd'], 1, 62, 2, ACS_VLINE);
-			draw_line(window_information['cmd'], 2, 62, 1, ACS_LRCORNER);
-			draw_line(window_information['cmd'], 2, 63, 1, ACS_LLCORNER);
 			wmove(window_information['cmd'], 1, 65); waddstr(window_information['cmd'], "E", color_pair(cor) + A_BOLD);
 			update_panels();
 			doupdate();

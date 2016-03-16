@@ -47,8 +47,7 @@ def main(): #{
 	else:
 		if (ourhome == "Linux"):
 			errnr = resize_terminal();
-			if (errnr == 0):
-				SZ = 1;
+			SZ == errnr;
 		else:
 			SZ = 0;
 	if (SZ == 0):
@@ -117,10 +116,6 @@ def main(): #{
 	box(window_information['system']);
 	panel_information['system'] = new_panel(window_information['system']);
 	wmove(window_information['system'], 0, 5); waddstr(window_information['system'], " SYSTEM INFO ", color_pair(3));
-	wmove(window_information['system'], 1, 2); waddstr(window_information['system'], "Operating System..: ", color_pair(4) + A_BOLD);
-	wmove(window_information['system'], 2, 2); waddstr(window_information['system'], "Version...........: ", color_pair(4) + A_BOLD);
-	wmove(window_information['system'], 3, 2); waddstr(window_information['system'], "Total VMs.........: ", color_pair(4) + A_BOLD);
-	wmove(window_information['system'], 4, 2); waddstr(window_information['system'], "Provisioning State: ", color_pair(4) + A_BOLD);
 
 	window_information['status'] = create_window(3, 25, 2, 2); 
 	panel_information['status'] = new_panel(window_information['status']);
@@ -143,25 +138,22 @@ def main(): #{
 	panel_information['cmd'] = new_panel(window_information['cmd']);
 	box(window_information['cmd']);
 	wmove(window_information['cmd'], 0, 5); waddstr(window_information['cmd'], " PROMPT ", color_pair(3));
+	draw_line(window_information['cmd'], 0, 62, 1, ACS_URCORNER);
+	draw_line(window_information['cmd'], 0, 63, 1, ACS_ULCORNER);
+	draw_line(window_information['cmd'], 1, 62, 2, ACS_VLINE);
+	draw_line(window_information['cmd'], 2, 62, 1, ACS_LRCORNER);
+	draw_line(window_information['cmd'], 2, 63, 1, ACS_LLCORNER);
 	wmove(window_information['cmd'], 1, 3); waddstr(window_information['cmd'], ">", color_pair(4) + A_BOLD);
 
-	#Fill info...
+	#Info header...
 	wmove(window_information['vmss_info'], 0, 5); waddstr(window_information['vmss_info'], " GENERAL INFO ", color_pair(3));
-	wmove(window_information['vmss_info'], 2, 2); waddstr(window_information['vmss_info'], "RG Name...: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vmss_info'], 2, 37); waddstr(window_information['vmss_info'], "VMSS Name: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vmss_info'], 2, 68); waddstr(window_information['vmss_info'], "Tier..: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vmss_info'], 3, 2); waddstr(window_information['vmss_info'], "IP Address: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vmss_info'], 3, 29); waddstr(window_information['vmss_info'], "Region: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vmss_info'], 3, 68); waddstr(window_information['vmss_info'], "SKU...: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vmss_info'], 4, 68); waddstr(window_information['vmss_info'], "Capacity.: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vmss_info'], 4, 2); waddstr(window_information['vmss_info'], "DNS Name..: ", color_pair(4) + A_BOLD);
 
 	#Help Window...
-	window_information['help'] = create_window(10, 32, termsize[0], termsize[1]);
+	window_information['help'] = create_window(10, 32, 22, 165);
 	box(window_information['help']);
 	panel_information['help'] = new_panel(window_information['help']);
 	hide_panel(panel_information['help']);
-	win_animation(panel_information['help'], termsize, 22, 165);
+	#win_animation(panel_information['help'], termsize, 22, 165);
 
 	wmove(window_information['help'], 0, 5); waddstr(window_information['help'], " HELP ", color_pair(3));
 	wmove(window_information['help'], 1, 2); waddstr(window_information['help'], "To enter commands, type: ':'");
