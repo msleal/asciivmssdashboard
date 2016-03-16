@@ -7,13 +7,14 @@ Dashboard to show and configure Azure VM Scale Set status and properties
 ## Installation
   1. Install Python 3.x.
   2. Install the azurerm REST wrappers for Microsoft Azure: pip install azurerm.
-  3. Install [pyunicurses](https://sourceforge.net/projects/pyunicurses/).
-  4. On Windows, Install [pdcurses](http://pdcurses.sourceforge.net/).
+  3. Install [Pyunicurses](https://sourceforge.net/projects/pyunicurses/).
+  4. On Windows, Install [pdcurses](http://pdcurses.sourceforge.net/). I have used the: pdc34dllw.zip file...
   5. Clone this repo locally.
   6. Register an Azure application, create a service principal and get your tenant id. See "Using ASCiiVMSSDashboard".
   7. Put in values for your application, along with your resource group name, and VM Scale Set name in vmssconfig.json.
   8. Run (on Linux): ./console.py or (on Windows): python console.py.
-  9. To Exit the Console, just hit: Ctrl+C (for a 'clean' exit, we will wait for the update threads to finish).
+  9. To Exit the Console, just hit: Ctrl+C (for a 'clean' exit, we will wait for the update threads to finish). In Windows
+you will need to kill the Python process, for now (See "CAVEATS" bellow).
 
 ## WATCH THE CONSOLE IN ACTION:
 Subtitle/Captions should be enabled by default, but if not, enable them to follow the action...
@@ -44,15 +45,13 @@ be able to enter commands. To see a help window with the commands available, jus
 PROMPT window), and 'help'. To hide the help window, just do the same sequence (':' and 'help').
 
 ## CAVEATS
-- The ASCiiVMSSDashboard Console should work fine on Linux/Window and MacOS, as we are using uniCurses (needs PDcurses
-on windows). For any reason, the maps are not showing up on windows (tested on windows 10), and the region marks
-throws an exception, so it is disabled for now. Another point is that 'stdscr.nodelay(1)' seems not to be multiplatform,
-and we are using it as a non-block when reading user commands. So, to exit the console on windows I needed to kill
-the python program... 
-- I'm looking for an alternative non-block call to use on windows and fix the code. It would be nice to have any 
-feedback of this program running on MacOS. 
+- The 'stdscr.nodelay(1)' seems not to be multiplatform (at least does not work on Windows), and we are using it 
+as a non-block function when reading user commands. So, to exit the console on windows I needed to kill the python 
+program (or close the CMD or Powershell window)... I'm looking for an alternative non-block call to use on windows
+and fix this. It would be nice to have any feedback of this program running on MacOS. 
 - If you have problems installing pdcurses on windows (not able to load uniCurses), you can try adding the DLL directly
-on the current directory of the ASCiiVMSSDashboard installation.
+on the current directory of the ASCiiVMSSDashboard installation. I have tested it just cloning the repo on Windows 10
+and copying the pdcurses.dll to the cloned folder, and it runs without any issues. 
 
 ## Using ASCiiVMSSDashboard 
 To use this app (and in general to access Azure Resource Manager from a program without going through 2 factor
