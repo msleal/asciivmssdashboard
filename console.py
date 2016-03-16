@@ -83,30 +83,30 @@ def main(): #{
 	panel_continents['northandcentralamerica'] = new_panel(window_continents['northandcentralamerica']);
 	draw_map(window_continents['northandcentralamerica'], "northandcentralamerica");
 	mark_datacenters_map(window_continents['northandcentralamerica'], "northandcentralamerica");
-	win_animation(panel_continents['northandcentralamerica'], termsize, 2, 2);
+	#win_animation(panel_continents['northandcentralamerica'], termsize, 2, 2);
 
 	window_continents['southamerica'] = create_window(20, 27, 27, 49);
 	panel_continents['southamerica'] = new_panel(window_continents['southamerica']);
 	draw_map(window_continents['southamerica'], "southamerica");
 	mark_datacenters_map(window_continents['southamerica'], "southamerica");
-	win_animation(panel_continents['southamerica'], termsize, 27, 49);
+	#win_animation(panel_continents['southamerica'], termsize, 27, 49);
 
 	window_continents['europeandasia'] = create_window(26, 110, 4, 88);
 	panel_continents['europeandasia'] = new_panel(window_continents['europeandasia']);
 	draw_map(window_continents['europeandasia'], "europeandasia");
 	mark_datacenters_map(window_continents['europeandasia'], "europeandasia");
-	win_animation(panel_continents['europeandasia'], termsize, 4, 88);
+	#win_animation(panel_continents['europeandasia'], termsize, 4, 88);
 
 	window_continents['africa'] = create_window(20, 38, 20, 84);
 	panel_continents['africa'] = new_panel(window_continents['africa']);
 	draw_map(window_continents['africa'], "africa");
-	win_animation(panel_continents['africa'], termsize, 20, 84);
+	#win_animation(panel_continents['africa'], termsize, 20, 84);
 
 	window_continents['oceania'] = create_window(15, 48, 29, 143);
 	panel_continents['oceania'] = new_panel(window_continents['oceania']);
 	draw_map(window_continents['oceania'], "oceania");
 	mark_datacenters_map(window_continents['oceania'], "oceania");
-	win_animation(panel_continents['oceania'], termsize, 29, 143);
+	#win_animation(panel_continents['oceania'], termsize, 29, 143);
 
 	#Create all information windows...
 	window_information['vmss_info'] = create_window(6, 90, 43, 70); 
