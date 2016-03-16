@@ -322,13 +322,12 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 			echo();
 			#Clear the old command from our prompt line...
 			wmove(window_information['cmd'], 1, 5); wclrtoeol(window_information['cmd']); box(window_information['cmd']);
-
-			wmove(window_information['cmd'], 0, 5); waddstr(window_information['cmd'], " PROMPT ", color_pair(3));
 			draw_line(window_information['cmd'], 0, 62, 1, ACS_URCORNER);
 			draw_line(window_information['cmd'], 0, 63, 1, ACS_ULCORNER);
 			draw_line(window_information['cmd'], 1, 62, 2, ACS_VLINE);
 			draw_line(window_information['cmd'], 2, 62, 1, ACS_LRCORNER);
 			draw_line(window_information['cmd'], 2, 63, 1, ACS_LLCORNER);
+			wmove(window_information['cmd'], 0, 5); waddstr(window_information['cmd'], " PROMPT ", color_pair(3));
 			
 			#Read the command...
 			command = mvwgetstr(window_information['cmd'], 1, 5);
