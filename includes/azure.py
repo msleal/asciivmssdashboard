@@ -122,7 +122,7 @@ def create_forms(window_info, window_sys, window_status):
 	wmove(window_status, 1, 12); wclrtoeol(window_status);
 	box(window_status);
 	wmove(window_status, 0, 13); waddstr(window_status, " STATUS ", color_pair(3));
-        wmove(window_status, 1, 22); waddstr(window_status, "|");
+	wmove(window_status, 1, 22); waddstr(window_status, "|");
 
 	while (a < 5):
 		#Clean up lines...
@@ -135,7 +135,7 @@ def create_forms(window_info, window_sys, window_status):
 
 	#Create Info form...
 	wmove(window_info, 0, 5); waddstr(window_info, " GENERAL INFO ", color_pair(3));
-       	wmove(window_info, 2, 2); waddstr(window_info, "RG Name...: ", color_pair(4) + A_BOLD);
+	wmove(window_info, 2, 2); waddstr(window_info, "RG Name...: ", color_pair(4) + A_BOLD);
 	wmove(window_info, 2, 37); waddstr(window_info, "VMSS Name: ", color_pair(4) + A_BOLD);
 	wmove(window_info, 2, 68); waddstr(window_info, "Tier..: ", color_pair(4) + A_BOLD);
 	wmove(window_info, 3, 2); waddstr(window_info, "IP Address: ", color_pair(4) + A_BOLD);
