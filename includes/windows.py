@@ -8,8 +8,19 @@ License: MIT (see LICENSE.txt file for details)
 """
 
 import time
+from subprocess import call
 from unicurses import *
-from auxs import *
+
+#Colors...
+def set_colors():
+	init_pair(1, COLOR_BLUE, COLOR_BLUE);
+	init_pair(2, COLOR_YELLOW, COLOR_YELLOW);
+	init_pair(3, COLOR_BLACK, COLOR_WHITE);
+	init_pair(4, COLOR_WHITE, COLOR_BLACK);
+	init_pair(5, COLOR_GREEN, COLOR_GREEN);
+	init_pair(6, COLOR_GREEN, COLOR_BLACK);
+	init_pair(7, COLOR_YELLOW, COLOR_BLACK);
+	init_pair(8, COLOR_RED, COLOR_BLACK);
 
 #Create Windows...
 def create_window(x, y, w, z):
@@ -96,3 +107,26 @@ def vm_deletion(panel, nasp, xfinal, yfinal):
 		doupdate();
 		ystart -= 1;
 		time.sleep(.01);
+
+def draw_prompt_corners(window):
+	draw_line(window, 0, 62, 1, ACS_URCORNER);
+	draw_line(window, 0, 63, 1, ACS_ULCORNER);
+	draw_line(window, 1, 62, 2, ACS_VLINE);
+	draw_line(window, 2, 62, 1, ACS_LRCORNER);
+	draw_line(window, 2, 63, 1, ACS_LLCORNER);
+
+def draw_line(window, a, b, c, char):
+	wmove(window, a, b); whline(window, char, c);
+
+def get_continent_dc(dc):
+	if (dc == "brazilsouth"):
+		return 'southamerica';
+	if (dc == "southcentralus" or dc == "eastus" or dc == "eastus2" or dc == "northcentralus" or dc == "centralus" or dc == "westus"):
+		return 'northandcentralamerica';
+	if (dc == "northeurope" or dc == "westeurope" or dc == "eastasia" or dc == "southeastasia" or dc == "japaneast" or dc == "japanwest" or dc == "centralindia" or dc == "westindia" or dc == "southindia" or dc == "chinaeast" or dc == "chinanorth"):
+		return 'europeandasia';
+
+def resize_terminal():
+	#errnr = call(["resize", "-s 50 200 >/dev/null"]);
+	errnr = 1;
+	return errnr;

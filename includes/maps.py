@@ -8,7 +8,7 @@ License: MIT (see LICENSE.txt file for details)
 """
 
 from unicurses import *
-from auxs import *
+from windows import *
 
 def draw_map(window, continent):
 	#Draw North and Central America Continents...
