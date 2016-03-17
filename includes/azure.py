@@ -361,8 +361,12 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 			
 			#Read the command...
 			command = mvwgetstr(window_information['cmd'], 1, 5);
+
 			curs_set(False);
 			noecho();
+			draw_prompt_corners(window_information['cmd']);
+			draw_line(window_information['cmd'], 1, 67, 2, ACS_VLINE);
+
 			cor=6;
 			if (command == "help"):
 				if (win_help):
@@ -379,8 +383,6 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 				if (cmd_status == 2): cor = 4;
 				if (cmd_status == 3): cor = 7;
 				if (cmd_status == 4): cor = 3;
-			draw_prompt_corners(window_information['cmd']);
-			draw_line(window_information['cmd'], 1, 67, 2, ACS_VLINE);
 			wmove(window_information['cmd'], 1, 65); waddstr(window_information['cmd'], "E", color_pair(cor) + A_BOLD);
 			update_panels();
 			doupdate();
