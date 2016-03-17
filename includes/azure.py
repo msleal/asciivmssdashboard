@@ -45,15 +45,18 @@ countery=0
 
 #Just a high number, so we can test and see if it was not updated yet...
 capacity=999999
+#VM
+vm_selected = [999999, 999999];
+window_vm = [];
+
 
 #Exec command...
 def exec_cmd(acess_token, cap, cmd):
-	global subscription_id, rgname, vmssname, vmsku, tier;
+	global subscription_id, rgname, vmssname, vmsku, tier, vm_selected, window_vm;
 
-	counter = 0;
 	#Return codes...
 	initerror = 2; syntaxerror = 3; capacityerror = 4;
-	httpsuccess = 0; httperror = 1;
+	execsuccess = 0; execerror = 1;
 
 	#Sanity check on capacity...
 	if (cap == "999999"):
@@ -64,25 +67,36 @@ def exec_cmd(acess_token, cap, cmd):
 	#Syntax check...
 	if (len(cmd.split()) != 4 and len(cmd.split()) != 3):
 		return syntaxerror;
+
+	counter = 0;
 	for c in cmd.split():
 		if (counter == 0):
-			if (c == "add" or c == "del" or c == "rg"):
+			if (c == "add" or c == "del" or c == "rg" or c == "select"):
 				op = c;
 			else:
 				return syntaxerror;
-		if (counter == 1 and c != "vm") and (op == "add" or op == "del"):
+		if (counter == 1 and c != "vm") and (op == "add" or op == "del" or op == "select"):
 			return syntaxerror;
-		if (counter == 2) and (op == "add" or op == "del"): 
+		if (counter == 1 and op == "rg"):
+			rgname_new = c;
+		if (counter == 2) and (op == "add" or op == "del" or op == "select"): 
 			try:
 				a = int(c) + 1;
 				qtd = int(c);
 			#except TypeError:
 			except:
 				return syntaxerror;
-		if (counter == 2 and op == "rg") and (c != "vmss"):
+		if (counter == 2 and op == "select"):
+			if (int(c) > window_vm.__len__() - 1):
 				return syntaxerror;
+			vm = int(c);
+		if (counter == 2 and op == "rg" and c != "vmss"):
+				return syntaxerror;
+		if (counter == 3 and op == "rg"):
+			vmssname_new = c;
 		counter += 1;
 
+	#Execution...
 	if (op == "add" or op == "del"):
 		if (qtd > 9): 
 			return capacityerror;
@@ -95,27 +109,26 @@ def exec_cmd(acess_token, cap, cmd):
 		#Change the VM scale set capacity by 'qtd' (can be positive or negative for scale-out/in)
 		scaleoutput = azurerm.scale_vmss(access_token, subscription_id, rgname, vmssname, vmsku, tier, newCapacity);
 		if (scaleoutput.status_code == 200):
-			return httpsuccess;
+			return execsuccess;
 		else:
-			return httperror;
+			return execerror;
+	elif (op == "select"):
+		vm_selected[1] = vm_selected[0];
+		vm_selected[0] = vm;
+		return execsuccess;
 	else:
-		x = 0;
-		for c in cmd.split():
-			if (x == 1):
-				rgname_new = c;
-			if (x == 3):
-				vmssname_new = c;
-			x += 1;
 		#Test to be sure the resource group and vmss provided do exist...
 		rgoutput = azurerm.get_vmss(access_token, subscription_id, rgname_new, vmssname_new);
 		try:
 			test = rgoutput['location'];
 			rgname = rgname_new; vmssname = vmssname_new;
-			return httpsuccess;
+			#Just a flag for us to know that we changed the vmss and need to deselect any VM...
+			vm_selected[1] = 999998;
+			return execsuccess;
 		except:
-			return httperror;
+			return execerror;
 
-def create_forms(window_info, window_sys, window_status):
+def create_forms(window_info, window_sys, window_status, windowvm):
 	a = 2; 
 
 	#Let's handle the status wwindow here...
@@ -123,6 +136,12 @@ def create_forms(window_info, window_sys, window_status):
 	box(window_status);
 	wmove(window_status, 0, 13); waddstr(window_status, " STATUS ", color_pair(3));
 	wmove(window_status, 1, 22); waddstr(window_status, "|");
+
+	#Window VM...
+	wmove(windowvm, 1, 12); wclrtoeol(windowvm);
+	wmove(windowvm, 2, 12); wclrtoeol(windowvm);
+	box(windowvm);
+	wmove(windowvm, 0, 5); waddstr(windowvm, " VM ", color_pair(3));
 
 	while (a < 5):
 		#Clean up lines...
@@ -154,26 +173,27 @@ def create_forms(window_info, window_sys, window_status):
 # thread to loop around monitoring the VM Scale Set state and its VMs
 # sleep between loops sets the update frequency
 def get_vmss_properties(access_token, run_event, window_information, panel_information, window_continents, panel_continents):
-	global vmssProperties, vmssVmProperties, countery, capacity, region, tier, vmsku;
+	global vmssProperties, vmssVmProperties, countery, capacity, region, tier, vmsku, vm_selected, window_vm;
 
 	ROOM = 5; DEPLOYED = 0;
 	#VM's destination...
-	destx = 29; desty = 3;
+
 	#Our window_information arrays...
-	window_computer = []; panel_computer = []; window_vm = [];
+	panel_vm = []; window_vm = [];
 	window_dc = 0;
+	destx = 29; desty = 4; XS =41;
+
+	#Home...
 	ourhome = platform.system();
 
 	#Our thread loop...
-	keeppushing = True;
-	#while (keeppushing):
 	while run_event.is_set():
 		try:
 			ourtime = time.strftime("%H:%M:%S");
 			wmove(window_information['status'], 1, 2); waddstr(window_information['status'], ourtime);
 
 			#Create Forms...
-			create_forms(window_information['vmss_info'], window_information['system'], window_information['status']);
+			create_forms(window_information['vmss_info'], window_information['system'], window_information['status'], window_information['vm']);
 
 			# get VMSS details
 			vmssget = azurerm.get_vmss(access_token, subscription_id, rgname, vmssname);
@@ -228,7 +248,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			#VMSS Virtual Machines icons...
 			counter = 1;
 			#All VMs are created in the following coordinates...
-			x = 41; y = 3; init_coords = (x, y);
+			init_coords = (41, 4);
 			vmssVmProperties = [];
 			qtd = vmssvms['value'].__len__();
 			step = qtd / 10;
@@ -243,50 +263,67 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			if (provisioningState == "Updating"): cor=7;
 			wmove(window_information['system'], 4, 22); waddstr(window_information['system'], provisioningState, color_pair(cor));
 
+			#Loop each VM...
 			for vm in vmssvms['value']:
+				vmsel = 0;
 				instanceId = vm['instanceId'];
 				vmName = vm['name'];
 				provisioningState = vm['properties']['provisioningState'];
 				vmssVmProperties.append([instanceId, vmName, provisioningState]);
 				if (counter > DEPLOYED):
-					window_computer.append(DEPLOYED); panel_computer.append(DEPLOYED); window_vm.append(DEPLOYED);
-					window_computer[DEPLOYED] = create_window(3, 6, x, y);
-					panel_computer[DEPLOYED] = new_panel(window_computer[DEPLOYED]);
-					window_vm[DEPLOYED] = derwin(window_computer[DEPLOYED], 3, 4, 0, 1,);
+					window_vm.append(DEPLOYED); panel_vm.append(DEPLOYED);
+					window_vm[DEPLOYED] = create_window(3, 4, init_coords[0], init_coords[1]);
+					panel_vm[DEPLOYED] = new_panel(window_vm[DEPLOYED]);
 					box(window_vm[DEPLOYED]);
-					draw_vm(window_computer[DEPLOYED], provisioningState);
+					#Creation of the VM, in this case we never have a VM selected...
+					draw_vm(window_vm[DEPLOYED], provisioningState, vmsel);
 					if countery < 8:
-						vm_animation(panel_computer[DEPLOYED], init_coords, destx, desty);
-						wrefresh(window_computer[DEPLOYED]);
-						desty += ROOM; countery += 1;
+						 countery += 1;
 					else:
-						destx += 3; desty = 3; countery = 1;
-						vm_animation(panel_computer[DEPLOYED], init_coords, destx, desty);
-						desty += ROOM;
+						destx += 3; desty = 4; countery = 0;
+					vm_animation(panel_vm[DEPLOYED], init_coords, destx, desty, 1);
+					desty += ROOM;
 					update_panels();
 					doupdate();
 					DEPLOYED += 1;
 				else:
-					draw_vm(window_computer[counter - 1], provisioningState);
+					#Remove the old mark...
+					if (vm_selected[1] == (counter -1) and vm_selected[1] != 999999 and vm_selected[1] != vm_selected[0]):
+						box(window_vm[vm_selected[1]]);
+					if (vm_selected[0] == (counter -1) and vm_selected[1] != 999998 and vm_selected[0] != vm_selected[1]):
+						vmsel = 1;
+						show_panel(panel_information['vm']);
+					if (vm_selected[0] == (counter -1) and vm_selected[1] == 999998):
+						vmsel = 0;
+						#box(window_vm[vm_selected[0]]);
+						#hide_panel(panel_information['vm']);
+						vm_selected = [999999, 999999];
+					draw_vm(window_vm[(counter - 1)], provisioningState, vmsel);
+					if (vm_selected[0] == (counter -1) and vm_selected[0] != 999999 and vm_selected[1] != 999998):
+						wmove(window_information['vm'], 1, 12); waddstr(window_information['vm'], vmName);
+						cor=7;
+						if (provisioningState == "Succeeded"): cor=6;
+						wmove(window_information['vm'], 2, 12); waddstr(window_information['vm'], provisioningState, color_pair(cor));
+
 				counter += 1;
 				do_update_bar(window_information['status'], step, 0);
 				step += step;
+			#Last mile...
 			do_update_bar(window_information['status'], step, 1);
 
 			#Remove destroyed VMs...
 			while (DEPLOYED >= counter):
 				lastvm = window_vm.__len__() - 1;	
-				vm_coords = getbegyx(window_computer[lastvm]);
-				vm_deletion(panel_computer[lastvm], vm_coords, init_coords[0], init_coords[1]);
+				vm_coords = getbegyx(window_vm[lastvm]);
+				vm_animation(panel_vm[lastvm], vm_coords, init_coords[0], init_coords[1], 0);
 				if (countery > 0):
 					desty -= ROOM; countery -= 1;
 				elif (destx > 29):
 					destx -= 3; desty = 38; countery = 7;
 				#Free up some memory...
-				delwin(window_vm[lastvm]); del_panel(panel_computer[lastvm]); delwin(window_computer[lastvm]);
+				del_panel(panel_vm[lastvm]); delwin(window_vm[lastvm]);
+				wobj = panel_vm[lastvm]; panel_vm.remove(wobj);
 				wobj = window_vm[lastvm]; window_vm.remove(wobj);
-				wobj = panel_computer[lastvm]; panel_computer.remove(wobj);
-				wobj = window_computer[lastvm]; window_computer.remove(wobj);
 				DEPLOYED -= 1;
 				update_panels();
 				doupdate();
@@ -297,7 +334,6 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			wmove(window_information['status'], 1, 12); waddstr(window_information['status'], "    OK    ");
 			update_panels();
 			doupdate();
-
 			time.sleep(interval);
 		except:
 			# this catches errors like throttling from the Azure server
@@ -310,7 +346,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			break
 
 def get_cmd(access_token, run_event, window_information, panel_information):
-	global key, rgname, vmssname;
+	global key, rgname, vmssname, vm_selected;
 	
 	win_help = 0;
 	lock = threading.Lock()
@@ -338,6 +374,8 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 				else:
 					show_panel(panel_information['help']);
 					win_help = 1;
+			elif (command == "deselect"):
+				vm_selected[1] = 999998;
 			else:
 				cmd_status = exec_cmd(access_token, capacity, command);
 				if (cmd_status == 1): cor = 8;

@@ -31,18 +31,23 @@ def create_window(x, y, w, z):
 	return window;
 
 #Draw VM...
-def draw_vm(window, ps):
-	wmove(window, 2, 2); whline(window, "<" , 1);
-	wmove(window, 2, 3); whline(window, ">" , 1);
+def draw_vm(window, ps, flag):
 	if (ps.upper() == "SUCCEEDED"):
-		wmove(window, 1, 2); waddstr(window, "VM", color_pair(6) + A_BOLD);
+		wmove(window, 1, 1); waddstr(window, "VM", color_pair(6) + A_BOLD);
 	elif (ps.upper() == "CREATING"):	
-		wmove(window, 1, 2); waddstr(window, "VM", color_pair(7) + A_BOLD);
+		wmove(window, 1, 1); waddstr(window, "VM", color_pair(7) + A_BOLD);
 	elif (ps.upper() == "DELETING"):	
-		wmove(window, 1, 2); waddstr(window, "VM");
+		wmove(window, 1, 1); waddstr(window, "VM");
 	#Any other state we do not know about?
 	else:
-		wmove(window, 1, 2); waddstr(window, "VM", color_pair(1) + A_BOLD);
+		wmove(window, 1, 1); waddstr(window, "VM", color_pair(1) + A_BOLD);
+
+	#Mark VM Selected by the user...
+	if (flag):
+		wmove(window, 2, 1); whline(window, "<" , 1);
+		wmove(window, 2, 2); whline(window, ">" , 1);
+	else:
+		box(window);
 
 def do_update_bar(window, sp, flag):
         a = bar = 12; total = 22;
@@ -66,15 +71,15 @@ def win_animation(panel, nasp, xfinal, yfinal):
 		update_panels();
 		doupdate();
 		xstart -= 1;
-		time.sleep(.0002);
+		time.sleep(.002);
 	while (ystart != yfinal):
 		move_panel (panel, xstart, ystart);
 		update_panels();
 		doupdate();
 		ystart -= 1;
-		time.sleep(.0002);
+		time.sleep(.002);
 
-def vm_animation(panel, nasp, xfinal, yfinal):
+def vm_animation(panel, nasp, xfinal, yfinal, flag):
 	xstart = nasp[0];
 	ystart = nasp[1];
 
@@ -82,31 +87,20 @@ def vm_animation(panel, nasp, xfinal, yfinal):
 		move_panel (panel, xstart, ystart);
 		update_panels();
 		doupdate();
-		ystart += 1;
-		time.sleep(.01);
+		if (flag):
+			ystart += 1;
+		else:
+			ystart -= 1;
+		time.sleep(.02);
 	while (xstart != xfinal):
 		move_panel (panel, xstart, ystart);
 		update_panels();
 		doupdate();
-		xstart -= 1;
-		time.sleep(.01);
-
-def vm_deletion(panel, nasp, xfinal, yfinal):
-	xstart = nasp[0];
-	ystart = nasp[1];
-
-	while (xstart <= xfinal):
-		move_panel (panel, xstart, ystart);
-		update_panels();
-		doupdate();
-		xstart += 1;
-		time.sleep(.01);
-	while (ystart >= yfinal):
-		move_panel(panel, xstart, ystart);
-		update_panels();
-		doupdate();
-		ystart -= 1;
-		time.sleep(.01);
+		if (flag):
+			xstart -= 1;
+		else:
+			xstart += 1;
+		time.sleep(.02);
 
 def draw_prompt_corners(window):
 	draw_line(window, 0, 62, 1, ACS_URCORNER);

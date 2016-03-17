@@ -27,8 +27,8 @@ access_token="";
 # Curses...
 window_continents = {'northandcentralamerica':0,'southamerica':0,'europeandasia':0,'africa':0,'oceania':0};
 panel_continents = {'northandcentralamerica':0,'southamerica':0,'europeandasia':0,'africa':0,'oceania':0};
-window_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'cmd':0,'help':0};
-panel_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'cmd':0,'help':0};
+window_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'cmd':0,'help':0};
+panel_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'cmd':0,'help':0};
 
 def main(): #{
 	#Initialize...
@@ -148,13 +148,21 @@ def main(): #{
 	#Info header...
 	wmove(window_information['vmss_info'], 0, 5); waddstr(window_information['vmss_info'], " GENERAL INFO ", color_pair(3));
 
+	#VM Window...
+	window_information['vm'] = create_window(4, 31, 25, 2);
+	box(window_information['vm']);
+	panel_information['vm'] = new_panel(window_information['vm']);
+	hide_panel(panel_information['vm']);
+	wmove(window_information['vm'], 0, 5); waddstr(window_information['vm'], " VM ", color_pair(3));
+	wmove(window_information['vm'], 1, 2); waddstr(window_information['vm'], "Hostname: ");
+	wmove(window_information['vm'], 2, 2); waddstr(window_information['vm'], "State...: ");
+
 	#Help Window...
 	window_information['help'] = create_window(10, 32, 22, 165);
 	box(window_information['help']);
 	panel_information['help'] = new_panel(window_information['help']);
 	hide_panel(panel_information['help']);
 	#win_animation(panel_information['help'], termsize, 22, 165);
-
 	wmove(window_information['help'], 0, 5); waddstr(window_information['help'], " HELP ", color_pair(3));
 	wmove(window_information['help'], 1, 2); waddstr(window_information['help'], "To enter commands, type: ':'");
 	wmove(window_information['help'], 3, 2); waddstr(window_information['help'], "Command Examples");
