@@ -44,6 +44,15 @@ you just need to type ':'. The cursor will appear at the bottom left of the scre
 be able to enter commands. To see a help window with the commands available, just type ':' (to activate the command
 PROMPT window), and 'help'. To hide the help window, just do the same sequence (':' and 'help').
 
+TO ACTIVATE THE PROMPT WINDOW, TYPE: ':'
+
+Comands (v1.0):
+- add vm <nr>: Use this command to add virtual machines to your VMSS deployment.
+- del vm <nr>: Use this command to delete virtual machines to your VMSS deployment.
+- select vm <nr>: Use this command to select a specific virtual machine on your VMSS deployment, and get info.
+- deselect: Use this command to clear the selection of any specific virtual machine.
+- help: Use this command to get help about the dashboard commands (inside the ASCiiVMSSDashboard).
+
 ## CAVEATS
 - The 'stdscr.nodelay(1)' seems not to be multiplatform (at least does not work on Windows), and we are using it 
 as a non-block function when reading user commands. So, to exit the console on windows I needed to kill the python 

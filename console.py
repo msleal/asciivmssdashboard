@@ -158,18 +158,20 @@ def main(): #{
 	wmove(window_information['vm'], 2, 2); waddstr(window_information['vm'], "State...: ");
 
 	#Help Window...
-	window_information['help'] = create_window(10, 32, 22, 165);
+	window_information['help'] = create_window(12, 32, 21, 166);
 	box(window_information['help']);
 	panel_information['help'] = new_panel(window_information['help']);
 	hide_panel(panel_information['help']);
 	#win_animation(panel_information['help'], termsize, 22, 165);
 	wmove(window_information['help'], 0, 5); waddstr(window_information['help'], " HELP ", color_pair(3));
 	wmove(window_information['help'], 1, 2); waddstr(window_information['help'], "To enter commands, type: ':'");
-	wmove(window_information['help'], 3, 2); waddstr(window_information['help'], "Command Examples");
+	wmove(window_information['help'], 3, 2); waddstr(window_information['help'], "  -= Command Examples =-");
 	wmove(window_information['help'], 4, 2); waddstr(window_information['help'], "Adding 2 VM's: add vm 2");
 	wmove(window_information['help'], 5, 2); waddstr(window_information['help'], "Deleting 1 VM: del vm 1");
-	wmove(window_information['help'], 7, 2); waddstr(window_information['help'], "Change VMSS:");
-	wmove(window_information['help'], 8, 2); waddstr(window_information['help'], "rg <rgname> vmss <vmssname>");
+	wmove(window_information['help'], 6, 2); waddstr(window_information['help'], "Select VM 8: select vm 8");
+	wmove(window_information['help'], 7, 2); waddstr(window_information['help'], "Deselect any VM: deselect");
+	wmove(window_information['help'], 9, 2); waddstr(window_information['help'], "Change VMSS:");
+	wmove(window_information['help'], 10, 2); waddstr(window_information['help'], "rg <rgname> vmss <vmssname>");
 
 	update_panels();
 	doupdate();
