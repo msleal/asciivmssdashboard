@@ -176,12 +176,13 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 	global vmssProperties, vmssVmProperties, countery, capacity, region, tier, vmsku, vm_selected, window_vm;
 
 	ROOM = 5; DEPLOYED = 0;
+
 	#VM's destination...
+	destx = 29; desty = 4; XS =41;
+	window_dc = 0;
 
 	#Our window_information arrays...
 	panel_vm = []; window_vm = [];
-	window_dc = 0;
-	destx = 29; desty = 4; XS =41;
 
 	#Home...
 	ourhome = platform.system();
@@ -210,11 +211,9 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			if (old_location != ""):
 				if (old_location != location):
 					#Now switch the datacenter mark on map...
-					#For now, no maps or region locations on Windows. The next call throws an exception.
 					new_window_dc = mark_vmss_dc(continent_old_location, window_continents[continent_old_location], old_location, window_continents[continent_location], location, window_dc);
 					window_dc = new_window_dc;
 			else:
-				#For now, no maps or region locations on Windows. The next call throws an exception.
 				new_window_dc = mark_vmss_dc(continent_location, window_continents[continent_location], location, window_continents[continent_location], location, window_dc);
 				window_dc = new_window_dc;
 
@@ -422,7 +421,8 @@ def vmss_monitor_thread(window_information, panel_information, window_continents
 		run_event.clear()
 		vmss_thread.join()
 		cmd_thread.join()
-		wmove(window_exit, 3, 5); whline(window_exit, "\b", 47);
+		wmove(window_exit, 3, 5); wclrtoeol(window_exit);
+		box(window_exit);
 		wmove(window_exit, 3, 6); waddstr(window_exit, "Console Update threads successfully closed.", color_pair(4) + A_BOLD);
 		update_panels();
 		doupdate();
