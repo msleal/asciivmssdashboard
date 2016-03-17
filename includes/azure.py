@@ -245,8 +245,6 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			vmssProperties = [name, capacity, location, rgname, offer, sku, provisioningState, dns, ipaddr]
 			vmssvms = azurerm.list_vmss_vms(access_token, subscription_id, rgname, vmssname)
 
-			#VMSS Virtual Machines icons...
-			counter = 1;
 			#All VMs are created in the following coordinates...
 			init_coords = (41, 4);
 			vmssVmProperties = [];
@@ -263,6 +261,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			if (provisioningState == "Updating"): cor=7;
 			wmove(window_information['system'], 4, 22); waddstr(window_information['system'], provisioningState, color_pair(cor));
 
+			counter = 1;
 			#Loop each VM...
 			for vm in vmssvms['value']:
 				vmsel = 0;
@@ -276,16 +275,16 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 					panel_vm[DEPLOYED] = new_panel(window_vm[DEPLOYED]);
 					box(window_vm[DEPLOYED]);
 					#Creation of the VM, in this case we never have a VM selected...
-					draw_vm(window_vm[DEPLOYED], provisioningState, vmsel);
+					draw_vm(DEPLOYED, window_vm[DEPLOYED], provisioningState, vmsel);
 					if countery < 8:
 						 countery += 1;
 					else:
-						destx += 3; desty = 4; countery = 0;
+						destx += 3; desty = 4; countery = 1;
 					vm_animation(panel_vm[DEPLOYED], init_coords, destx, desty, 1);
 					desty += ROOM;
+					DEPLOYED += 1;
 					update_panels();
 					doupdate();
-					DEPLOYED += 1;
 				else:
 					#Remove the old mark...
 					if (vm_selected[1] == (counter -1) and vm_selected[1] != 999999 and vm_selected[1] != vm_selected[0]):
@@ -295,10 +294,9 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 						show_panel(panel_information['vm']);
 					if (vm_selected[0] == (counter -1) and vm_selected[1] == 999998):
 						vmsel = 0;
-						#box(window_vm[vm_selected[0]]);
 						#hide_panel(panel_information['vm']);
 						vm_selected = [999999, 999999];
-					draw_vm(window_vm[(counter - 1)], provisioningState, vmsel);
+					draw_vm((counter - 1), window_vm[(counter - 1)], provisioningState, vmsel);
 					if (vm_selected[0] == (counter -1) and vm_selected[0] != 999999 and vm_selected[1] != 999998):
 						wmove(window_information['vm'], 1, 12); waddstr(window_information['vm'], vmName);
 						cor=7;
@@ -319,7 +317,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 				if (countery > 0):
 					desty -= ROOM; countery -= 1;
 				elif (destx > 29):
-					destx -= 3; desty = 38; countery = 7;
+					destx -= 3; desty = 39; countery = 7;
 				#Free up some memory...
 				del_panel(panel_vm[lastvm]); delwin(window_vm[lastvm]);
 				wobj = panel_vm[lastvm]; panel_vm.remove(wobj);

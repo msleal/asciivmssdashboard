@@ -31,16 +31,18 @@ def create_window(x, y, w, z):
 	return window;
 
 #Draw VM...
-def draw_vm(window, ps, flag):
+def draw_vm(vmc, window, ps, flag):
+	if (vmc < 10):
+		nr = "%02d" % vmc
 	if (ps.upper() == "SUCCEEDED"):
-		wmove(window, 1, 1); waddstr(window, "VM", color_pair(6) + A_BOLD);
+		wmove(window, 1, 1); waddstr(window, nr, color_pair(6) + A_BOLD);
 	elif (ps.upper() == "CREATING"):	
-		wmove(window, 1, 1); waddstr(window, "VM", color_pair(7) + A_BOLD);
+		wmove(window, 1, 1); waddstr(window, nr, color_pair(7) + A_BOLD);
 	elif (ps.upper() == "DELETING"):	
-		wmove(window, 1, 1); waddstr(window, "VM");
+		wmove(window, 1, 1); waddstr(window, nr);
 	#Any other state we do not know about?
 	else:
-		wmove(window, 1, 1); waddstr(window, "VM", color_pair(1) + A_BOLD);
+		wmove(window, 1, 1); waddstr(window, nr, color_pair(1) + A_BOLD);
 
 	#Mark VM Selected by the user...
 	if (flag):
