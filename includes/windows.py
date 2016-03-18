@@ -33,7 +33,10 @@ def create_window(x, y, w, z):
 #Draw VM...
 def draw_vm(vmc, window, ps, flag):
 	if (vmc < 10):
-		nr = "%02d" % vmc
+		nr = "%02d" % vmc;
+	else:
+		nr = vmc;
+
 	if (ps.upper() == "SUCCEEDED"):
 		wmove(window, 1, 1); waddstr(window, nr, color_pair(6) + A_BOLD);
 	elif (ps.upper() == "CREATING"):	
@@ -52,10 +55,10 @@ def draw_vm(vmc, window, ps, flag):
 		box(window);
 
 def do_update_bar(window, sp, flag):
-        a = bar = 12; total = 22;
+        a = bar = 22; total = 33;
         curstep = bar + sp;
 
-        if (curstep > 22): curstep = 22;
+        if (curstep > total): curstep = total;
         if (flag != 1): total = curstep;
 
         while (a < total):
@@ -73,15 +76,15 @@ def win_animation(panel, nasp, xfinal, yfinal):
 		update_panels();
 		doupdate();
 		xstart -= 1;
-		time.sleep(.002);
+		time.sleep(.003);
 	while (ystart != yfinal):
 		move_panel (panel, xstart, ystart);
 		update_panels();
 		doupdate();
 		ystart -= 1;
-		time.sleep(.002);
+		time.sleep(.003);
 
-def vm_animation(panel, nasp, xfinal, yfinal, flag):
+def vm_animation(panel, nasp, xfinal, yfinal, flag, ts):
 	xstart = nasp[0];
 	ystart = nasp[1];
 
@@ -93,7 +96,7 @@ def vm_animation(panel, nasp, xfinal, yfinal, flag):
 			ystart += 1;
 		else:
 			ystart -= 1;
-		time.sleep(.02);
+		time.sleep(ts);
 	while (xstart != xfinal):
 		move_panel (panel, xstart, ystart);
 		update_panels();
@@ -102,14 +105,14 @@ def vm_animation(panel, nasp, xfinal, yfinal, flag):
 			xstart -= 1;
 		else:
 			xstart += 1;
-		time.sleep(.02);
+		time.sleep(ts);
 
 def draw_prompt_corners(window):
-	draw_line(window, 0, 121, 1, ACS_URCORNER);
-	draw_line(window, 0, 122, 1, ACS_ULCORNER);
-	draw_line(window, 1, 121, 2, ACS_VLINE);
-	draw_line(window, 2, 121, 1, ACS_LRCORNER);
-	draw_line(window, 2, 122, 1, ACS_LLCORNER);
+	draw_line(window, 0, 122, 1, ACS_URCORNER);
+	draw_line(window, 0, 123, 1, ACS_ULCORNER);
+	draw_line(window, 1, 122, 2, ACS_VLINE);
+	draw_line(window, 2, 122, 1, ACS_LRCORNER);
+	draw_line(window, 2, 123, 1, ACS_LLCORNER);
 
 def draw_line(window, a, b, c, char):
 	wmove(window, a, b); whline(window, char, c);
@@ -126,3 +129,44 @@ def resize_terminal():
 	#errnr = call(["resize", "-s 50 200 >/dev/null"]);
 	errnr = 1;
 	return errnr;
+
+def create_forms(window_info, window_sys, window_status, windowvm):
+	a = 2;
+
+	#Let's handle the status wwindow here...
+	wmove(window_status, 1, 22); wclrtoeol(window_status);
+	box(window_status);
+	wmove(window_status, 0, 13); waddstr(window_status, " STATUS ", color_pair(3));
+
+	#Window VM...
+	wmove(windowvm, 1, 12); wclrtoeol(windowvm);
+	wmove(windowvm, 2, 12); wclrtoeol(windowvm);
+	box(windowvm);
+	wmove(windowvm, 0, 5); waddstr(windowvm, " VM ", color_pair(3));
+
+	while (a < 5):
+		#Clean up lines...
+		wmove(window_info, a, 1); wclrtoeol(window_info);
+		wmove(window_sys, a, 1); wclrtoeol(window_sys);
+		a += 1;
+
+	#Redraw the box...
+	box(window_info); box(window_sys);
+
+	#Create Info form...
+	wmove(window_info, 0, 5); waddstr(window_info, " GENERAL INFO ", color_pair(3));
+	wmove(window_info, 2, 2); waddstr(window_info, "RG Name...: ", color_pair(4) + A_BOLD);
+	wmove(window_info, 2, 37); waddstr(window_info, "VMSS Name: ", color_pair(4) + A_BOLD);
+	wmove(window_info, 2, 68); waddstr(window_info, "Tier..: ", color_pair(4) + A_BOLD);
+	wmove(window_info, 3, 2); waddstr(window_info, "IP Address: ", color_pair(4) + A_BOLD);
+	wmove(window_info, 3, 29); waddstr(window_info, "Region: ", color_pair(4) + A_BOLD);
+	wmove(window_info, 3, 68); waddstr(window_info, "SKU...: ", color_pair(4) + A_BOLD);
+	wmove(window_info, 4, 68); waddstr(window_info, "Capacity.: ", color_pair(4) + A_BOLD);
+	wmove(window_info, 4, 2); waddstr(window_info, "DNS Name..: ", color_pair(4) + A_BOLD);
+
+	#Create Sys form...
+	wmove(window_sys, 0, 5); waddstr(window_sys, " SYSTEM INFO ", color_pair(3));
+	wmove(window_sys, 1, 2); waddstr(window_sys, "Operating System..: ", color_pair(4) + A_BOLD);
+	wmove(window_sys, 2, 2); waddstr(window_sys, "Version...........: ", color_pair(4) + A_BOLD);
+	wmove(window_sys, 3, 2); waddstr(window_sys, "Total VMs.........: ", color_pair(4) + A_BOLD);
+	wmove(window_sys, 4, 2); waddstr(window_sys, "Provisioning State: ", color_pair(4) + A_BOLD);

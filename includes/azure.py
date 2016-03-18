@@ -128,48 +128,6 @@ def exec_cmd(acess_token, cap, cmd):
 		except:
 			return execerror;
 
-def create_forms(window_info, window_sys, window_status, windowvm):
-	a = 2; 
-
-	#Let's handle the status wwindow here...
-	wmove(window_status, 1, 12); wclrtoeol(window_status);
-	box(window_status);
-	wmove(window_status, 0, 13); waddstr(window_status, " STATUS ", color_pair(3));
-	wmove(window_status, 1, 22); waddstr(window_status, "|");
-
-	#Window VM...
-	wmove(windowvm, 1, 12); wclrtoeol(windowvm);
-	wmove(windowvm, 2, 12); wclrtoeol(windowvm);
-	box(windowvm);
-	wmove(windowvm, 0, 5); waddstr(windowvm, " VM ", color_pair(3));
-
-	while (a < 5):
-		#Clean up lines...
-		wmove(window_info, a, 1); wclrtoeol(window_info);
-		wmove(window_sys, a, 1); wclrtoeol(window_sys);
-		a += 1;
-
-	#Redraw the box...
-	box(window_info); box(window_sys);
-
-	#Create Info form...
-	wmove(window_info, 0, 5); waddstr(window_info, " GENERAL INFO ", color_pair(3));
-	wmove(window_info, 2, 2); waddstr(window_info, "RG Name...: ", color_pair(4) + A_BOLD);
-	wmove(window_info, 2, 37); waddstr(window_info, "VMSS Name: ", color_pair(4) + A_BOLD);
-	wmove(window_info, 2, 68); waddstr(window_info, "Tier..: ", color_pair(4) + A_BOLD);
-	wmove(window_info, 3, 2); waddstr(window_info, "IP Address: ", color_pair(4) + A_BOLD);
-	wmove(window_info, 3, 29); waddstr(window_info, "Region: ", color_pair(4) + A_BOLD);
-	wmove(window_info, 3, 68); waddstr(window_info, "SKU...: ", color_pair(4) + A_BOLD);
-	wmove(window_info, 4, 68); waddstr(window_info, "Capacity.: ", color_pair(4) + A_BOLD);
-	wmove(window_info, 4, 2); waddstr(window_info, "DNS Name..: ", color_pair(4) + A_BOLD);
-
-	#Create Sys form...
-	wmove(window_sys, 0, 5); waddstr(window_sys, " SYSTEM INFO ", color_pair(3));
-	wmove(window_sys, 1, 2); waddstr(window_sys, "Operating System..: ", color_pair(4) + A_BOLD);
-	wmove(window_sys, 2, 2); waddstr(window_sys, "Version...........: ", color_pair(4) + A_BOLD);
-	wmove(window_sys, 3, 2); waddstr(window_sys, "Total VMs.........: ", color_pair(4) + A_BOLD);
-	wmove(window_sys, 4, 2); waddstr(window_sys, "Provisioning State: ", color_pair(4) + A_BOLD);
-
 # thread to loop around monitoring the VM Scale Set state and its VMs
 # sleep between loops sets the update frequency
 def get_vmss_properties(access_token, run_event, window_information, panel_information, window_continents, panel_continents):
@@ -178,7 +136,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 	ROOM = 5; DEPLOYED = 0;
 
 	#VM's destination...
-	destx = 29; desty = 4; XS =41;
+	destx = 22; desty = 4; XS =50;
 	window_dc = 0;
 
 	#Our window_information arrays...
@@ -191,7 +149,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 	while run_event.is_set():
 		try:
 			ourtime = time.strftime("%H:%M:%S");
-			wmove(window_information['status'], 1, 2); waddstr(window_information['status'], ourtime);
+			wmove(window_information['status'], 1, 13); waddstr(window_information['status'], ourtime);
 
 			#Create Forms...
 			create_forms(window_information['vmss_info'], window_information['system'], window_information['status'], window_information['vm']);
@@ -245,11 +203,18 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			vmssvms = azurerm.list_vmss_vms(access_token, subscription_id, rgname, vmssname)
 
 			#All VMs are created in the following coordinates...
-			init_coords = (41, 4);
+			init_coords = (XS, 4);
 			vmssVmProperties = [];
 			qtd = vmssvms['value'].__len__();
 			step = qtd / 10;
 			if (step < 1): step = 1;	
+			#We take more time on our VM effect depending on how many VMs we are talking about...
+			if (qtd < 20):
+				ts = 0.01;
+			elif (qtd < 60):
+				ts = 0.003;
+			else:
+				ts = 0.0005;
 
 			#Fill Sys info...
 			wmove(window_information['system'], 1, 22); waddstr(window_information['system'], offer);
@@ -275,11 +240,11 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 					box(window_vm[DEPLOYED]);
 					#Creation of the VM, in this case we never have a VM selected...
 					draw_vm(DEPLOYED, window_vm[DEPLOYED], provisioningState, vmsel);
-					if countery < 8:
+					if countery < 10:
 						 countery += 1;
 					else:
 						destx += 3; desty = 4; countery = 1;
-					vm_animation(panel_vm[DEPLOYED], init_coords, destx, desty, 1);
+					vm_animation(panel_vm[DEPLOYED], init_coords, destx, desty, 1, ts);
 					desty += ROOM;
 					DEPLOYED += 1;
 					update_panels();
@@ -290,7 +255,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 						box(window_vm[vm_selected[1]]);
 					if (vm_selected[0] == (counter -1) and vm_selected[1] != 999998 and vm_selected[0] != vm_selected[1]):
 						vmsel = 1;
-						show_panel(panel_information['vm']);
+						#show_panel(panel_information['vm']);
 					if (vm_selected[0] == (counter -1) and vm_selected[1] == 999998):
 						vmsel = 0;
 						#hide_panel(panel_information['vm']);
@@ -312,11 +277,11 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			while (DEPLOYED >= counter):
 				lastvm = window_vm.__len__() - 1;	
 				vm_coords = getbegyx(window_vm[lastvm]);
-				vm_animation(panel_vm[lastvm], vm_coords, init_coords[0], init_coords[1], 0);
+				vm_animation(panel_vm[lastvm], vm_coords, init_coords[0], init_coords[1], 0, ts);
 				if (countery > 0):
 					desty -= ROOM; countery -= 1;
-				elif (destx > 29):
-					destx -= 3; desty = 39; countery = 7;
+				elif (destx > 22):
+					destx -= 3; desty = 49; countery = 9;
 				#Free up some memory...
 				del_panel(panel_vm[lastvm]); delwin(window_vm[lastvm]);
 				wobj = panel_vm[lastvm]; panel_vm.remove(wobj);
@@ -327,8 +292,8 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			# sleep before before each loop to avoid throttling...
 			ourtime = time.strftime("%H:%M:%S");
 			do_update_bar(window_information['status'], step, 1);
-			wmove(window_information['status'], 1, 2); waddstr(window_information['status'], ourtime);
-			wmove(window_information['status'], 1, 12); waddstr(window_information['status'], "    OK    ");
+			wmove(window_information['status'], 1, 13); waddstr(window_information['status'], ourtime);
+			wmove(window_information['status'], 1, 22); waddstr(window_information['status'], "     OK     ");
 			update_panels();
 			doupdate();
 			time.sleep(interval);
@@ -365,7 +330,7 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 			curs_set(False);
 			noecho();
 			draw_prompt_corners(window_information['cmd']);
-			draw_line(window_information['cmd'], 1, 121, 2, ACS_VLINE);
+			draw_line(window_information['cmd'], 1, 122, 2, ACS_VLINE);
 
 			cor=6;
 			if (command == "help"):
@@ -383,7 +348,7 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 				if (cmd_status == 2): cor = 4;
 				if (cmd_status == 3): cor = 7;
 				if (cmd_status == 4): cor = 3;
-			wmove(window_information['cmd'], 1, 124); waddstr(window_information['cmd'], "E", color_pair(cor) + A_BOLD);
+			wmove(window_information['cmd'], 1, 125); waddstr(window_information['cmd'], "E", color_pair(cor) + A_BOLD);
 			update_panels();
 			doupdate();
 
