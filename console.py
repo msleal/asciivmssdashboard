@@ -78,41 +78,41 @@ def main(): #{
 
 	#Here starts our game...
 	#Continents create_window(lines, colunms, startline, startcolunm)
-	window_continents['northandcentralamerica'] = create_window(26, 86, 2, 2);
+	window_continents['northandcentralamerica'] = create_window(26, 86, 2, 37);
 	panel_continents['northandcentralamerica'] = new_panel(window_continents['northandcentralamerica']);
 	draw_map(window_continents['northandcentralamerica'], "northandcentralamerica");
 	mark_datacenters_map(window_continents['northandcentralamerica'], "northandcentralamerica");
 	#win_animation(panel_continents['northandcentralamerica'], termsize, 2, 2);
 
-	window_continents['southamerica'] = create_window(20, 27, 27, 49);
+	window_continents['southamerica'] = create_window(20, 27, 27, 84);
 	panel_continents['southamerica'] = new_panel(window_continents['southamerica']);
 	draw_map(window_continents['southamerica'], "southamerica");
 	mark_datacenters_map(window_continents['southamerica'], "southamerica");
 	#win_animation(panel_continents['southamerica'], termsize, 27, 49);
 
-	window_continents['europeandasia'] = create_window(26, 110, 4, 88);
+	window_continents['europeandasia'] = create_window(26, 110, 4, 123);
 	panel_continents['europeandasia'] = new_panel(window_continents['europeandasia']);
 	draw_map(window_continents['europeandasia'], "europeandasia");
 	mark_datacenters_map(window_continents['europeandasia'], "europeandasia");
 	#win_animation(panel_continents['europeandasia'], termsize, 4, 88);
 
-	window_continents['africa'] = create_window(20, 38, 20, 84);
+	window_continents['africa'] = create_window(20, 38, 20, 119);
 	panel_continents['africa'] = new_panel(window_continents['africa']);
 	draw_map(window_continents['africa'], "africa");
 	#win_animation(panel_continents['africa'], termsize, 20, 84);
 
-	window_continents['oceania'] = create_window(15, 48, 29, 143);
+	window_continents['oceania'] = create_window(15, 48, 29, 178);
 	panel_continents['oceania'] = new_panel(window_continents['oceania']);
 	draw_map(window_continents['oceania'], "oceania");
 	mark_datacenters_map(window_continents['oceania'], "oceania");
 	#win_animation(panel_continents['oceania'], termsize, 29, 143);
 
 	#Create all information windows...
-	window_information['vmss_info'] = create_window(6, 90, 43, 70); 
+	window_information['vmss_info'] = create_window(6, 90, 48, 105); 
 	panel_information['vmss_info'] = new_panel(window_information['vmss_info']);
 	box(window_information['vmss_info']);
 
-	window_information['system'] = create_window(6, 38, 43, 160); 
+	window_information['system'] = create_window(6, 38, 48, 195); 
 	box(window_information['system']);
 	panel_information['system'] = new_panel(window_information['system']);
 	wmove(window_information['system'], 0, 5); waddstr(window_information['system'], " SYSTEM INFO ", color_pair(3));
@@ -123,7 +123,7 @@ def main(): #{
 	wmove(window_information['status'], 0, 13); waddstr(window_information['status'], " STATUS ", color_pair(3));
 	wmove(window_information['status'], 1, 11); waddstr(window_information['status'], "|          |");
 
-	window_information['virtualmachines'] = create_window(17, 43, 29, 2); 
+	window_information['virtualmachines'] = create_window(25, 80, 29, 2); 
 	panel_information['virtualmachines'] = new_panel(window_information['virtualmachines']);
 	box(window_information['virtualmachines']);
 
@@ -134,15 +134,15 @@ def main(): #{
 	wmove(window_information['virtualmachines'], 14, 0); waddstr(window_information['virtualmachines'], "5");
 	wmove(window_information['virtualmachines'], 0, 12); waddstr(window_information['virtualmachines'], " VIRTUAL MACHINES ", color_pair(3));
 
-	window_information['cmd'] = create_window(3, 68, 46, 2); 
+	window_information['cmd'] = create_window(3, 128, 45, 105); 
 	panel_information['cmd'] = new_panel(window_information['cmd']);
 	box(window_information['cmd']);
 	wmove(window_information['cmd'], 0, 5); waddstr(window_information['cmd'], " PROMPT ", color_pair(3));
-	draw_line(window_information['cmd'], 0, 62, 1, ACS_URCORNER);
-	draw_line(window_information['cmd'], 0, 63, 1, ACS_ULCORNER);
-	draw_line(window_information['cmd'], 1, 62, 2, ACS_VLINE);
-	draw_line(window_information['cmd'], 2, 62, 1, ACS_LRCORNER);
-	draw_line(window_information['cmd'], 2, 63, 1, ACS_LLCORNER);
+	draw_line(window_information['cmd'], 0, 121, 1, ACS_URCORNER);
+	draw_line(window_information['cmd'], 0, 122, 1, ACS_ULCORNER);
+	draw_line(window_information['cmd'], 1, 121, 2, ACS_VLINE);
+	draw_line(window_information['cmd'], 2, 121, 1, ACS_LRCORNER);
+	draw_line(window_information['cmd'], 2, 122, 1, ACS_LLCORNER);
 	wmove(window_information['cmd'], 1, 3); waddstr(window_information['cmd'], ">", color_pair(4) + A_BOLD);
 
 	#Info header...
@@ -158,7 +158,7 @@ def main(): #{
 	wmove(window_information['vm'], 2, 2); waddstr(window_information['vm'], "State...: ");
 
 	#Help Window...
-	window_information['help'] = create_window(12, 32, 21, 166);
+	window_information['help'] = create_window(12, 32, 21, 201);
 	box(window_information['help']);
 	panel_information['help'] = new_panel(window_information['help']);
 	hide_panel(panel_information['help']);

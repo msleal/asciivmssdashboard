@@ -365,7 +365,7 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 			curs_set(False);
 			noecho();
 			draw_prompt_corners(window_information['cmd']);
-			draw_line(window_information['cmd'], 1, 67, 2, ACS_VLINE);
+			draw_line(window_information['cmd'], 1, 121, 2, ACS_VLINE);
 
 			cor=6;
 			if (command == "help"):
@@ -383,7 +383,7 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 				if (cmd_status == 2): cor = 4;
 				if (cmd_status == 3): cor = 7;
 				if (cmd_status == 4): cor = 3;
-			wmove(window_information['cmd'], 1, 65); waddstr(window_information['cmd'], "E", color_pair(cor) + A_BOLD);
+			wmove(window_information['cmd'], 1, 124); waddstr(window_information['cmd'], "E", color_pair(cor) + A_BOLD);
 			update_panels();
 			doupdate();
 
@@ -413,7 +413,7 @@ def vmss_monitor_thread(window_information, panel_information, window_continents
         	while 1:
             		time.sleep(.1)
 	except KeyboardInterrupt:
-		window_exit = create_window(7, 55, 22, 75);
+		window_exit = create_window(8, 56, 22, 87);
 		box(window_exit);
 		panel_exit = new_panel(window_exit);
 		top_panel(panel_exit);

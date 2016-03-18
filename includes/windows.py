@@ -105,11 +105,11 @@ def vm_animation(panel, nasp, xfinal, yfinal, flag):
 		time.sleep(.02);
 
 def draw_prompt_corners(window):
-	draw_line(window, 0, 62, 1, ACS_URCORNER);
-	draw_line(window, 0, 63, 1, ACS_ULCORNER);
-	draw_line(window, 1, 62, 2, ACS_VLINE);
-	draw_line(window, 2, 62, 1, ACS_LRCORNER);
-	draw_line(window, 2, 63, 1, ACS_LLCORNER);
+	draw_line(window, 0, 121, 1, ACS_URCORNER);
+	draw_line(window, 0, 122, 1, ACS_ULCORNER);
+	draw_line(window, 1, 121, 2, ACS_VLINE);
+	draw_line(window, 2, 121, 1, ACS_LRCORNER);
+	draw_line(window, 2, 122, 1, ACS_LLCORNER);
 
 def draw_line(window, a, b, c, char):
 	wmove(window, a, b); whline(window, char, c);
