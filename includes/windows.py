@@ -33,7 +33,10 @@ def create_window(x, y, w, z):
 #Draw VM...
 def draw_vm(vmc, window, ps, flag):
 	if (vmc < 10):
-		nr = "%02d" % vmc
+		nr = "%02d" % vmc;
+	else:
+		nr = vmc;
+
 	if (ps.upper() == "SUCCEEDED"):
 		wmove(window, 1, 1); waddstr(window, nr, color_pair(6) + A_BOLD);
 	elif (ps.upper() == "CREATING"):	
