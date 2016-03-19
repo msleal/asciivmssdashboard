@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Functions to draw and mark Azure Regions on the global map...
 
 """

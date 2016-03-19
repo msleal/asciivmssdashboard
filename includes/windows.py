@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # All uniCurses routines to ASCii Effects representation on the terminal are here (or should be)...
 
 """
@@ -126,12 +126,11 @@ def get_continent_dc(dc):
 		return 'europeandasia';
 
 def resize_terminal():
-	#errnr = call(["resize", "-s 50 200 >/dev/null"]);
+	#errnr = call(["resize", "-s 55 235 >/dev/null"]);
 	errnr = 1;
 	return errnr;
 
 def create_forms(window_info, window_sys, window_status, windowvm):
-	a = 2;
 
 	#Let's handle the status wwindow here...
 	wmove(window_status, 1, 22); wclrtoeol(window_status);
@@ -139,11 +138,15 @@ def create_forms(window_info, window_sys, window_status, windowvm):
 	wmove(window_status, 0, 13); waddstr(window_status, " STATUS ", color_pair(3));
 
 	#Window VM...
-	wmove(windowvm, 1, 12); wclrtoeol(windowvm);
-	wmove(windowvm, 2, 12); wclrtoeol(windowvm);
+	a = 2;
+	while (a < 9):
+		wmove(windowvm, a, 17); wclrtoeol(windowvm);
+		a += 1;
 	box(windowvm);
 	wmove(windowvm, 0, 5); waddstr(windowvm, " VM ", color_pair(3));
 
+	#Info and Sys Windows...
+	a = 2;
 	while (a < 5):
 		#Clean up lines...
 		wmove(window_info, a, 1); wclrtoeol(window_info);

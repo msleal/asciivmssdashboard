@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # ASCii VMSS Console - The power is in the terminal...
 
 """
@@ -27,8 +27,8 @@ access_token="";
 # Curses...
 window_continents = {'northandcentralamerica':0,'southamerica':0,'europeandasia':0,'africa':0,'oceania':0};
 panel_continents = {'northandcentralamerica':0,'southamerica':0,'europeandasia':0,'africa':0,'oceania':0};
-window_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'info1':0,'info2':0,'info3':0,'cmd':0,'help':0};
-panel_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'info1':0,'info2':0,'info3':0,'cmd':0,'help':0};
+window_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'compute':0,'usage':0,'info3':0,'cmd':0,'help':0};
+panel_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'compute':0,'usage':0,'info3':0,'cmd':0,'help':0};
 
 def main(): #{
 	#Initialize...
@@ -42,7 +42,7 @@ def main(): #{
 		stdscr.nodelay(1);
 
 	termsize = getmaxyx(stdscr);
-	if (termsize[0] >= 50 and termsize[1] >= 200):
+	if (termsize[0] >= 55 and termsize[1] >= 235):
 		SZ = 1;
 	else:
 		if (ourhome == "Linux"):
@@ -51,8 +51,8 @@ def main(): #{
 		else:
 			SZ = 0;
 	if (SZ == 0):
-		print ("You need a terminal at least 50x200...");
-		print ("If you are running this application on Linux, you can resize your terminal using: resize -s 50 200.");
+		print ("You need a terminal at least 55x235...");
+		print ("If you are running this application on Linux, you can resize your terminal using: resize -s 55 235.");
 		endwin();
 		exit(1);
 
@@ -145,20 +145,28 @@ def main(): #{
 	draw_line(window_information['cmd'], 2, 123, 1, ACS_LLCORNER);
 	wmove(window_information['cmd'], 1, 3); waddstr(window_information['cmd'], ">", color_pair(4) + A_BOLD);
 
-	#Info header...
+	#General header...
 	wmove(window_information['vmss_info'], 0, 5); waddstr(window_information['vmss_info'], " GENERAL INFO ", color_pair(3));
 
 	#Info1 Window...
-	window_information['info1'] = create_window(13, 35, 5, 2);
-	box(window_information['info1']);
-	panel_information['info1'] = new_panel(window_information['info1']);
-	wmove(window_information['info1'], 0, 5); waddstr(window_information['info1'], " INFO1 ", color_pair(3));
+	window_information['compute'] = create_window(3, 53, 19, 2);
+	box(window_information['compute']);
+	panel_information['compute'] = new_panel(window_information['compute']);
+	wmove(window_information['compute'], 0, 5); waddstr(window_information['compute'], " COMPUTE USAGE GRAPH ", color_pair(3));
 
 	#Info2 Window...
-	window_information['info2'] = create_window(20, 32, 34, 55);
-	box(window_information['info2']);
-	panel_information['info2'] = new_panel(window_information['info2']);
-	wmove(window_information['info2'], 0, 5); waddstr(window_information['info2'], " INFO2 ", color_pair(3));
+	window_information['usage'] = create_window(14, 35, 5, 2);
+	box(window_information['usage']);
+	panel_information['usage'] = new_panel(window_information['usage']);
+	wmove(window_information['usage'], 0, 5); waddstr(window_information['usage'], " COMPUTE USAGE ", color_pair(3));
+	wmove(window_information['usage'], 2, 2); waddstr(window_information['usage'], "Availability Sets.....:", color_pair(4) + A_BOLD);
+	wmove(window_information['usage'], 3, 2); waddstr(window_information['usage'], "Availability Sets Used:", color_pair(4) + A_BOLD);
+	wmove(window_information['usage'], 5, 2); waddstr(window_information['usage'], "Regional Cores........:", color_pair(4) + A_BOLD);
+	wmove(window_information['usage'], 6, 2); waddstr(window_information['usage'], "Regional Cores Used...:", color_pair(4) + A_BOLD);
+	wmove(window_information['usage'], 8, 2); waddstr(window_information['usage'], "Virtual Machines......:", color_pair(4) + A_BOLD);
+	wmove(window_information['usage'], 9, 2); waddstr(window_information['usage'], "Virtual Machines Used.:", color_pair(4) + A_BOLD);
+	wmove(window_information['usage'], 11, 2); waddstr(window_information['usage'], "VM Scale Sets.........:", color_pair(4) + A_BOLD);
+	wmove(window_information['usage'], 12, 2); waddstr(window_information['usage'], "VM Scale Sets Used....:", color_pair(4) + A_BOLD);
 
 	#Info3 Window...
 	window_information['info3'] = create_window(9, 18, 45, 87);
@@ -167,13 +175,18 @@ def main(): #{
 	wmove(window_information['info3'], 0, 5); waddstr(window_information['info3'], " INFO3 ", color_pair(3));
 
 	#VM Window...
-	window_information['vm'] = create_window(4, 53, 18, 2);
+	window_information['vm'] = create_window(20, 32, 34, 55);
 	box(window_information['vm']);
 	panel_information['vm'] = new_panel(window_information['vm']);
 	#hide_panel(panel_information['vm']);
 	wmove(window_information['vm'], 0, 5); waddstr(window_information['vm'], " VM ", color_pair(3));
-	wmove(window_information['vm'], 1, 2); waddstr(window_information['vm'], "Hostname: ");
-	wmove(window_information['vm'], 2, 2); waddstr(window_information['vm'], "State...: ");
+	wmove(window_information['vm'], 2, 2); waddstr(window_information['vm'], "Hostname.....: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 3, 2); waddstr(window_information['vm'], "Prov. State..: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 4, 2); waddstr(window_information['vm'], "Prov. Date...: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 5, 2); waddstr(window_information['vm'], "Prov. Time...: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 6, 2); waddstr(window_information['vm'], "Power State..: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 7, 2); waddstr(window_information['vm'], "Update Domain: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 8, 2); waddstr(window_information['vm'], "Fault Domain.: ", color_pair(4) + A_BOLD);
 
 	#Help Window...
 	window_information['help'] = create_window(12, 32, 21, 201);

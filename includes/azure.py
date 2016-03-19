@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Azure routines...
 # Based and inspired by the tool VMSSDashboard from Guy Bowerman - Copyright (c) 2016.
 
@@ -45,14 +45,16 @@ countery=0
 
 #Just a high number, so we can test and see if it was not updated yet...
 capacity=999999
+
 #VM
 vm_selected = [999999, 999999];
-window_vm = [];
+window_vm = []; instances_deployed = [];
+vm_details = "";
 
 
 #Exec command...
-def exec_cmd(acess_token, cap, cmd):
-	global subscription_id, rgname, vmssname, vmsku, tier, vm_selected, window_vm;
+def exec_cmd(access_token, cap, cmd):
+	global subscription_id, rgname, vmssname, vmsku, tier, vm_selected, window_vm, vm_details;
 
 	#Return codes...
 	initerror = 2; syntaxerror = 3; capacityerror = 4;
@@ -87,9 +89,15 @@ def exec_cmd(acess_token, cap, cmd):
 			except:
 				return syntaxerror;
 		if (counter == 2 and op == "select"):
-			if (int(c) > window_vm.__len__() - 1):
+			z = 0; ifound = 0;
+			while (z < instances_deployed.__len__()):
+				if (instances_deployed[z] == int(c)):
+					ifound = 1;
+				z += 1;
+			if (ifound):
+				vm = int(c);
+			else:
 				return syntaxerror;
-			vm = int(c);
 		if (counter == 2 and op == "rg" and c != "vmss"):
 				return syntaxerror;
 		if (counter == 3 and op == "rg"):
@@ -115,7 +123,12 @@ def exec_cmd(acess_token, cap, cmd):
 	elif (op == "select"):
 		vm_selected[1] = vm_selected[0];
 		vm_selected[0] = vm;
-		return execsuccess;
+		vm_details = azurerm.get_vmss_vm_instance_view(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
+		if len(vm_details) > 0:
+			return execsuccess;
+		else:
+			vm_selected[1] = 999998;
+			return execerror;
 	else:
 		#Test to be sure the resource group and vmss provided do exist...
 		rgoutput = azurerm.get_vmss(access_token, subscription_id, rgname_new, vmssname_new);
@@ -131,7 +144,7 @@ def exec_cmd(acess_token, cap, cmd):
 # thread to loop around monitoring the VM Scale Set state and its VMs
 # sleep between loops sets the update frequency
 def get_vmss_properties(access_token, run_event, window_information, panel_information, window_continents, panel_continents):
-	global vmssProperties, vmssVmProperties, countery, capacity, region, tier, vmsku, vm_selected, window_vm;
+	global vmssProperties, vmssVmProperties, countery, capacity, region, tier, vmsku, vm_selected, window_vm, instances_deployed, vm_details;
 
 	ROOM = 5; DEPLOYED = 0;
 
@@ -189,6 +202,17 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			dns = ips['value'][0]['properties']['dnsSettings']['fqdn'];
 			ipaddr = ips['value'][0]['properties']['ipAddress'];
 
+			#Quota...
+			quota = azurerm.get_compute_usage(access_token, subscription_id, location);
+			wmove(window_information['usage'], 2, 26); waddstr(window_information['usage'], quota['value'][0]['limit'], color_pair(7));
+			wmove(window_information['usage'], 3, 26); waddstr(window_information['usage'], quota['value'][0]['currentValue']);
+			wmove(window_information['usage'], 5, 26); waddstr(window_information['usage'], quota['value'][1]['limit'], color_pair(7));
+			wmove(window_information['usage'], 6, 26); waddstr(window_information['usage'], quota['value'][1]['currentValue']);
+			wmove(window_information['usage'], 8, 26); waddstr(window_information['usage'], quota['value'][2]['limit'], color_pair(7));
+			wmove(window_information['usage'], 9, 26); waddstr(window_information['usage'], quota['value'][2]['currentValue']);
+			wmove(window_information['usage'], 11, 26); waddstr(window_information['usage'], quota['value'][3]['limit'], color_pair(7));
+			wmove(window_information['usage'], 12, 26); waddstr(window_information['usage'], quota['value'][3]['currentValue']);
+
 			#Add General info...
 			wmove(window_information['vmss_info'], 2, 14); waddstr(window_information['vmss_info'], rgname.upper());
 			wmove(window_information['vmss_info'], 2, 48); waddstr(window_information['vmss_info'], vmssname.upper());
@@ -199,12 +223,13 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			wmove(window_information['vmss_info'], 4, 14); waddstr(window_information['vmss_info'], dns);
 			wmove(window_information['vmss_info'], 4, 79); waddstr(window_information['vmss_info'], capacity);
 
-			vmssProperties = [name, capacity, location, rgname, offer, sku, provisioningState, dns, ipaddr]
-			vmssvms = azurerm.list_vmss_vms(access_token, subscription_id, rgname, vmssname)
+			vmssProperties = [name, capacity, location, rgname, offer, sku, provisioningState, dns, ipaddr];
+			vmssvms = azurerm.list_vmss_vms(access_token, subscription_id, rgname, vmssname);
+
+			vmssVmProperties = [];
 
 			#All VMs are created in the following coordinates...
 			init_coords = (XS, 4);
-			vmssVmProperties = [];
 			qtd = vmssvms['value'].__len__();
 			step = qtd / 10;
 			if (step < 1): step = 1;	
@@ -234,12 +259,13 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 				provisioningState = vm['properties']['provisioningState'];
 				vmssVmProperties.append([instanceId, vmName, provisioningState]);
 				if (counter > DEPLOYED):
-					window_vm.append(DEPLOYED); panel_vm.append(DEPLOYED);
+					window_vm.append(DEPLOYED); panel_vm.append(DEPLOYED); instances_deployed.append(DEPLOYED);
 					window_vm[DEPLOYED] = create_window(3, 4, init_coords[0], init_coords[1]);
 					panel_vm[DEPLOYED] = new_panel(window_vm[DEPLOYED]);
+					instances_deployed[DEPLOYED] = int(instanceId);
 					box(window_vm[DEPLOYED]);
 					#Creation of the VM, in this case we never have a VM selected...
-					draw_vm(DEPLOYED, window_vm[DEPLOYED], provisioningState, vmsel);
+					draw_vm(int(instanceId), window_vm[DEPLOYED], provisioningState, vmsel);
 					if countery < 10:
 						 countery += 1;
 					else:
@@ -251,21 +277,32 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 					doupdate();
 				else:
 					#Remove the old mark...
-					if (vm_selected[1] == (counter -1) and vm_selected[1] != 999999 and vm_selected[1] != vm_selected[0]):
+					if (vm_selected[1] == int(instanceId) and vm_selected[1] != 999999 and vm_selected[1] != vm_selected[0]):
 						box(window_vm[vm_selected[1]]);
-					if (vm_selected[0] == (counter -1) and vm_selected[1] != 999998 and vm_selected[0] != vm_selected[1]):
+					if (vm_selected[0] == int(instanceId) and vm_selected[1] != 999998 and vm_selected[0] != vm_selected[1]):
 						vmsel = 1;
 						#show_panel(panel_information['vm']);
-					if (vm_selected[0] == (counter -1) and vm_selected[1] == 999998):
+					if (vm_selected[0] == int(instanceId) and vm_selected[1] == 999998):
 						vmsel = 0;
 						#hide_panel(panel_information['vm']);
 						vm_selected = [999999, 999999];
-					draw_vm((counter - 1), window_vm[(counter - 1)], provisioningState, vmsel);
-					if (vm_selected[0] == (counter -1) and vm_selected[0] != 999999 and vm_selected[1] != 999998):
-						wmove(window_information['vm'], 1, 12); waddstr(window_information['vm'], vmName);
-						cor=7;
-						if (provisioningState == "Succeeded"): cor=6;
-						wmove(window_information['vm'], 2, 12); waddstr(window_information['vm'], provisioningState, color_pair(cor));
+					draw_vm(int(instanceId), window_vm[(counter - 1)], provisioningState, vmsel);
+					if (vm_selected[0] == int(instanceId) and vm_selected[0] != 999999 and vm_selected[1] != 999998):
+						if (vm_details != ""):
+							wmove(window_information['vm'], 2, 17); waddstr(window_information['vm'], vmName);
+							cor=7;
+							if (provisioningState == "Succeeded"): cor=6;
+							wmove(window_information['vm'], 3, 17); waddstr(window_information['vm'], provisioningState, color_pair(cor));
+							cdate = vm_details['statuses'][0]['time'];
+							vmdate = cdate.split("T")
+							vmtime = vmdate[1].split(".")
+							wmove(window_information['vm'], 4, 17); waddstr(window_information['vm'], vmdate[0]);
+							wmove(window_information['vm'], 5, 17); waddstr(window_information['vm'], vmtime[0]);
+							cor=7;
+							if (vm_details['statuses'][1]['displayStatus'] == "VM running"): cor=6;
+							wmove(window_information['vm'], 6, 17); waddstr(window_information['vm'], vm_details['statuses'][1]['displayStatus'], color_pair(cor));
+							wmove(window_information['vm'], 7, 17); waddstr(window_information['vm'], vm_details['platformUpdateDomain']);
+							wmove(window_information['vm'], 8, 17); waddstr(window_information['vm'], vm_details['platformFaultDomain']);
 
 				counter += 1;
 				do_update_bar(window_information['status'], step, 0);
@@ -286,6 +323,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 				del_panel(panel_vm[lastvm]); delwin(window_vm[lastvm]);
 				wobj = panel_vm[lastvm]; panel_vm.remove(wobj);
 				wobj = window_vm[lastvm]; window_vm.remove(wobj);
+				wobj = instances_deployed[lastvm]; instances_deployed.remove(wobj);
 				DEPLOYED -= 1;
 				update_panels();
 				doupdate();
@@ -293,7 +331,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			ourtime = time.strftime("%H:%M:%S");
 			do_update_bar(window_information['status'], step, 1);
 			wmove(window_information['status'], 1, 13); waddstr(window_information['status'], ourtime);
-			wmove(window_information['status'], 1, 22); waddstr(window_information['status'], "     OK     ");
+			wmove(window_information['status'], 1, 22); waddstr(window_information['status'], "     OK     ", color_pair(6));
 			update_panels();
 			doupdate();
 			time.sleep(interval);
@@ -325,7 +363,8 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 			wmove(window_information['cmd'], 0, 5); waddstr(window_information['cmd'], " PROMPT ", color_pair(3));
 			
 			#Read the command...
-			command = mvwgetstr(window_information['cmd'], 1, 5);
+			inputcommand = mvwgetstr(window_information['cmd'], 1, 5);
+			command = inputcommand.decode('utf-8');
 
 			curs_set(False);
 			noecho();
