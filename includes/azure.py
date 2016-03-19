@@ -155,9 +155,6 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 	#Our window_information arrays...
 	panel_vm = []; window_vm = [];
 
-	#Home...
-	ourhome = platform.system();
-
 	#Our thread loop...
 	while run_event.is_set():
 		try:
@@ -362,9 +359,16 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 			draw_prompt_corners(window_information['cmd']);
 			wmove(window_information['cmd'], 0, 5); waddstr(window_information['cmd'], " PROMPT ", color_pair(3));
 			
+
+			#Home...
+			ourhome = platform.system();
+
 			#Read the command...
 			inputcommand = mvwgetstr(window_information['cmd'], 1, 5);
-			command = inputcommand.decode('utf-8');
+			if (ourhome == 'Windows'):
+				command = inputcommand;
+			else:
+				command = inputcommand.decode('utf-8');
 
 			curs_set(False);
 			noecho();
