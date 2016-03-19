@@ -27,8 +27,8 @@ access_token="";
 # Curses...
 window_continents = {'northandcentralamerica':0,'southamerica':0,'europeandasia':0,'africa':0,'oceania':0};
 panel_continents = {'northandcentralamerica':0,'southamerica':0,'europeandasia':0,'africa':0,'oceania':0};
-window_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'compute':0,'usage':0,'info3':0,'cmd':0,'help':0};
-panel_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'compute':0,'usage':0,'info3':0,'cmd':0,'help':0};
+window_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'compute':0,'usage':0,'gauge':0,'cmd':0,'help':0};
+panel_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'compute':0,'usage':0,'gauge':0,'cmd':0,'help':0};
 
 def main(): #{
 	#Initialize...
@@ -117,7 +117,7 @@ def main(): #{
 	panel_information['system'] = new_panel(window_information['system']);
 	wmove(window_information['system'], 0, 5); waddstr(window_information['system'], " SYSTEM INFO ", color_pair(3));
 
-	window_information['status'] = create_window(3, 35, 2, 2); 
+	window_information['status'] = create_window(3, 36, 2, 2); 
 	panel_information['status'] = new_panel(window_information['status']);
 	box(window_information['status']);
 	wmove(window_information['status'], 0, 13); waddstr(window_information['status'], " STATUS ", color_pair(3));
@@ -155,24 +155,20 @@ def main(): #{
 	wmove(window_information['compute'], 0, 5); waddstr(window_information['compute'], " COMPUTE USAGE GRAPH ", color_pair(3));
 
 	#Info2 Window...
-	window_information['usage'] = create_window(14, 35, 5, 2);
+	window_information['usage'] = create_window(14, 36, 5, 2);
 	box(window_information['usage']);
 	panel_information['usage'] = new_panel(window_information['usage']);
 	wmove(window_information['usage'], 0, 5); waddstr(window_information['usage'], " COMPUTE USAGE ", color_pair(3));
-	wmove(window_information['usage'], 2, 2); waddstr(window_information['usage'], "Availability Sets.....:", color_pair(4) + A_BOLD);
-	wmove(window_information['usage'], 3, 2); waddstr(window_information['usage'], "Availability Sets Used:", color_pair(4) + A_BOLD);
-	wmove(window_information['usage'], 5, 2); waddstr(window_information['usage'], "Regional Cores........:", color_pair(4) + A_BOLD);
-	wmove(window_information['usage'], 6, 2); waddstr(window_information['usage'], "Regional Cores Used...:", color_pair(4) + A_BOLD);
-	wmove(window_information['usage'], 8, 2); waddstr(window_information['usage'], "Virtual Machines......:", color_pair(4) + A_BOLD);
-	wmove(window_information['usage'], 9, 2); waddstr(window_information['usage'], "Virtual Machines Used.:", color_pair(4) + A_BOLD);
-	wmove(window_information['usage'], 11, 2); waddstr(window_information['usage'], "VM Scale Sets.........:", color_pair(4) + A_BOLD);
-	wmove(window_information['usage'], 12, 2); waddstr(window_information['usage'], "VM Scale Sets Used....:", color_pair(4) + A_BOLD);
+	wmove(window_information['usage'], 2, 2); waddstr(window_information['usage'], "[Availability Sets] [     /     ]", color_pair(4) + A_BOLD);
+	wmove(window_information['usage'], 3, 2); waddstr(window_information['usage'], "[ Regional  Cores ] [     /     ]", color_pair(4) + A_BOLD);
+	wmove(window_information['usage'], 4, 2); waddstr(window_information['usage'], "[Virtual  Machines] [     /     ]", color_pair(4) + A_BOLD);
+	wmove(window_information['usage'], 5, 2); waddstr(window_information['usage'], "[  VM Scale Sets  ] [     /     ]", color_pair(4) + A_BOLD);
 
 	#Info3 Window...
-	window_information['info3'] = create_window(9, 18, 45, 87);
-	box(window_information['info3']);
-	panel_information['info3'] = new_panel(window_information['info3']);
-	wmove(window_information['info3'], 0, 5); waddstr(window_information['info3'], " INFO3 ", color_pair(3));
+	window_information['gauge'] = create_window(9, 18, 45, 87);
+	box(window_information['gauge']);
+	panel_information['gauge'] = new_panel(window_information['gauge']);
+	wmove(window_information['gauge'], 0, 6); waddstr(window_information['gauge'], " GAUGE ", color_pair(3));
 
 	#VM Window...
 	window_information['vm'] = create_window(20, 32, 34, 55);
@@ -187,6 +183,9 @@ def main(): #{
 	wmove(window_information['vm'], 6, 2); waddstr(window_information['vm'], "Power State..: ", color_pair(4) + A_BOLD);
 	wmove(window_information['vm'], 7, 2); waddstr(window_information['vm'], "Update Domain: ", color_pair(4) + A_BOLD);
 	wmove(window_information['vm'], 8, 2); waddstr(window_information['vm'], "Fault Domain.: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 11, 10); waddstr(window_information['vm'], "[ VM AGENT ]", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 15, 2); waddstr(window_information['vm'], "Version......: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 16, 2); waddstr(window_information['vm'], "Status.......: ", color_pair(4) + A_BOLD);
 
 	#Help Window...
 	window_information['help'] = create_window(12, 32, 21, 201);

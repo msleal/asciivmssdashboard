@@ -125,6 +125,10 @@ def exec_cmd(access_token, cap, cmd):
 		vm_selected[0] = vm;
 		vm_details = azurerm.get_vmss_vm_instance_view(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
 		if len(vm_details) > 0:
+		#	f = open('info.log', 'w')
+		#	if len(vm_details) > 0:
+		#		for p in vm_details.items():
+		#			f.write("%s:%s\n" % p)
 			return execsuccess;
 		else:
 			vm_selected[1] = 999998;
@@ -201,14 +205,14 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 
 			#Quota...
 			quota = azurerm.get_compute_usage(access_token, subscription_id, location);
-			wmove(window_information['usage'], 2, 26); waddstr(window_information['usage'], quota['value'][0]['limit'], color_pair(7));
-			wmove(window_information['usage'], 3, 26); waddstr(window_information['usage'], quota['value'][0]['currentValue']);
-			wmove(window_information['usage'], 5, 26); waddstr(window_information['usage'], quota['value'][1]['limit'], color_pair(7));
-			wmove(window_information['usage'], 6, 26); waddstr(window_information['usage'], quota['value'][1]['currentValue']);
-			wmove(window_information['usage'], 8, 26); waddstr(window_information['usage'], quota['value'][2]['limit'], color_pair(7));
-			wmove(window_information['usage'], 9, 26); waddstr(window_information['usage'], quota['value'][2]['currentValue']);
-			wmove(window_information['usage'], 11, 26); waddstr(window_information['usage'], quota['value'][3]['limit'], color_pair(7));
-			wmove(window_information['usage'], 12, 26); waddstr(window_information['usage'], quota['value'][3]['currentValue']);
+			wmove(window_information['usage'], 2, 23); waddstr(window_information['usage'], quota['value'][0]['currentValue']);
+			wmove(window_information['usage'], 2, 29); waddstr(window_information['usage'], quota['value'][0]['limit'], color_pair(7));
+			wmove(window_information['usage'], 3, 23); waddstr(window_information['usage'], quota['value'][1]['currentValue']);
+			wmove(window_information['usage'], 3, 29); waddstr(window_information['usage'], quota['value'][1]['limit'], color_pair(7));
+			wmove(window_information['usage'], 4, 23); waddstr(window_information['usage'], quota['value'][2]['currentValue']);
+			wmove(window_information['usage'], 4, 29); waddstr(window_information['usage'], quota['value'][2]['limit'], color_pair(7));
+			wmove(window_information['usage'], 5, 23); waddstr(window_information['usage'], quota['value'][3]['currentValue']);
+			wmove(window_information['usage'], 5, 29); waddstr(window_information['usage'], quota['value'][3]['limit'], color_pair(7));
 
 			#Add General info...
 			wmove(window_information['vmss_info'], 2, 14); waddstr(window_information['vmss_info'], rgname.upper());
@@ -300,6 +304,11 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 							wmove(window_information['vm'], 6, 17); waddstr(window_information['vm'], vm_details['statuses'][1]['displayStatus'], color_pair(cor));
 							wmove(window_information['vm'], 7, 17); waddstr(window_information['vm'], vm_details['platformUpdateDomain']);
 							wmove(window_information['vm'], 8, 17); waddstr(window_information['vm'], vm_details['platformFaultDomain']);
+
+							if (vm_details['vmAgent']['statuses'][0]['message'] == "Guest Agent is running"): cor=6;
+							wmove(window_information['vm'], 13, 6); waddstr(window_information['vm'], vm_details['vmAgent']['statuses'][0]['message'], color_pair(cor));
+							wmove(window_information['vm'], 15, 17); waddstr(window_information['vm'], vm_details['vmAgent']['vmAgentVersion']);
+							wmove(window_information['vm'], 16, 17); waddstr(window_information['vm'], vm_details['vmAgent']['statuses'][0]['displayStatus']);
 
 				counter += 1;
 				do_update_bar(window_information['status'], step, 0);

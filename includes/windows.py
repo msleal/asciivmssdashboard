@@ -55,7 +55,7 @@ def draw_vm(vmc, window, ps, flag):
 		box(window);
 
 def do_update_bar(window, sp, flag):
-        a = bar = 22; total = 33;
+        a = bar = 22; total = 34;
         curstep = bar + sp;
 
         if (curstep > total): curstep = total;
