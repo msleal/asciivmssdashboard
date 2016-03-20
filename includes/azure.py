@@ -393,6 +393,7 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 			noecho();
 			draw_prompt_corners(window_information['cmd']);
 			draw_line(window_information['cmd'], 1, 122, 2, ACS_VLINE);
+			draw_line(window_information['cmd'], 1, 127, 1, ACS_VLINE);
 
 			cor=6;
 			if (command == "help"):
