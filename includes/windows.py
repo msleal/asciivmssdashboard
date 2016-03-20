@@ -21,6 +21,7 @@ def set_colors():
 	init_pair(6, COLOR_GREEN, COLOR_BLACK);
 	init_pair(7, COLOR_YELLOW, COLOR_BLACK);
 	init_pair(8, COLOR_RED, COLOR_BLACK);
+	init_pair(9, COLOR_RED, COLOR_RED);
 
 #Create Windows...
 def create_window(x, y, w, z):
@@ -117,6 +118,26 @@ def draw_prompt_corners(window):
 def draw_line(window, a, b, c, char):
 	wmove(window, a, b); whline(window, char, c);
 
+def draw_line_color(window, a, b, char, cor):
+	wmove(window, a, b); waddstr(window, char, color_pair(cor) + A_BOLD);
+
+def draw_gauge(window, used, limit):
+	if (used > 0):
+		a = used / limit;
+		b = a * 100;
+	else:
+		b = 0;
+
+	if ( b < 30):
+		draw_line_color(window, 3, 1, "    ", 5);
+	elif (b < 60):
+		draw_line_color(window, 3, 1, "    ", 2);
+		draw_line_color(window, 2, 1, "    ", 2);
+	else:
+		draw_line_color(window, 3, 1, "    ", 9);
+		draw_line_color(window, 2, 1, "    ", 9);
+		draw_line_color(window, 1, 1, "    ", 9);
+
 def get_continent_dc(dc):
 	if (dc == "brazilsouth"):
 		return 'southamerica';
@@ -138,9 +159,13 @@ def create_forms(window_info, window_sys, window_status, windowvm):
 	wmove(window_status, 0, 13); waddstr(window_status, " STATUS ", color_pair(3));
 
 	#Window VM...
-	a = 2;
-	while (a < 9):
+	a = 4;
+	while (a < 12):
 		wmove(windowvm, a, 17); wclrtoeol(windowvm);
+		a += 1;
+	a = 15;
+	while (a < 18):
+		wmove(windowvm, a, 12); wclrtoeol(windowvm);
 		a += 1;
 	box(windowvm);
 	wmove(windowvm, 0, 5); waddstr(windowvm, " VM ", color_pair(3));

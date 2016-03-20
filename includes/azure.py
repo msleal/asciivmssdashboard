@@ -207,12 +207,19 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			quota = azurerm.get_compute_usage(access_token, subscription_id, location);
 			wmove(window_information['usage'], 2, 23); waddstr(window_information['usage'], quota['value'][0]['currentValue']);
 			wmove(window_information['usage'], 2, 29); waddstr(window_information['usage'], quota['value'][0]['limit'], color_pair(7));
+			draw_gauge(window_information['gaugeas'], quota['value'][0]['currentValue'], quota['value'][0]['limit']);
+
 			wmove(window_information['usage'], 3, 23); waddstr(window_information['usage'], quota['value'][1]['currentValue']);
 			wmove(window_information['usage'], 3, 29); waddstr(window_information['usage'], quota['value'][1]['limit'], color_pair(7));
+			draw_gauge(window_information['gaugerc'], quota['value'][1]['currentValue'], quota['value'][1]['limit']);
+
 			wmove(window_information['usage'], 4, 23); waddstr(window_information['usage'], quota['value'][2]['currentValue']);
 			wmove(window_information['usage'], 4, 29); waddstr(window_information['usage'], quota['value'][2]['limit'], color_pair(7));
+			draw_gauge(window_information['gaugevm'], quota['value'][2]['currentValue'], quota['value'][2]['limit']);
+
 			wmove(window_information['usage'], 5, 23); waddstr(window_information['usage'], quota['value'][3]['currentValue']);
 			wmove(window_information['usage'], 5, 29); waddstr(window_information['usage'], quota['value'][3]['limit'], color_pair(7));
+			draw_gauge(window_information['gaugess'], quota['value'][3]['currentValue'], quota['value'][3]['limit']);
 
 			#Add General info...
 			wmove(window_information['vmss_info'], 2, 14); waddstr(window_information['vmss_info'], rgname.upper());
@@ -290,25 +297,28 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 					draw_vm(int(instanceId), window_vm[(counter - 1)], provisioningState, vmsel);
 					if (vm_selected[0] == int(instanceId) and vm_selected[0] != 999999 and vm_selected[1] != 999998):
 						if (vm_details != ""):
-							wmove(window_information['vm'], 2, 17); waddstr(window_information['vm'], vmName);
+							wmove(window_information['vm'], 4, 17); waddstr(window_information['vm'], instanceId);
+							wmove(window_information['vm'], 5, 17); waddstr(window_information['vm'], vmName);
 							cor=7;
 							if (provisioningState == "Succeeded"): cor=6;
-							wmove(window_information['vm'], 3, 17); waddstr(window_information['vm'], provisioningState, color_pair(cor));
+							wmove(window_information['vm'], 6, 17); waddstr(window_information['vm'], provisioningState, color_pair(cor));
 							cdate = vm_details['statuses'][0]['time'];
 							vmdate = cdate.split("T")
 							vmtime = vmdate[1].split(".")
-							wmove(window_information['vm'], 4, 17); waddstr(window_information['vm'], vmdate[0]);
-							wmove(window_information['vm'], 5, 17); waddstr(window_information['vm'], vmtime[0]);
+							wmove(window_information['vm'], 7, 17); waddstr(window_information['vm'], vmdate[0]);
+							wmove(window_information['vm'], 8, 17); waddstr(window_information['vm'], vmtime[0]);
 							cor=7;
 							if (vm_details['statuses'][1]['displayStatus'] == "VM running"): cor=6;
-							wmove(window_information['vm'], 6, 17); waddstr(window_information['vm'], vm_details['statuses'][1]['displayStatus'], color_pair(cor));
-							wmove(window_information['vm'], 7, 17); waddstr(window_information['vm'], vm_details['platformUpdateDomain']);
-							wmove(window_information['vm'], 8, 17); waddstr(window_information['vm'], vm_details['platformFaultDomain']);
+							wmove(window_information['vm'], 9, 17); waddstr(window_information['vm'], vm_details['statuses'][1]['displayStatus'], color_pair(cor));
+							wmove(window_information['vm'], 10, 17); waddstr(window_information['vm'], vm_details['platformUpdateDomain']);
+							wmove(window_information['vm'], 11, 17); waddstr(window_information['vm'], vm_details['platformFaultDomain']);
 
-							if (vm_details['vmAgent']['statuses'][0]['message'] == "Guest Agent is running"): cor=6;
-							wmove(window_information['vm'], 13, 6); waddstr(window_information['vm'], vm_details['vmAgent']['statuses'][0]['message'], color_pair(cor));
-							wmove(window_information['vm'], 15, 17); waddstr(window_information['vm'], vm_details['vmAgent']['vmAgentVersion']);
-							wmove(window_information['vm'], 16, 17); waddstr(window_information['vm'], vm_details['vmAgent']['statuses'][0]['displayStatus']);
+							if (vm_details['vmAgent']['statuses'][0]['message'] == "Guest Agent is running"): 
+								cor=6;
+								agentstatus = "Agent is running";
+							wmove(window_information['vm'], 15, 12); waddstr(window_information['vm'], agentstatus, color_pair(cor));
+							wmove(window_information['vm'], 16, 12); waddstr(window_information['vm'], vm_details['vmAgent']['vmAgentVersion']);
+							wmove(window_information['vm'], 17, 12); waddstr(window_information['vm'], vm_details['vmAgent']['statuses'][0]['displayStatus']);
 
 				counter += 1;
 				do_update_bar(window_information['status'], step, 0);

@@ -27,8 +27,8 @@ access_token="";
 # Curses...
 window_continents = {'northandcentralamerica':0,'southamerica':0,'europeandasia':0,'africa':0,'oceania':0};
 panel_continents = {'northandcentralamerica':0,'southamerica':0,'europeandasia':0,'africa':0,'oceania':0};
-window_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'compute':0,'usage':0,'gauge':0,'cmd':0,'help':0};
-panel_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'compute':0,'usage':0,'gauge':0,'cmd':0,'help':0};
+window_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'compute':0,'usage':0,'gauge':0,'gaugeas':0,'gaugerc':0,'gaugevm':0,'gaugess':0,'info3':0,'cmd':0,'help':0};
+panel_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'compute':0,'usage':0,'info3':0,'cmd':0,'help':0};
 
 def main(): #{
 	#Initialize...
@@ -72,7 +72,7 @@ def main(): #{
 	box(window);
 	panel = new_panel(window);
 	#Window Headers...
-	wmove(window, 0, 5); waddstr(window, "| ASCii VMSS Dashboard - Version: 1.0 |");
+	wmove(window, 0, 5); waddstr(window, "| ASCii VMSS Dashboard - Version: 1.2 |");
 	wmove(window, 0, termsize[1] - 28); waddstr(window, " Window Size: ");
 	wmove(window, 0, termsize[1] - 14); waddstr(window, str(termsize));
 
@@ -152,7 +152,7 @@ def main(): #{
 	window_information['compute'] = create_window(3, 53, 19, 2);
 	box(window_information['compute']);
 	panel_information['compute'] = new_panel(window_information['compute']);
-	wmove(window_information['compute'], 0, 5); waddstr(window_information['compute'], " COMPUTE USAGE GRAPH ", color_pair(3));
+	wmove(window_information['compute'], 0, 28); waddstr(window_information['compute'], " COMPUTE USAGE GRAPH ", color_pair(3));
 
 	#Info2 Window...
 	window_information['usage'] = create_window(14, 36, 5, 2);
@@ -164,11 +164,33 @@ def main(): #{
 	wmove(window_information['usage'], 4, 2); waddstr(window_information['usage'], "[Virtual  Machines] [     /     ]", color_pair(4) + A_BOLD);
 	wmove(window_information['usage'], 5, 2); waddstr(window_information['usage'], "[  VM Scale Sets  ] [     /     ]", color_pair(4) + A_BOLD);
 
-	#Info3 Window...
-	window_information['gauge'] = create_window(9, 18, 45, 87);
+	#Gauge Container Window...
+	window_information['gauge'] = create_window(7, 34, 11, 3);
 	box(window_information['gauge']);
 	panel_information['gauge'] = new_panel(window_information['gauge']);
-	wmove(window_information['gauge'], 0, 6); waddstr(window_information['gauge'], " GAUGE ", color_pair(3));
+
+	y = 3;
+	gaugeaux = "AS RC VM SS";
+	for x in gaugeaux.split():
+		wmove(window_information['gauge'], 6, y ); waddstr(window_information['gauge'], " ", color_pair(3));
+		wmove(window_information['gauge'], 6, y+1 ); waddstr(window_information['gauge'], x, color_pair(3));
+		wmove(window_information['gauge'], 6, y+3 ); waddstr(window_information['gauge'], " ", color_pair(3));
+		y += 8;
+
+	#Gauge Windows...
+	y = 5;
+	gaugeaux = "gaugeas gaugerc gaugevm gaugess";
+	for x in gaugeaux.split():
+		window_information[x] = create_window(5, 6, 12, y);
+		box(window_information[x]);
+		panel_information[x] = new_panel(window_information[x]);
+		y += 8;
+
+	#Info3 Window...
+	window_information['info3'] = create_window(9, 18, 45, 87);
+	box(window_information['info3']);
+	panel_information['info3'] = new_panel(window_information['info3']);
+	wmove(window_information['info3'], 0, 5); waddstr(window_information['info3'], " INFO3 ", color_pair(3));
 
 	#VM Window...
 	window_information['vm'] = create_window(20, 32, 34, 55);
@@ -176,16 +198,19 @@ def main(): #{
 	panel_information['vm'] = new_panel(window_information['vm']);
 	#hide_panel(panel_information['vm']);
 	wmove(window_information['vm'], 0, 5); waddstr(window_information['vm'], " VM ", color_pair(3));
-	wmove(window_information['vm'], 2, 2); waddstr(window_information['vm'], "Hostname.....: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 3, 2); waddstr(window_information['vm'], "Prov. State..: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 4, 2); waddstr(window_information['vm'], "Prov. Date...: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 5, 2); waddstr(window_information['vm'], "Prov. Time...: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 6, 2); waddstr(window_information['vm'], "Power State..: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 7, 2); waddstr(window_information['vm'], "Update Domain: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 8, 2); waddstr(window_information['vm'], "Fault Domain.: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 11, 10); waddstr(window_information['vm'], "[ VM AGENT ]", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 15, 2); waddstr(window_information['vm'], "Version......: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 16, 2); waddstr(window_information['vm'], "Status.......: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 2, 6); waddstr(window_information['vm'], "[ Virtual Machine ]", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 4, 2); waddstr(window_information['vm'], "Instance ID..: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 5, 2); waddstr(window_information['vm'], "Hostname.....: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 6, 2); waddstr(window_information['vm'], "Prov. State..: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 7, 2); waddstr(window_information['vm'], "Prov. Date...: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 8, 2); waddstr(window_information['vm'], "Prov. Time...: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 9, 2); waddstr(window_information['vm'], "Power State..: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 10, 2); waddstr(window_information['vm'], "Update Domain: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 11, 2); waddstr(window_information['vm'], "Fault Domain.: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 13, 10); waddstr(window_information['vm'], "[ VM AGENT ]", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 15, 2); waddstr(window_information['vm'], "Status..: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 16, 2); waddstr(window_information['vm'], "Version.: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 17, 2); waddstr(window_information['vm'], "Status..: ", color_pair(4) + A_BOLD);
 
 	#Help Window...
 	window_information['help'] = create_window(12, 32, 21, 201);
