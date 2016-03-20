@@ -78,30 +78,30 @@ def main(): #{
 
 	#Here starts our game...
 	#Continents create_window(lines, colunms, startline, startcolunm)
-	window_continents['northandcentralamerica'] = create_window(26, 86, 1, 38);
+	window_continents['northandcentralamerica'] = create_window(26, 86, 1, 39);
 	panel_continents['northandcentralamerica'] = new_panel(window_continents['northandcentralamerica']);
 	draw_map(window_continents['northandcentralamerica'], "northandcentralamerica");
 	mark_datacenters_map(window_continents['northandcentralamerica'], "northandcentralamerica");
 	#win_animation(panel_continents['northandcentralamerica'], termsize, 2, 2);
 
-	window_continents['southamerica'] = create_window(20, 27, 26, 85);
+	window_continents['southamerica'] = create_window(20, 27, 26, 86);
 	panel_continents['southamerica'] = new_panel(window_continents['southamerica']);
 	draw_map(window_continents['southamerica'], "southamerica");
 	mark_datacenters_map(window_continents['southamerica'], "southamerica");
 	#win_animation(panel_continents['southamerica'], termsize, 27, 49);
 
-	window_continents['europeandasia'] = create_window(26, 110, 3, 124);
+	window_continents['europeandasia'] = create_window(26, 109, 3, 125);
 	panel_continents['europeandasia'] = new_panel(window_continents['europeandasia']);
 	draw_map(window_continents['europeandasia'], "europeandasia");
 	mark_datacenters_map(window_continents['europeandasia'], "europeandasia");
 	#win_animation(panel_continents['europeandasia'], termsize, 4, 88);
 
-	window_continents['africa'] = create_window(20, 38, 19, 120);
+	window_continents['africa'] = create_window(20, 38, 19, 121);
 	panel_continents['africa'] = new_panel(window_continents['africa']);
 	draw_map(window_continents['africa'], "africa");
 	#win_animation(panel_continents['africa'], termsize, 20, 84);
 
-	window_continents['oceania'] = create_window(15, 48, 28, 179);
+	window_continents['oceania'] = create_window(15, 48, 28, 180);
 	panel_continents['oceania'] = new_panel(window_continents['oceania']);
 	draw_map(window_continents['oceania'], "oceania");
 	mark_datacenters_map(window_continents['oceania'], "oceania");
@@ -198,19 +198,24 @@ def main(): #{
 	panel_information['vm'] = new_panel(window_information['vm']);
 	#hide_panel(panel_information['vm']);
 	wmove(window_information['vm'], 0, 5); waddstr(window_information['vm'], " VM ", color_pair(3));
-	wmove(window_information['vm'], 2, 6); waddstr(window_information['vm'], "[ Virtual Machine ]", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 4, 2); waddstr(window_information['vm'], "Instance ID..: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 5, 2); waddstr(window_information['vm'], "Hostname.....: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 6, 2); waddstr(window_information['vm'], "Prov. State..: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 7, 2); waddstr(window_information['vm'], "Prov. Date...: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 8, 2); waddstr(window_information['vm'], "Prov. Time...: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 9, 2); waddstr(window_information['vm'], "Power State..: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 10, 2); waddstr(window_information['vm'], "Update Domain: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 11, 2); waddstr(window_information['vm'], "Fault Domain.: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 13, 10); waddstr(window_information['vm'], "[ VM AGENT ]", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 15, 2); waddstr(window_information['vm'], "Status..: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 16, 2); waddstr(window_information['vm'], "Version.: ", color_pair(4) + A_BOLD);
-	wmove(window_information['vm'], 17, 2); waddstr(window_information['vm'], "Status..: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 1, 5); waddstr(window_information['vm'], "-[ Virtual Machine ]-", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 2, 2); waddstr(window_information['vm'], "Instance ID..: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 3, 2); waddstr(window_information['vm'], "Hostname.....: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 4, 2); waddstr(window_information['vm'], "Prov. State..: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 5, 2); waddstr(window_information['vm'], "Prov. Date...: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 6, 2); waddstr(window_information['vm'], "Prov. Time...: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 7, 2); waddstr(window_information['vm'], "Power State..: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 8, 2); waddstr(window_information['vm'], "Update Domain: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 9, 2); waddstr(window_information['vm'], "Fault Domain.: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 10, 9); waddstr(window_information['vm'], "-[ Network ]-", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 11, 2); waddstr(window_information['vm'], "NIC.....: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 12, 2); waddstr(window_information['vm'], "MAC.....: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 13, 2); waddstr(window_information['vm'], "IP......: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 14, 2); waddstr(window_information['vm'], "Primary.: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 15, 9); waddstr(window_information['vm'], "-[ VM Agent ]-", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 16, 2); waddstr(window_information['vm'], "State...: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 17, 2); waddstr(window_information['vm'], "Version.: ", color_pair(4) + A_BOLD);
+	wmove(window_information['vm'], 18, 2); waddstr(window_information['vm'], "Status..: ", color_pair(4) + A_BOLD);
 
 	#Help Window...
 	window_information['help'] = create_window(12, 32, 21, 201);

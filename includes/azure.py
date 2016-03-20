@@ -49,12 +49,12 @@ capacity=999999
 #VM
 vm_selected = [999999, 999999];
 window_vm = []; instances_deployed = [];
-vm_details = "";
+vm_details = ""; vm_nic = "";
 
 
 #Exec command...
 def exec_cmd(access_token, cap, cmd):
-	global subscription_id, rgname, vmssname, vmsku, tier, vm_selected, window_vm, vm_details;
+	global subscription_id, rgname, vmssname, vmsku, tier, vm_selected, window_vm, vm_details, vm_nic;
 
 	#Return codes...
 	initerror = 2; syntaxerror = 3; capacityerror = 4;
@@ -85,7 +85,6 @@ def exec_cmd(access_token, cap, cmd):
 			try:
 				a = int(c) + 1;
 				qtd = int(c);
-			#except TypeError:
 			except:
 				return syntaxerror;
 		if (counter == 2 and op == "select"):
@@ -93,6 +92,7 @@ def exec_cmd(access_token, cap, cmd):
 			while (z < instances_deployed.__len__()):
 				if (instances_deployed[z] == int(c)):
 					ifound = 1;
+					break;
 				z += 1;
 			if (ifound):
 				vm = int(c);
@@ -123,14 +123,18 @@ def exec_cmd(access_token, cap, cmd):
 	elif (op == "select"):
 		vm_selected[1] = vm_selected[0];
 		vm_selected[0] = vm;
+		vm_details_old = vm_details; vm_nic_old = vm_nic;
 		vm_details = azurerm.get_vmss_vm_instance_view(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
-		if len(vm_details) > 0:
+		vm_nic = azurerm.get_vmss_vm_nics(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
+		if (len(vm_details) > 0 and len(vm_nic) > 0):
 		#	f = open('info.log', 'w')
 		#	if len(vm_details) > 0:
 		#		for p in vm_details.items():
 		#			f.write("%s:%s\n" % p)
 			return execsuccess;
 		else:
+			vm_details = vm_details_old;
+			vm_nic = vm_nic_old;
 			vm_selected[1] = 999998;
 			return execerror;
 	else:
@@ -148,7 +152,7 @@ def exec_cmd(access_token, cap, cmd):
 # thread to loop around monitoring the VM Scale Set state and its VMs
 # sleep between loops sets the update frequency
 def get_vmss_properties(access_token, run_event, window_information, panel_information, window_continents, panel_continents):
-	global vmssProperties, vmssVmProperties, countery, capacity, region, tier, vmsku, vm_selected, window_vm, instances_deployed, vm_details;
+	global vmssProperties, vmssVmProperties, countery, capacity, region, tier, vmsku, vm_selected, window_vm, instances_deployed, vm_details, vm_nic;
 
 	ROOM = 5; DEPLOYED = 0;
 
@@ -297,28 +301,32 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 					draw_vm(int(instanceId), window_vm[(counter - 1)], provisioningState, vmsel);
 					if (vm_selected[0] == int(instanceId) and vm_selected[0] != 999999 and vm_selected[1] != 999998):
 						if (vm_details != ""):
-							write_str(window_information['vm'], 4, 17, instanceId);
-							write_str(window_information['vm'], 5, 17, vmName);
+							write_str(window_information['vm'], 2, 17, instanceId);
+							write_str(window_information['vm'], 3, 17, vmName);
 							cor=7;
 							if (provisioningState == "Succeeded"): cor=6;
-							write_str_color(window_information['vm'], 6, 17, provisioningState, cor, 0);
+							write_str_color(window_information['vm'], 4, 17, provisioningState, cor, 0);
 							cdate = vm_details['statuses'][0]['time'];
 							vmdate = cdate.split("T")
 							vmtime = vmdate[1].split(".")
-							write_str(window_information['vm'], 7, 17, vmdate[0]);
-							write_str(window_information['vm'], 8, 17, vmtime[0]);
+							write_str(window_information['vm'], 5, 17, vmdate[0]);
+							write_str(window_information['vm'], 6, 17, vmtime[0]);
 							cor=7;
 							if (vm_details['statuses'][1]['displayStatus'] == "VM running"): cor=6;
-							write_str_color(window_information['vm'], 9, 17, vm_details['statuses'][1]['displayStatus'], cor, 0);
-							write_str(window_information['vm'], 10, 17, vm_details['platformUpdateDomain']);
-							write_str(window_information['vm'], 11, 17, vm_details['platformFaultDomain']);
+							write_str_color(window_information['vm'], 7, 17, vm_details['statuses'][1]['displayStatus'], cor, 0);
+							write_str(window_information['vm'], 8, 17, vm_details['platformUpdateDomain']);
+							write_str(window_information['vm'], 9, 17, vm_details['platformFaultDomain']);
+							write_str(window_information['vm'], 11, 12, vm_nic['value'][0]['name']);
+							write_str(window_information['vm'], 12, 12, vm_nic['value'][0]['properties']['macAddress']);
+							write_str(window_information['vm'], 13, 12, vm_nic['value'][0]['properties']['ipConfigurations'][0]['properties']['privateIPAddress']);
+							write_str(window_information['vm'], 14, 12, vm_nic['value'][0]['properties']['ipConfigurations'][0]['properties']['primary']);
 
 							if (vm_details['vmAgent']['statuses'][0]['message'] == "Guest Agent is running"): 
 								cor=6;
 								agentstatus = "Agent is running";
-							write_str_color(window_information['vm'], 15, 12, agentstatus, cor, 0);
-							write_str(window_information['vm'], 16, 12, vm_details['vmAgent']['vmAgentVersion']);
-							write_str(window_information['vm'], 17, 12, vm_details['vmAgent']['statuses'][0]['displayStatus']);
+							write_str_color(window_information['vm'], 16, 12, agentstatus, cor, 0);
+							write_str(window_information['vm'], 17, 12, vm_details['vmAgent']['vmAgentVersion']);
+							write_str(window_information['vm'], 18, 12, vm_details['vmAgent']['statuses'][0]['displayStatus']);
 
 				counter += 1;
 				do_update_bar(window_information['status'], step, 0);

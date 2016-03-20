@@ -165,12 +165,16 @@ def create_forms(window_info, window_sys, window_status, windowvm):
 	write_str_color(window_status, 0, 13, " STATUS ", 3, 1);
 
 	#Window VM...
-	a = 4;
-	while (a < 12):
+	a = 2;
+	while (a < 10):
 		wmove(windowvm, a, 17); wclrtoeol(windowvm);
 		a += 1;
-	a = 15;
-	while (a < 18):
+	a = 11;
+	while (a < 15):
+		wmove(windowvm, a, 12); wclrtoeol(windowvm);
+		a += 1;
+	a = 16;
+	while (a < 19):
 		wmove(windowvm, a, 12); wclrtoeol(windowvm);
 		a += 1;
 	box(windowvm);
