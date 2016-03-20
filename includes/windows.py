@@ -39,14 +39,14 @@ def draw_vm(vmc, window, ps, flag):
 		nr = vmc;
 
 	if (ps.upper() == "SUCCEEDED"):
-		wmove(window, 1, 1); waddstr(window, nr, color_pair(6) + A_BOLD);
+		write_str_color(window, 1, 1, nr, 6, 1);
 	elif (ps.upper() == "CREATING"):	
-		wmove(window, 1, 1); waddstr(window, nr, color_pair(7) + A_BOLD);
+		write_str_color(window, 1, 1, nr, 7, 1);
 	elif (ps.upper() == "DELETING"):	
-		wmove(window, 1, 1); waddstr(window, nr);
+		write_str(window, 1, 1, nr);
 	#Any other state we do not know about?
 	else:
-		wmove(window, 1, 1); waddstr(window, nr, color_pair(1) + A_BOLD);
+		write_str_color(window, 1, 1, nr, 1, 1);
 
 	#Mark VM Selected by the user...
 	if (flag):
@@ -63,7 +63,7 @@ def do_update_bar(window, sp, flag):
         if (flag != 1): total = curstep;
 
         while (a < total):
-                wmove(window, 1, a); waddstr(window, " ", color_pair(5) + A_BOLD);
+                write_str_color(window, 1, a, " ", 5, 1);
                 a += 1;
         wrefresh(window);
         time.sleep(.2);
@@ -118,8 +118,14 @@ def draw_prompt_corners(window):
 def draw_line(window, a, b, c, char):
 	wmove(window, a, b); whline(window, char, c);
 
-def draw_line_color(window, a, b, char, cor):
-	wmove(window, a, b); waddstr(window, char, color_pair(cor) + A_BOLD);
+def write_str(window, a, b, char):
+	wmove(window, a, b); waddstr(window, char);
+
+def write_str_color(window, a, b, char, cor, flag):
+	if (flag):
+		wmove(window, a, b); waddstr(window, char, color_pair(cor) + A_BOLD);
+	else:
+		wmove(window, a, b); waddstr(window, char, color_pair(cor));
 
 def draw_gauge(window, used, limit):
 	if (used > 0):
@@ -129,14 +135,14 @@ def draw_gauge(window, used, limit):
 		b = 0;
 
 	if ( b < 30):
-		draw_line_color(window, 3, 1, "    ", 5);
+		write_str_color(window, 3, 1, "    ", 5, 1);
 	elif (b < 60):
-		draw_line_color(window, 3, 1, "    ", 2);
-		draw_line_color(window, 2, 1, "    ", 2);
+		write_str_color(window, 3, 1, "    ", 2, 1);
+		write_str_color(window, 2, 1, "    ", 2, 1);
 	else:
-		draw_line_color(window, 3, 1, "    ", 9);
-		draw_line_color(window, 2, 1, "    ", 9);
-		draw_line_color(window, 1, 1, "    ", 9);
+		write_str_color(window, 3, 1, "    ", 9, 1);
+		write_str_color(window, 2, 1, "    ", 9, 1);
+		write_str_color(window, 1, 1, "    ", 9, 1);
 
 def get_continent_dc(dc):
 	if (dc == "brazilsouth"):
@@ -156,7 +162,7 @@ def create_forms(window_info, window_sys, window_status, windowvm):
 	#Let's handle the status wwindow here...
 	wmove(window_status, 1, 22); wclrtoeol(window_status);
 	box(window_status);
-	wmove(window_status, 0, 13); waddstr(window_status, " STATUS ", color_pair(3));
+	write_str_color(window_status, 0, 13, " STATUS ", 3, 1);
 
 	#Window VM...
 	a = 4;
@@ -168,7 +174,7 @@ def create_forms(window_info, window_sys, window_status, windowvm):
 		wmove(windowvm, a, 12); wclrtoeol(windowvm);
 		a += 1;
 	box(windowvm);
-	wmove(windowvm, 0, 5); waddstr(windowvm, " VM ", color_pair(3));
+	write_str_color(windowvm, 0, 5, " VM ", 3, 1);
 
 	#Info and Sys Windows...
 	a = 2;
@@ -182,19 +188,19 @@ def create_forms(window_info, window_sys, window_status, windowvm):
 	box(window_info); box(window_sys);
 
 	#Create Info form...
-	wmove(window_info, 0, 5); waddstr(window_info, " GENERAL INFO ", color_pair(3));
-	wmove(window_info, 2, 2); waddstr(window_info, "RG Name...: ", color_pair(4) + A_BOLD);
-	wmove(window_info, 2, 37); waddstr(window_info, "VMSS Name: ", color_pair(4) + A_BOLD);
-	wmove(window_info, 2, 68); waddstr(window_info, "Tier..: ", color_pair(4) + A_BOLD);
-	wmove(window_info, 3, 2); waddstr(window_info, "IP Address: ", color_pair(4) + A_BOLD);
-	wmove(window_info, 3, 29); waddstr(window_info, "Region: ", color_pair(4) + A_BOLD);
-	wmove(window_info, 3, 68); waddstr(window_info, "SKU...: ", color_pair(4) + A_BOLD);
-	wmove(window_info, 4, 68); waddstr(window_info, "Capacity.: ", color_pair(4) + A_BOLD);
-	wmove(window_info, 4, 2); waddstr(window_info, "DNS Name..: ", color_pair(4) + A_BOLD);
+	write_str_color(window_info, 0, 5, " GENERAL INFO ", 3, 1);
+	write_str_color(window_info, 2, 2, "RG Name...: ", 4, 1);
+	write_str_color(window_info, 2, 37, "VMSS Name: ", 4 , 1);
+	write_str_color(window_info, 2, 68, "Tier..: ", 4 , 1);
+	write_str_color(window_info, 3, 2, "IP Address: ", 4 , 1);
+	write_str_color(window_info, 3, 29, "Region: ", 4 , 1);
+	write_str_color(window_info, 3, 68, "SKU...: ", 4 , 1);
+	write_str_color(window_info, 4, 68, "Capacity.: ", 4 , 1);
+	write_str_color(window_info, 4, 2, "DNS Name..: ", 4 , 1);
 
 	#Create Sys form...
-	wmove(window_sys, 0, 5); waddstr(window_sys, " SYSTEM INFO ", color_pair(3));
-	wmove(window_sys, 1, 2); waddstr(window_sys, "Operating System..: ", color_pair(4) + A_BOLD);
-	wmove(window_sys, 2, 2); waddstr(window_sys, "Version...........: ", color_pair(4) + A_BOLD);
-	wmove(window_sys, 3, 2); waddstr(window_sys, "Total VMs.........: ", color_pair(4) + A_BOLD);
-	wmove(window_sys, 4, 2); waddstr(window_sys, "Provisioning State: ", color_pair(4) + A_BOLD);
+	write_str_color(window_sys, 0, 5, " SYSTEM INFO ", 3, 1);
+	write_str_color(window_sys, 1, 2, "Operating System..: ", 4 , 1);
+	write_str_color(window_sys, 2, 2, "Version...........: ", 4 , 1);
+	write_str_color(window_sys, 3, 2, "Total VMs.........: ", 4 , 1);
+	write_str_color(window_sys, 4, 2, "Provisioning State: ", 4 , 1);

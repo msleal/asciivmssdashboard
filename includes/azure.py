@@ -163,7 +163,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 	while run_event.is_set():
 		try:
 			ourtime = time.strftime("%H:%M:%S");
-			wmove(window_information['status'], 1, 13); waddstr(window_information['status'], ourtime);
+			write_str(window_information['status'], 1, 13, ourtime);
 
 			#Create Forms...
 			create_forms(window_information['vmss_info'], window_information['system'], window_information['status'], window_information['vm']);
@@ -205,31 +205,31 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 
 			#Quota...
 			quota = azurerm.get_compute_usage(access_token, subscription_id, location);
-			wmove(window_information['usage'], 2, 23); waddstr(window_information['usage'], quota['value'][0]['currentValue']);
-			wmove(window_information['usage'], 2, 29); waddstr(window_information['usage'], quota['value'][0]['limit'], color_pair(7));
+			write_str(window_information['usage'], 2, 23, quota['value'][0]['currentValue']);
+			write_str_color(window_information['usage'], 2, 29, quota['value'][0]['limit'], 7, 0);
 			draw_gauge(window_information['gaugeas'], quota['value'][0]['currentValue'], quota['value'][0]['limit']);
 
-			wmove(window_information['usage'], 3, 23); waddstr(window_information['usage'], quota['value'][1]['currentValue']);
-			wmove(window_information['usage'], 3, 29); waddstr(window_information['usage'], quota['value'][1]['limit'], color_pair(7));
+			write_str(window_information['usage'], 3, 23, quota['value'][1]['currentValue']);
+			write_str_color(window_information['usage'], 3, 29, quota['value'][1]['limit'], 7, 0);
 			draw_gauge(window_information['gaugerc'], quota['value'][1]['currentValue'], quota['value'][1]['limit']);
 
-			wmove(window_information['usage'], 4, 23); waddstr(window_information['usage'], quota['value'][2]['currentValue']);
-			wmove(window_information['usage'], 4, 29); waddstr(window_information['usage'], quota['value'][2]['limit'], color_pair(7));
+			write_str(window_information['usage'], 4, 23, quota['value'][2]['currentValue']);
+			write_str_color(window_information['usage'], 4, 29, quota['value'][2]['limit'], 7, 0);
 			draw_gauge(window_information['gaugevm'], quota['value'][2]['currentValue'], quota['value'][2]['limit']);
 
-			wmove(window_information['usage'], 5, 23); waddstr(window_information['usage'], quota['value'][3]['currentValue']);
-			wmove(window_information['usage'], 5, 29); waddstr(window_information['usage'], quota['value'][3]['limit'], color_pair(7));
+			write_str(window_information['usage'], 5, 23, quota['value'][3]['currentValue']);
+			write_str_color(window_information['usage'], 5, 29, quota['value'][3]['limit'], 7, 0);
 			draw_gauge(window_information['gaugess'], quota['value'][3]['currentValue'], quota['value'][3]['limit']);
 
 			#Add General info...
-			wmove(window_information['vmss_info'], 2, 14); waddstr(window_information['vmss_info'], rgname.upper());
-			wmove(window_information['vmss_info'], 2, 48); waddstr(window_information['vmss_info'], vmssname.upper());
-			wmove(window_information['vmss_info'], 2, 76); waddstr(window_information['vmss_info'], tier.upper());
-			wmove(window_information['vmss_info'], 3, 14); waddstr(window_information['vmss_info'], ipaddr);
-			wmove(window_information['vmss_info'], 3, 37); waddstr(window_information['vmss_info'], location.upper());
-			wmove(window_information['vmss_info'], 3, 76); waddstr(window_information['vmss_info'], vmsku);
-			wmove(window_information['vmss_info'], 4, 14); waddstr(window_information['vmss_info'], dns);
-			wmove(window_information['vmss_info'], 4, 79); waddstr(window_information['vmss_info'], capacity);
+			write_str(window_information['vmss_info'], 2, 14, rgname.upper());
+			write_str(window_information['vmss_info'], 2, 48, vmssname.upper());
+			write_str(window_information['vmss_info'], 2, 76, tier.upper());
+			write_str(window_information['vmss_info'], 3, 14, ipaddr);
+			write_str(window_information['vmss_info'], 3, 37, location.upper());
+			write_str(window_information['vmss_info'], 3, 76, vmsku);
+			write_str(window_information['vmss_info'], 4, 14, dns);
+			write_str(window_information['vmss_info'], 4, 79, capacity);
 
 			vmssProperties = [name, capacity, location, rgname, offer, sku, provisioningState, dns, ipaddr];
 			vmssvms = azurerm.list_vmss_vms(access_token, subscription_id, rgname, vmssname);
@@ -250,13 +250,13 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 				ts = 0.0005;
 
 			#Fill Sys info...
-			wmove(window_information['system'], 1, 22); waddstr(window_information['system'], offer);
-			wmove(window_information['system'], 2, 22); waddstr(window_information['system'], sku);
-			wmove(window_information['system'], 3, 22); waddstr(window_information['system'], qtd);
+			write_str(window_information['system'], 1, 22, offer);
+			write_str(window_information['system'], 2, 22, sku);
+			write_str(window_information['system'], 3, 22, qtd);
 
 			cor=6;
 			if (provisioningState == "Updating"): cor=7;
-			wmove(window_information['system'], 4, 22); waddstr(window_information['system'], provisioningState, color_pair(cor));
+			write_str_color(window_information['system'], 4, 22, provisioningState, cor, 0);
 
 			counter = 1;
 			#Loop each VM...
@@ -297,28 +297,28 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 					draw_vm(int(instanceId), window_vm[(counter - 1)], provisioningState, vmsel);
 					if (vm_selected[0] == int(instanceId) and vm_selected[0] != 999999 and vm_selected[1] != 999998):
 						if (vm_details != ""):
-							wmove(window_information['vm'], 4, 17); waddstr(window_information['vm'], instanceId);
-							wmove(window_information['vm'], 5, 17); waddstr(window_information['vm'], vmName);
+							write_str(window_information['vm'], 4, 17, instanceId);
+							write_str(window_information['vm'], 5, 17, vmName);
 							cor=7;
 							if (provisioningState == "Succeeded"): cor=6;
-							wmove(window_information['vm'], 6, 17); waddstr(window_information['vm'], provisioningState, color_pair(cor));
+							write_str_color(window_information['vm'], 6, 17, provisioningState, cor, 0);
 							cdate = vm_details['statuses'][0]['time'];
 							vmdate = cdate.split("T")
 							vmtime = vmdate[1].split(".")
-							wmove(window_information['vm'], 7, 17); waddstr(window_information['vm'], vmdate[0]);
-							wmove(window_information['vm'], 8, 17); waddstr(window_information['vm'], vmtime[0]);
+							write_str(window_information['vm'], 7, 17, vmdate[0]);
+							write_str(window_information['vm'], 8, 17, vmtime[0]);
 							cor=7;
 							if (vm_details['statuses'][1]['displayStatus'] == "VM running"): cor=6;
-							wmove(window_information['vm'], 9, 17); waddstr(window_information['vm'], vm_details['statuses'][1]['displayStatus'], color_pair(cor));
-							wmove(window_information['vm'], 10, 17); waddstr(window_information['vm'], vm_details['platformUpdateDomain']);
-							wmove(window_information['vm'], 11, 17); waddstr(window_information['vm'], vm_details['platformFaultDomain']);
+							write_str_color(window_information['vm'], 9, 17, vm_details['statuses'][1]['displayStatus'], cor, 0);
+							write_str(window_information['vm'], 10, 17, vm_details['platformUpdateDomain']);
+							write_str(window_information['vm'], 11, 17, vm_details['platformFaultDomain']);
 
 							if (vm_details['vmAgent']['statuses'][0]['message'] == "Guest Agent is running"): 
 								cor=6;
 								agentstatus = "Agent is running";
-							wmove(window_information['vm'], 15, 12); waddstr(window_information['vm'], agentstatus, color_pair(cor));
-							wmove(window_information['vm'], 16, 12); waddstr(window_information['vm'], vm_details['vmAgent']['vmAgentVersion']);
-							wmove(window_information['vm'], 17, 12); waddstr(window_information['vm'], vm_details['vmAgent']['statuses'][0]['displayStatus']);
+							write_str_color(window_information['vm'], 15, 12, agentstatus, cor, 0);
+							write_str(window_information['vm'], 16, 12, vm_details['vmAgent']['vmAgentVersion']);
+							write_str(window_information['vm'], 17, 12, vm_details['vmAgent']['statuses'][0]['displayStatus']);
 
 				counter += 1;
 				do_update_bar(window_information['status'], step, 0);
@@ -346,8 +346,8 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			# sleep before before each loop to avoid throttling...
 			ourtime = time.strftime("%H:%M:%S");
 			do_update_bar(window_information['status'], step, 1);
-			wmove(window_information['status'], 1, 13); waddstr(window_information['status'], ourtime);
-			wmove(window_information['status'], 1, 22); waddstr(window_information['status'], "     OK     ", color_pair(6));
+			write_str(window_information['status'], 1, 13, ourtime);
+			write_str_color(window_information['status'], 1, 22, "     OK     ", 6, 0);
 			update_panels();
 			doupdate();
 			time.sleep(interval);
@@ -376,7 +376,7 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 			wmove(window_information['cmd'], 1, 5); wclrtoeol(window_information['cmd']);
 			box(window_information['cmd']);
 			draw_prompt_corners(window_information['cmd']);
-			wmove(window_information['cmd'], 0, 5); waddstr(window_information['cmd'], " PROMPT ", color_pair(3));
+			write_str_color(window_information['cmd'], 0, 5, " PROMPT ", 3, 0);
 			
 
 			#Home...
@@ -444,7 +444,7 @@ def vmss_monitor_thread(window_information, panel_information, window_continents
 		box(window_exit);
 		panel_exit = new_panel(window_exit);
 		top_panel(panel_exit);
-		wmove(window_exit, 3, 5); waddstr(window_exit, "Waiting for Console Update threads to close...", color_pair(4) + A_BOLD);
+		write_str_color(window_exit, 3, 5, "Waiting for Console Update threads to close...", 4, 1);
 		update_panels();
 		doupdate();
 		run_event.clear()
@@ -452,6 +452,6 @@ def vmss_monitor_thread(window_information, panel_information, window_continents
 		cmd_thread.join()
 		wmove(window_exit, 3, 5); wclrtoeol(window_exit);
 		box(window_exit);
-		wmove(window_exit, 3, 6); waddstr(window_exit, "Console Update threads successfully closed.", color_pair(4) + A_BOLD);
+		write_str_color(window_exit, 3, 6, "Console Update threads successfully closed.", 4, 1);
 		update_panels();
 		doupdate();
