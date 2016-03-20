@@ -289,8 +289,8 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 					doupdate();
 				else:
 					#Remove the old mark...
-					if (vm_selected[1] == int(instanceId) and vm_selected[1] != 999999 and vm_selected[1] != vm_selected[0]):
-						box(window_vm[vm_selected[1]]);
+					if (vm_selected[1] == int(instanceId) and vm_selected[1] != vm_selected[0]):
+						box(window_vm[int(counter - 1)]);
 					if (vm_selected[0] == int(instanceId) and vm_selected[1] != 999998 and vm_selected[0] != vm_selected[1]):
 						vmsel = 1;
 						#show_panel(panel_information['vm']);
@@ -299,8 +299,8 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 						#hide_panel(panel_information['vm']);
 						vm_selected = [999999, 999999];
 					draw_vm(int(instanceId), window_vm[(counter - 1)], provisioningState, vmsel);
-					if (vm_selected[0] == int(instanceId) and vm_selected[0] != 999999 and vm_selected[1] != 999998):
-						if (vm_details != ""):
+					if (vm_selected[0] == int(instanceId) and vm_selected[1] != 999998):
+						if (vm_details != "" and vm_nic != ""):
 							write_str(window_information['vm'], 2, 17, instanceId);
 							write_str(window_information['vm'], 3, 17, vmName);
 							cor=7;
@@ -385,7 +385,6 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 			box(window_information['cmd']);
 			draw_prompt_corners(window_information['cmd']);
 			write_str_color(window_information['cmd'], 0, 5, " PROMPT ", 3, 0);
-			
 
 			#Home...
 			ourhome = platform.system();
@@ -419,7 +418,7 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 				if (cmd_status == 2): cor = 4;
 				if (cmd_status == 3): cor = 7;
 				if (cmd_status == 4): cor = 3;
-			wmove(window_information['cmd'], 1, 125); waddstr(window_information['cmd'], "E", color_pair(cor) + A_BOLD);
+			write_str_color(window_information['cmd'], 1, 125, "E", cor, 1);
 			update_panels();
 			doupdate();
 
