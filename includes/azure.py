@@ -281,9 +281,8 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 					vm_animation(panel_vm[DEPLOYED], init_coords, destx, desty, 1, ts);
 					desty += ROOM;
 					DEPLOYED += 1;
-					update_panels();
-					doupdate();
 				else:
+					instances_deployed[counter - 1] = int(instanceId);
 					#Remove the old mark...
 					if (vm_selected[1] == int(instanceId) and vm_selected[1] != vm_selected[0]):
 						box(window_vm[int(counter - 1)]);
@@ -322,7 +321,8 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 							write_str(window_information['vm'], 16, 12, vm_details['vmAgent']['vmAgentVersion']);
 							write_str(window_information['vm'], 17, 12, vm_details['vmAgent']['statuses'][0]['displayStatus']);
 							write_str_color(window_information['vm'], 18, 12, agentstatus, cor, 0);
-
+				update_panels();
+				doupdate();
 				counter += 1;
 				do_update_bar(window_information['status'], step, 0);
 				step += step;
