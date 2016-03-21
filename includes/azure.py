@@ -51,6 +51,7 @@ vm_selected = [999999, 999999];
 window_vm = []; instances_deployed = [];
 vm_details = ""; vm_nic = "";
 
+quit = 0;
 
 #Exec command...
 def exec_cmd(access_token, cap, cmd):
@@ -365,7 +366,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			break
 
 def get_cmd(access_token, run_event, window_information, panel_information):
-	global key, rgname, vmssname, vm_selected;
+	global key, rgname, vmssname, vm_selected, quit;
 	
 	win_help = 0;
 	lock = threading.Lock()
@@ -401,6 +402,8 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 				else:
 					show_panel(panel_information['help']);
 					win_help = 1;
+			elif (command == "quit"):
+				quit = 1;
 			elif (command == "deselect"):
 				vm_selected[1] = 999998;
 				hide_panel(panel_information['vm']);
@@ -437,8 +440,10 @@ def vmss_monitor_thread(window_information, panel_information, window_continents
 	cmd_thread.start()
 
 	try:
-        	while 1:
-            		time.sleep(.1)
+		while (quit == 0):
+			time.sleep(.1);
+		if (quit == 1):
+			raise KeyboardInterrupt
 	except KeyboardInterrupt:
 		window_exit = create_window(8, 57, 22, 86);
 		box(window_exit);
