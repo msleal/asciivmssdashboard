@@ -109,11 +109,16 @@ def vm_animation(panel, nasp, xfinal, yfinal, flag, ts):
 		time.sleep(ts);
 
 def draw_prompt_corners(window):
+	box(window);
 	draw_line(window, 0, 122, 1, ACS_URCORNER);
 	draw_line(window, 0, 123, 1, ACS_ULCORNER);
 	draw_line(window, 1, 122, 2, ACS_VLINE);
 	draw_line(window, 2, 122, 1, ACS_LRCORNER);
 	draw_line(window, 2, 123, 1, ACS_LLCORNER);
+	write_str_color(window, 0, 5, " PROMPT ", 3, 1);
+	draw_line(window, 1, 122, 2, ACS_VLINE);
+	draw_line(window, 1, 127, 1, ACS_VLINE);
+	wrefresh(window);
 
 def draw_line(window, a, b, c, char):
 	wmove(window, a, b); whline(window, char, c);
@@ -162,7 +167,7 @@ def create_forms(window_info, window_sys, window_status, windowvm):
 	#Let's handle the status wwindow here...
 	wmove(window_status, 1, 22); wclrtoeol(window_status);
 	box(window_status);
-	write_str_color(window_status, 0, 13, " STATUS ", 3, 1);
+	write_str_color(window_status, 0, 5, " STATUS ", 3, 1);
 
 	#Window VM...
 	a = 2;

@@ -127,10 +127,6 @@ def exec_cmd(access_token, cap, cmd):
 		vm_details = azurerm.get_vmss_vm_instance_view(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
 		vm_nic = azurerm.get_vmss_vm_nics(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
 		if (len(vm_details) > 0 and len(vm_nic) > 0):
-		#	f = open('info.log', 'w')
-		#	if len(vm_details) > 0:
-		#		for p in vm_details.items():
-		#			f.write("%s:%s\n" % p)
 			return execsuccess;
 		else:
 			vm_details = vm_details_old;
@@ -293,10 +289,9 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 						box(window_vm[int(counter - 1)]);
 					if (vm_selected[0] == int(instanceId) and vm_selected[1] != 999998 and vm_selected[0] != vm_selected[1]):
 						vmsel = 1;
-						#show_panel(panel_information['vm']);
+						show_panel(panel_information['vm']);
 					if (vm_selected[0] == int(instanceId) and vm_selected[1] == 999998):
 						vmsel = 0;
-						#hide_panel(panel_information['vm']);
 						vm_selected = [999999, 999999];
 					draw_vm(int(instanceId), window_vm[(counter - 1)], provisioningState, vmsel);
 					if (vm_selected[0] == int(instanceId) and vm_selected[1] != 999998):
@@ -324,9 +319,9 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 							if (vm_details['vmAgent']['statuses'][0]['message'] == "Guest Agent is running"): 
 								cor=6;
 								agentstatus = "Agent is running";
-							write_str_color(window_information['vm'], 16, 12, agentstatus, cor, 0);
-							write_str(window_information['vm'], 17, 12, vm_details['vmAgent']['vmAgentVersion']);
-							write_str(window_information['vm'], 18, 12, vm_details['vmAgent']['statuses'][0]['displayStatus']);
+							write_str(window_information['vm'], 16, 12, vm_details['vmAgent']['vmAgentVersion']);
+							write_str(window_information['vm'], 17, 12, vm_details['vmAgent']['statuses'][0]['displayStatus']);
+							write_str_color(window_information['vm'], 18, 12, agentstatus, cor, 0);
 
 				counter += 1;
 				do_update_bar(window_information['status'], step, 0);
@@ -382,9 +377,7 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 			echo();
 			#Clear the old command from our prompt line...
 			wmove(window_information['cmd'], 1, 5); wclrtoeol(window_information['cmd']);
-			box(window_information['cmd']);
 			draw_prompt_corners(window_information['cmd']);
-			write_str_color(window_information['cmd'], 0, 5, " PROMPT ", 3, 0);
 
 			#Home...
 			ourhome = platform.system();
@@ -399,8 +392,6 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 			curs_set(False);
 			noecho();
 			draw_prompt_corners(window_information['cmd']);
-			draw_line(window_information['cmd'], 1, 122, 2, ACS_VLINE);
-			draw_line(window_information['cmd'], 1, 127, 1, ACS_VLINE);
 
 			cor=6;
 			if (command == "help"):
@@ -412,6 +403,7 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 					win_help = 1;
 			elif (command == "deselect"):
 				vm_selected[1] = 999998;
+				hide_panel(panel_information['vm']);
 			else:
 				cmd_status = exec_cmd(access_token, capacity, command);
 				if (cmd_status == 1): cor = 8;
@@ -448,7 +440,7 @@ def vmss_monitor_thread(window_information, panel_information, window_continents
         	while 1:
             		time.sleep(.1)
 	except KeyboardInterrupt:
-		window_exit = create_window(8, 56, 22, 87);
+		window_exit = create_window(8, 57, 22, 86);
 		box(window_exit);
 		panel_exit = new_panel(window_exit);
 		top_panel(panel_exit);
