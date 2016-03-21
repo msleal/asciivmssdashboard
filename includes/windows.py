@@ -115,7 +115,7 @@ def draw_prompt_corners(window):
 	draw_line(window, 1, 122, 2, ACS_VLINE);
 	draw_line(window, 2, 122, 1, ACS_LRCORNER);
 	draw_line(window, 2, 123, 1, ACS_LLCORNER);
-	write_str_color(window, 0, 5, " PROMPT ", 3, 1);
+	write_str_color(window, 0, 5, " PROMPT ", 3, 0);
 	draw_line(window, 1, 122, 2, ACS_VLINE);
 	draw_line(window, 1, 127, 1, ACS_VLINE);
 	wrefresh(window);
@@ -167,7 +167,7 @@ def create_forms(window_info, window_sys, window_status, windowvm):
 	#Let's handle the status wwindow here...
 	wmove(window_status, 1, 22); wclrtoeol(window_status);
 	box(window_status);
-	write_str_color(window_status, 0, 5, " STATUS ", 3, 1);
+	write_str_color(window_status, 0, 5, " STATUS ", 3, 0);
 
 	#Window VM...
 	a = 2;
@@ -183,7 +183,7 @@ def create_forms(window_info, window_sys, window_status, windowvm):
 		wmove(windowvm, a, 12); wclrtoeol(windowvm);
 		a += 1;
 	box(windowvm);
-	write_str_color(windowvm, 0, 5, " VM ", 3, 1);
+	write_str_color(windowvm, 0, 5, " VM ", 3, 0);
 
 	#Info and Sys Windows...
 	a = 2;
@@ -197,7 +197,7 @@ def create_forms(window_info, window_sys, window_status, windowvm):
 	box(window_info); box(window_sys);
 
 	#Create Info form...
-	write_str_color(window_info, 0, 5, " GENERAL INFO ", 3, 1);
+	write_str_color(window_info, 0, 5, " GENERAL INFO ", 3, 0);
 	write_str_color(window_info, 2, 2, "RG Name...: ", 4, 1);
 	write_str_color(window_info, 2, 37, "VMSS Name: ", 4 , 1);
 	write_str_color(window_info, 2, 68, "Tier..: ", 4 , 1);
@@ -208,7 +208,7 @@ def create_forms(window_info, window_sys, window_status, windowvm):
 	write_str_color(window_info, 4, 2, "DNS Name..: ", 4 , 1);
 
 	#Create Sys form...
-	write_str_color(window_sys, 0, 5, " SYSTEM INFO ", 3, 1);
+	write_str_color(window_sys, 0, 5, " SYSTEM INFO ", 3, 0);
 	write_str_color(window_sys, 1, 2, "Operating System..: ", 4 , 1);
 	write_str_color(window_sys, 2, 2, "Version...........: ", 4 , 1);
 	write_str_color(window_sys, 3, 2, "Total VMs.........: ", 4 , 1);

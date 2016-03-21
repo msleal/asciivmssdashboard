@@ -198,8 +198,8 @@ def main(): #{
 	box(window_information['vm']);
 	panel_information['vm'] = new_panel(window_information['vm']);
 	hide_panel(panel_information['vm']);
-	write_str_color(window_information['vm'], 0, 5, " VM ", 3, 1);
-	write_str_color(window_information['vm'], 1, 10, "    INSTANCE VIEW    ", 3, 1);
+	write_str_color(window_information['vm'], 0, 5, " VM ", 3, 0);
+	write_str_color(window_information['vm'], 1, 10, "    INSTANCE VIEW    ", 3, 0);
 	write_str_color(window_information['vm'], 2, 2, "Instance ID..: ", 4, 1);
 	write_str_color(window_information['vm'], 3, 2, "Hostname.....: ", 4, 1);
 	write_str_color(window_information['vm'], 4, 2, "Prov. State..: ", 4, 1);
@@ -208,12 +208,12 @@ def main(): #{
 	write_str_color(window_information['vm'], 7, 2, "Power State..: ", 4, 1);
 	write_str_color(window_information['vm'], 8, 2, "Update Domain: ", 4, 1);
 	write_str_color(window_information['vm'], 9, 2, "Fault Domain.: ", 4, 1);
-	write_str_color(window_information['vm'], 10, 10, "    NETWORK          ", 3, 1);
+	write_str_color(window_information['vm'], 10, 10, "    NETWORK          ", 3, 0);
 	write_str_color(window_information['vm'], 11, 2, "NIC.....: ", 4, 1);
 	write_str_color(window_information['vm'], 12, 2, "MAC.....: ", 4, 1);
 	write_str_color(window_information['vm'], 13, 2, "IP......: ", 4, 1);
 	write_str_color(window_information['vm'], 14, 2, "Primary.: ", 4, 1);
-	write_str_color(window_information['vm'], 15, 10, "    VM Guest Agent   ", 3, 1);
+	write_str_color(window_information['vm'], 15, 10, "    VM Guest Agent   ", 3, 0);
 	write_str_color(window_information['vm'], 16, 2, "Version.: ", 4, 1);
 	write_str_color(window_information['vm'], 17, 2, "Status..: ", 4, 1);
 	write_str_color(window_information['vm'], 18, 2, "State...: ", 4, 1);
