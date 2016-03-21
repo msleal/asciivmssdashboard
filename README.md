@@ -1,7 +1,7 @@
 # ASCii VMSS Dashboard
 Dashboard to show and configure Azure VM Scale Set status and properties
 
-![Image of ASCii VMSS Dashboard](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciivmssdashboard-img.PNG)
+![Image of ASCii VMSS Dashboard](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-2.png)
 
 
 ## Installation
