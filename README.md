@@ -19,8 +19,8 @@ In the Windows Platform you can just use the command: 'quit' for now (See "CAVEA
 ## WATCH THE CONSOLE IN ACTION:
 Subtitle/Captions should be enabled by default, but if not, enable them to follow the action (English and Portuguese BR available).
 
-[ASCiiVMSSDashboard Screencast](https://www.youtube.com/watch?v=MomiZ9rU9NU)
-Don't forge to subscribe to the channel for updates...
+[ASCiiVMSSDashboard (v1.0) - Screencast](https://www.youtube.com/watch?v=MomiZ9rU9NU)
+Don't forget to subscribe to the channel for updates...
 
 Enjoy some code and loud music!
 
@@ -29,38 +29,37 @@ To not create the .pyc files, I use the following (on Linux): export PYTHONDONTW
 
 ###TIP #2:
 I have used the console with no issues using a refresh interval of 60 seconds. If you use a more 'agressive'
-update interval, keep one eye at the last-update-hour registered at the top-left of the window, to see if the console 
+update interval, keep one eye at the last-update registered at the top-left of the dashboard window, to see if the console 
 is stil running.  If you notice it stopped, it should have generated an 'error.log' in the current directory. 
-Look into it, as it should have the information about AZURE API 'throttling", and so you will need to exit the console
-and start it again (with a bigger inteval)...
+Look into it, if it has information about AZURE API 'throttling", you will need to restart it (with a bigger inteval)...
  
 ###TIP #3:
 As we wait for the threads to finish as you hit 'Ctrl+C' or 'quit' (to exit), the time you will wait to get your prompt
-back will be proportional to you refresh interval (e.g.: max=<INTERVAL>). You can change the update interval in the 
+back will be proportional to you refresh interval (e.g.: max='INTERVAL'). You can change the update interval in the 
 'vmssconfig.json' file.
 
 ## ASCiiVMSSDashboard Commands
   To issue commands for the Azure Resource Manager API to add and/or delete virtual machines from the Scale Set,
 you just need to type ':'. After that, the cursor will appear at (PROMPT window), and you will be able to enter commands.
-To see a help window just type ':' (to activate the command PROMPT window), and 'help' again to hide it.
+To see a help window just type ':' (to activate the command PROMPT), and 'help' again to hide it.
 
-TO ACTIVATE THE PROMPT WINDOW, TYPE: ':'
+REMEMBER: To activate the prompt window, type: ':'
 
 Commands (v1.2):
-- add vm <nr>: Use this command to add virtual machines to your VMSS deployment.
-- del vm <nr>: Use this command to delete virtual machines to your VMSS deployment.
-- select vm <nr>: Use this command to select a specific virtual machine on your VMSS deployment, and detailed info.
-- deselect: Use this command to clear the selection of any specific virtual machine.
-- rg <resourcegroupname> vmss <vm scale set name>: Use this command to switch the visualization to another VM Scale Set.
+- add vm 'nr': Use this command to add virtual machines to your VMSS deployment.
+- del vm 'nr': Use this command to delete virtual machines to your VMSS deployment.
+- select vm 'nr': Use this command to select a specific virtual machine on your VMSS deployment and see detailed info.
+- deselect: Use this command to clear the selection of any specific virtual machine (and hide the VM details window).
+- rg 'resourcegroupname' vmss 'vmscalesetname': Use this command to switch the visualization to another VM Scale Set.
 - quit: Use this command to exit the console (Any platform).
-- Ctrl+c: Use this key combination to end the ASCiiVMSSDashboard (Not working on windows for now).
+- Ctrl+c: Use this key combination to exit the ASCiiVMSSDashboard (Not working on windows for now).
 - help: Use this command to get help about the dashboard commands (inside the ASCiiVMSSDashboard).
 
 ## CAVEATS
 - The 'stdscr.nodelay(1)' seems not to be multiplatform (at least does not work on Windows), and we are using it 
 as a non-block function when reading user commands. For now, you can use the command 'quit' to end the dashboard on Windows. 
-I'm looking for an alternative non-block call to use on windows and fix this. It would be nice to have any feedback of this program 
-running on MacOS. 
+I'm looking for an alternative non-block call to use on windows and fix this.
+- It would be nice to have any feedback of this program running on MacOS or any other platform... 
 
 ##PDCURSES
 - If you have problems installing pdcurses on windows (not able to load uniCurses: import error), you can just add the DLL directly
@@ -72,7 +71,7 @@ still needs to have the UniCurses installed, but you have the Windows Installer 
 To use this app (and in general to access Azure Resource Manager from a program without going through 2 factor authentication), 
 you need to register your application with Azure and create a "Service Principal" (an application equivalent of a user). 
 Once you've done this you'll have 3 pieces of information: A 'tenant ID', an 'application ID', and an 'application secret'.
-You will use these to populate the vmssconfig.json file. 
+You will use these to populate the 'vmssconfig.json' file. 
 
 For more information on how to get this information go here: [Authenticating a service principal with Azure Resource Manager][service-principle].
 See also: [Azure Resource Manager REST calls from Python][python-auth].
