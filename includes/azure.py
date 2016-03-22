@@ -370,7 +370,7 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 	
 	win_help = 0;
 	lock = threading.Lock()
-	while run_event.is_set():
+	while (run_event.is_set() and quit == 0):
 		with lock:
 			key = getch();
 		if (key == 58):
