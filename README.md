@@ -24,6 +24,23 @@ Don't forget to subscribe to the channel for updates...
 
 Enjoy some code and loud music!
 
+## WATCH THE CONSOLE IN ACTION:
+Multiple pages for visualization of all your Virtual Machines (each page shows 100 VM's).
+Here you can see a screenshot showing the first page:
+![Image of ASCii VMSS Dashboard Multiple Pages](https://raw.githubusercontent.com/msleal/msleal.github.com/master/virtualmachines.png)
+
+Next, we can see the second page:
+![Image of ASCii VMSS Dashboard Second page](https://raw.githubusercontent.com/msleal/msleal.github.com/master/virtualmachines2.png)
+
+The console will show you your subscription/region usage and limits:
+![Image of ASCii VMSS Dashboard Usage](https://raw.githubusercontent.com/msleal/msleal.github.com/master/usage.png)
+
+The ASCiiVMSSDashboard can run on Python 2.x or 3.x versions, and you will see the version it is running at the top title:
+![Image of ASCii VMSS Dashboard Python Version](https://raw.githubusercontent.com/msleal/msleal.github.com/master/version.png)
+
+In case of any errors, you will be able to see the messages on the LOG Window, and also as a specific message in the main window:
+![Image of ASCii VMSS Dashboard Error Message](https://raw.githubusercontent.com/msleal/msleal.github.com/master/error.png)
+
 ###TIP #1: 
 To not create the .pyc files, I use the following (on Linux): export PYTHONDONTWRITEBYTECODE=1; ./console.py.
 
@@ -49,15 +66,18 @@ Commands (v1.2):
 - add vm 'nr': Use this command to add virtual machines to your VMSS deployment.
 - del vm 'nr': Use this command to delete virtual machines to your VMSS deployment.
 - select vm 'nr': Use this command to select a specific virtual machine on your VMSS deployment and see detailed info.
+You can select any Virtual Machine, and get specific details about it:
+![Image of ASCii VMSS Dashboard VM Details](https://raw.githubusercontent.com/msleal/msleal.github.com/master/vmdetails.png)
+
 - deselect: Use this command to clear the selection of any specific virtual machine (and hide the VM details window).
 - rg 'resourcegroupname' vmss 'vmscalesetname': Use this command to switch the visualization to another VM Scale Set.
-- quit: Use this command to exit the console (Any platform).
+- quit 'or' exit: Use this command to exit the console (Any platform).
 - Ctrl+c: Use this key combination to exit the ASCiiVMSSDashboard (Not working on windows for now).
 - help: Use this command to get help about the dashboard commands (inside the ASCiiVMSSDashboard).
 
 ## CAVEATS
 - The 'stdscr.nodelay(1)' seems not to be multiplatform (at least does not work on Windows), and we are using it 
-as a non-block function when reading user commands. For now, you can use the command 'quit' to end the dashboard on Windows. 
+as a non-block function when reading user commands. For now, use the command 'quit' or 'exit' to end the dashboard on Windows. 
 I'm looking for an alternative non-block call to use on windows and fix this.
 - It would be nice to have any feedback of this program running on MacOS or any other platform... 
 
