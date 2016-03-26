@@ -162,8 +162,9 @@ def exec_cmd(window, access_token, cap, cmd):
 		vm_selected[0] = vm;
 		vm_details_old = vm_details; vm_nic_old = vm_nic;
 		vm_details = azurerm.get_vmss_vm_instance_view(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
-		vm_nic = azurerm.get_vmss_vm_nics(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
-		if (len(vm_details) > 0 and len(vm_nic) > 0):
+		#vm_nic = azurerm.get_vmss_vm_nics(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
+		#if (len(vm_details) > 0 and len(vm_nic) > 0):
+		if (len(vm_details) > 0):
 			return execsuccess;
 		else:
 			vm_details = vm_details_old;
@@ -450,6 +451,8 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 					draw_vm(int(instanceId), window_vm[counter - 1], provisioningState, vmsel);
 					#If a VM is selected, fill the details...
 					if (vm_selected[0] == int(instanceId) and vm_selected[1] != 999998):
+						vm_details = azurerm.get_vmss_vm_instance_view(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
+						vm_nic = azurerm.get_vmss_vm_nics(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
 						if (vm_details != "" and vm_nic != ""):
 							fill_vm_details(window_information, instanceId, vmName, provisioningState);
 				update_panels();
