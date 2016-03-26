@@ -114,7 +114,7 @@ def tail_in_window(filename, window, panel, run_event):
 	title = " LOG ";
 	max_lines, max_chars = getmaxyx(window)
 	max_line_len = max_chars - 2
-	window.move(1, 0)
+	wmove(window, 1, 0)
 
 	for line in tail(filename, run_event, max_lines - 3):
 		if len(line) > max_line_len:
