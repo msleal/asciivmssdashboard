@@ -75,6 +75,7 @@ Commands (v1.2):
 - del vm 'nr': Use this command to delete virtual machines to your VMSS deployment.
 - select vm 'nr': Use this command to select a specific virtual machine on your VMSS deployment and see detailed info.
 You can select any Virtual Machine, and get specific details about it:
+
 ![Image of ASCii VMSS Dashboard VM Details](https://raw.githubusercontent.com/msleal/msleal.github.com/master/vmdetails.png)
 
 - deselect: Use this command to clear the selection of any specific virtual machine (and hide the VM details window).
