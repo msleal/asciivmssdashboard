@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # All uniCurses routines to ASCii Effects representation on the terminal are here (or should be)...
 
 """
@@ -33,8 +33,8 @@ def create_window(x, y, w, z):
 
 #Draw VM...
 def draw_vm(vmc, window, ps, flag):
-	if (vmc < 10):
-		nr = "%02d" % vmc;
+	if (vmc < 100):
+		nr = "%03d" % vmc;
 	else:
 		nr = vmc;
 
@@ -51,7 +51,7 @@ def draw_vm(vmc, window, ps, flag):
 	#Mark VM Selected by the user...
 	if (flag):
 		wmove(window, 2, 1); whline(window, "<" , 1);
-		wmove(window, 2, 2); whline(window, ">" , 1);
+		wmove(window, 2, 3); whline(window, ">" , 1);
 	else:
 		box(window);
 
@@ -108,18 +108,6 @@ def vm_animation(panel, nasp, xfinal, yfinal, flag, ts):
 			xstart += 1;
 		time.sleep(ts);
 
-def draw_prompt_corners(window):
-	box(window);
-	draw_line(window, 0, 122, 1, ACS_URCORNER);
-	draw_line(window, 0, 123, 1, ACS_ULCORNER);
-	draw_line(window, 1, 122, 2, ACS_VLINE);
-	draw_line(window, 2, 122, 1, ACS_LRCORNER);
-	draw_line(window, 2, 123, 1, ACS_LLCORNER);
-	write_str_color(window, 0, 5, " PROMPT ", 3, 0);
-	draw_line(window, 1, 122, 2, ACS_VLINE);
-	draw_line(window, 1, 127, 1, ACS_VLINE);
-	wrefresh(window);
-
 def draw_line(window, a, b, c, char):
 	wmove(window, a, b); whline(window, char, c);
 
@@ -162,54 +150,135 @@ def resize_terminal():
 	errnr = 1;
 	return errnr;
 
-def create_forms(window_info, window_sys, window_status, windowvm):
+def clean_monitor_form(window):
+	#Window Update Monitor...
+	wmove(window['monitor'], 1, 30); wclrtoeol(window['monitor']);
+	box(window['monitor']);
+	write_str_color(window['monitor'], 0, 5, " VM UPDATE MONITOR ", 3, 0);
 
+def clean_forms(window):
 	#Let's handle the status wwindow here...
-	wmove(window_status, 1, 22); wclrtoeol(window_status);
-	box(window_status);
-	write_str_color(window_status, 0, 5, " STATUS ", 3, 0);
+	wmove(window['status'], 1, 22); wclrtoeol(window['status']);
+	box(window['status']);
+	write_str_color(window['status'], 0, 5, " STATUS ", 3, 0);
+
+	#Window Update Monitor...
+	wmove(window['monitor'], 1, 30); wclrtoeol(window['monitor']);
+	box(window['monitor']);
+	write_str_color(window['monitor'], 0, 5, " VM UPDATE MONITOR ", 3, 0);
 
 	#Window VM...
 	a = 2;
 	while (a < 10):
-		wmove(windowvm, a, 17); wclrtoeol(windowvm);
+		wmove(window['vm'], a, 17); wclrtoeol(window['vm']);
 		a += 1;
 	a = 11;
 	while (a < 15):
-		wmove(windowvm, a, 12); wclrtoeol(windowvm);
+		wmove(window['vm'], a, 12); wclrtoeol(window['vm']);
 		a += 1;
 	a = 16;
 	while (a < 19):
-		wmove(windowvm, a, 12); wclrtoeol(windowvm);
+		wmove(window['vm'], a, 12); wclrtoeol(window['vm']);
 		a += 1;
-	box(windowvm);
-	write_str_color(windowvm, 0, 5, " VM ", 3, 0);
+	box(window['vm']);
+	write_str_color(window['vm'], 0, 5, " VM ", 3, 0);
 
 	#Info and Sys Windows...
 	a = 2;
 	while (a < 5):
 		#Clean up lines...
-		wmove(window_info, a, 1); wclrtoeol(window_info);
-		wmove(window_sys, a, 1); wclrtoeol(window_sys);
+		wmove(window['vmss_info'], a, 1); wclrtoeol(window['vmss_info']);
+		wmove(window['system'], a, 1); wclrtoeol(window['system']);
 		a += 1;
 
-	#Redraw the box...
-	box(window_info); box(window_sys);
-
 	#Create Info form...
-	write_str_color(window_info, 0, 5, " GENERAL INFO ", 3, 0);
-	write_str_color(window_info, 2, 2, "RG Name...: ", 4, 1);
-	write_str_color(window_info, 2, 37, "VMSS Name: ", 4 , 1);
-	write_str_color(window_info, 2, 68, "Tier..: ", 4 , 1);
-	write_str_color(window_info, 3, 2, "IP Address: ", 4 , 1);
-	write_str_color(window_info, 3, 29, "Region: ", 4 , 1);
-	write_str_color(window_info, 3, 68, "SKU...: ", 4 , 1);
-	write_str_color(window_info, 4, 68, "Capacity.: ", 4 , 1);
-	write_str_color(window_info, 4, 2, "DNS Name..: ", 4 , 1);
-
+	create_vmssinfo_form(window['vmss_info']);
 	#Create Sys form...
-	write_str_color(window_sys, 0, 5, " SYSTEM INFO ", 3, 0);
-	write_str_color(window_sys, 1, 2, "Operating System..: ", 4 , 1);
-	write_str_color(window_sys, 2, 2, "Version...........: ", 4 , 1);
-	write_str_color(window_sys, 3, 2, "Total VMs.........: ", 4 , 1);
-	write_str_color(window_sys, 4, 2, "Provisioning State: ", 4 , 1);
+	create_system_form(window['system']);
+
+def create_vmssinfo_form(window):
+	box(window);
+	write_str_color(window, 0, 5, " GENERAL INFO ", 3, 0);
+	write_str_color(window, 2, 2, "RG Name...: ", 4, 1);
+	write_str_color(window, 2, 37, "VMSS Name: ", 4 , 1);
+	write_str_color(window, 2, 68, "Tier..: ", 4 , 1);
+	write_str_color(window, 3, 2, "IP Address: ", 4 , 1);
+	write_str_color(window, 3, 29, "Region: ", 4 , 1);
+	write_str_color(window, 3, 68, "SKU...: ", 4 , 1);
+	write_str_color(window, 4, 68, "Capacity.: ", 4 , 1);
+	write_str_color(window, 4, 2, "DNS Name..: ", 4 , 1);
+
+def create_system_form(window):
+	box(window);
+	write_str_color(window, 0, 5, " SYSTEM INFO ", 3, 0);
+	write_str_color(window, 1, 2, "Operating System..: ", 4 , 1);
+	write_str_color(window, 2, 2, "Version...........: ", 4 , 1);
+	write_str_color(window, 3, 2, "Total VMs.........: ", 4 , 1);
+	write_str_color(window, 4, 2, "Provisioning State: ", 4 , 1);
+
+def create_vm_form(window):
+	write_str_color(window, 1, 10, "    INSTANCE VIEW    ", 3, 0);
+	write_str_color(window, 2, 2, "Instance ID..: ", 4, 1);
+	write_str_color(window, 3, 2, "Hostname.....: ", 4, 1);
+	write_str_color(window, 4, 2, "Prov. State..: ", 4, 1);
+	write_str_color(window, 5, 2, "Prov. Date...: ", 4, 1);
+	write_str_color(window, 6, 2, "Prov. Time...: ", 4, 1);
+	write_str_color(window, 7, 2, "Power State..: ", 4, 1);
+	write_str_color(window, 8, 2, "Update Domain: ", 4, 1);
+	write_str_color(window, 9, 2, "Fault Domain.: ", 4, 1);
+	write_str_color(window, 10, 10, "    NETWORK          ", 3, 0);
+	write_str_color(window, 11, 2, "NIC.....: ", 4, 1);
+	write_str_color(window, 12, 2, "MAC.....: ", 4, 1);
+	write_str_color(window, 13, 2, "IP......: ", 4, 1);
+	write_str_color(window, 14, 2, "Primary.: ", 4, 1);
+	write_str_color(window, 15, 10, "    VM Guest Agent   ", 3, 0);
+	write_str_color(window, 16, 2, "Version.: ", 4, 1);
+	write_str_color(window, 17, 2, "Status..: ", 4, 1);
+	write_str_color(window, 18, 2, "State...: ", 4, 1);
+
+def create_help_form(window):
+	write_str(window, 1, 2, "To enter commands, type: ':'");
+	write_str(window, 2, 3, " ---= Command Examples =---");
+	write_str_color(window, 3, 2, "Adding 2 VM's: ", 4, 1);
+	write_str(window, 3, 17, "add vm 2");
+	write_str_color(window, 4, 2, "Deleting 1 VM: ", 4, 1);
+	write_str(window, 4, 17, "del vm 1");
+	write_str_color(window, 5, 2, "Select VM 8: ", 4, 1);
+	write_str(window, 5, 15, "select vm 8");
+	write_str_color(window, 6, 2, "Deselect any VM: ", 4, 1);
+	write_str(window, 6, 19, "deselect");
+	write_str_color(window, 7, 2, "Change Page: ", 4, 1);
+	write_str(window, 7, 15, "show page 3");
+	write_str_color(window, 8, 2, "Show LOG: ", 4, 1);
+	write_str(window, 8, 12, "log");
+	write_str_color(window, 9, 2, "Change VMSS:", 4, 1);
+	write_str(window, 10, 2, "rg <rgname> vmss <vmssname>");
+
+def create_virtualmachines_form(window):
+	write_str(window, 0, 2, " 1 ");
+	write_str(window, 0, 48, " A ");
+	write_str(window, 2, 0, "1");
+	write_str(window, 2, 53, "1");
+	write_str(window, 14, 0, "5");
+	write_str(window, 14, 53, "5");
+	write_str(window, 29, 0, "A");
+	write_str(window, 29, 53, "A");
+
+def create_prompt_form(window):
+	box(window);
+	draw_line(window, 0, 122, 1, ACS_URCORNER);
+	draw_line(window, 0, 123, 1, ACS_ULCORNER);
+	draw_line(window, 1, 122, 2, ACS_VLINE);
+	draw_line(window, 2, 122, 1, ACS_LRCORNER);
+	draw_line(window, 2, 123, 1, ACS_LLCORNER);
+	write_str_color(window, 0, 5, " PROMPT ", 3, 0);
+	draw_line(window, 1, 122, 2, ACS_VLINE);
+	draw_line(window, 1, 127, 1, ACS_VLINE);
+	wrefresh(window);
+
+def create_usage_form(window):
+	write_str_color(window, 2, 2, "[Availability Sets] [     /     ]", 4, 1);
+	write_str_color(window, 3, 2, "[ Regional  Cores ] [     /     ]", 4, 1);
+	write_str_color(window, 4, 2, "[Virtual  Machines] [     /     ]", 4, 1);
+	write_str_color(window, 5, 2, "[  VM Scale Sets  ] [     /     ]", 4, 1);
+
