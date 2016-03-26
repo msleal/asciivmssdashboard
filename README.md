@@ -26,7 +26,7 @@ Enjoy some code and loud music!
 
 ## FEATURES:
 The Version 1.2 brings many new features and commands for the ASCiiVMSSDashboard utility. 
-This is the General Info Page:
+This is the General Info window:
 
 ![Image of ASCii VMSS Dashboard General Info](https://raw.githubusercontent.com/msleal/msleal.github.com/master/general.png)
 
