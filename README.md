@@ -24,15 +24,22 @@ Don't forget to subscribe to the channel for updates...
 
 Enjoy some code and loud music!
 
-## WATCH THE CONSOLE IN ACTION:
+## FEATURES:
 Multiple pages for visualization of all your Virtual Machines (each page shows 100 VM's).
+This is the General Info Page:
+
+![Image of ASCii VMSS Dashboard General Info](https://raw.githubusercontent.com/msleal/msleal.github.com/master/general.png)
+
 Here you can see a screenshot showing the first page:
+
 ![Image of ASCii VMSS Dashboard Multiple Pages](https://raw.githubusercontent.com/msleal/msleal.github.com/master/virtualmachines.png)
 
 Next, we can see the second page:
+
 ![Image of ASCii VMSS Dashboard Second page](https://raw.githubusercontent.com/msleal/msleal.github.com/master/virtualmachines2.png)
 
 The console will show you your subscription/region usage and limits:
+
 ![Image of ASCii VMSS Dashboard Usage](https://raw.githubusercontent.com/msleal/msleal.github.com/master/usage.png)
 
 The ASCiiVMSSDashboard can run on Python 2.x or 3.x versions, and you will see the version it is running at the top title:
