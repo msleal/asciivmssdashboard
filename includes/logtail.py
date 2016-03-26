@@ -7,11 +7,11 @@ Copyright (c) 2013, Tyler Hobbs
 Description: The power is in the terminal...
 License: MIT (see LICENSE.txt file for details)
 """
-import fcntl
+#import fcntl
 import os
 import io
 import struct
-import termios
+#import termios
 import threading
 import time
 from unicurses import *
@@ -105,18 +105,14 @@ def tail(filename, run_event, starting_lines=10):
 			yield line
 
 
-def tail_in_window(filename, window, panel, run_event, x, y):
+def tail_in_window(filename, window, panel, run_event):
 	"""
 	Update a curses window with tailed lines from a file.
 	"""
 	lock = threading.Lock()
 	#title = " %s " % (filename,)
 	title = " LOG ";
-	ourhome = platform.system();
-	if (ourhome == "Windows")
-		max_lines = x; max_chars = y;
-	else:
-		max_lines, max_chars = window.getmaxyx()
+	max_lines, max_chars = getmaxyx(window)
 	max_line_len = max_chars - 2
 	window.move(1, 0)
 
@@ -134,25 +130,24 @@ def tail_in_window(filename, window, panel, run_event, x, y):
 		for line_portion in line_portions:
 			with lock:
 				try:
-					y, x = window.getyx()
+					y, x = getyx(window)
 					if y >= max_lines - 1:
-						window.move(1, 1)
-						window.deleteln()
-						window.move(y - 1, 1)
-						window.deleteln()
-						window.addstr(line_portion)
+						wmove(window, 1, 1)
+						wdeleteln(window)
+						wmove(window, y - 1, 1)
+						wdeleteln(window)
+						waddstr(window, line_portion)
 					else:
-						window.move(y, x + 1)
-						window.addstr(line_portion)
+						wmove(window, y, x + 1)
+						waddstr(window, line_portion)
 
-					#window.border()
 					box(window)
 					#window.addstr(0, 5, title)
 					#window.addstr(0, max_chars / 2 - len(title) / 2, title)
-					y, x = window.getyx()
-					window.move(y, x)
+					y, x = getyx(window)
+					wmove(window, y, x)
 					if not (panel_hidden(panel)):
-						window.refresh()
+						wrefresh(window)
 				except KeyboardInterrupt:
 					return
 

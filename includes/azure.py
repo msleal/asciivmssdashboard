@@ -588,8 +588,7 @@ def vmss_monitor_thread(window_information, panel_information, window_continents
 	access_token = azurerm.get_access_token(str(tenant_id), str(app_id), str(app_secret));
 
 	# logtail...
-	#As a workaround on windows plat, we are passing the x,y coordinates...
-	thread = threading.Thread(target=tail_in_window, args=(logName, window_information['log'], panel_information['log'], run_event, 17, 195))
+	thread = threading.Thread(target=tail_in_window, args=(logName, window_information['log'], panel_information['log'], run_event))
 	thread.start()
 
 	# start a VMSS monitoring thread
