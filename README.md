@@ -25,11 +25,12 @@ Don't forget to subscribe to the channel for updates...
 Enjoy some code and loud music!
 
 ## FEATURES:
-Multiple pages for visualization of all your Virtual Machines (each page shows 100 VM's).
+The Version 1.2 brings many new features and commands for the ASCiiVMSSDashboard utility. 
 This is the General Info Page:
 
 ![Image of ASCii VMSS Dashboard General Info](https://raw.githubusercontent.com/msleal/msleal.github.com/master/general.png)
 
+Multiple pages for visualization of all your Virtual Machines (each page shows 100 VM's).
 Here you can see a screenshot showing the first page:
 
 ![Image of ASCii VMSS Dashboard Multiple Pages](https://raw.githubusercontent.com/msleal/msleal.github.com/master/virtualmachines.png)
