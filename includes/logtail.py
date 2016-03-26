@@ -105,14 +105,18 @@ def tail(filename, run_event, starting_lines=10):
 			yield line
 
 
-def tail_in_window(filename, window, panel, run_event):
+def tail_in_window(filename, window, panel, run_event, x, y):
 	"""
 	Update a curses window with tailed lines from a file.
 	"""
 	lock = threading.Lock()
 	#title = " %s " % (filename,)
 	title = " LOG ";
-	max_lines, max_chars = window.getmaxyx()
+	ourhome = platform.system();
+	if (ourhome == "Windows")
+		max_lines = x; max_chars = y;
+	else:
+		max_lines, max_chars = window.getmaxyx()
 	max_line_len = max_chars - 2
 	window.move(1, 0)
 
