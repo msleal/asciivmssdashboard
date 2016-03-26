@@ -82,6 +82,9 @@ def main(): #{
 	write_str(window, 0, 50, " PYTHON Version: ");
 	write_str(window, 0, 67, cur_version.major);
 	write_str(window, 0, 68, "x ");
+	write_str(window, 0, 77, "| Platform: ");
+	write_str(window, 0, 89, ourhome);
+	write_str(window, 0, 89 + len(ourhome), " |");
 	write_str(window, 0, termsize[1] - 28, " Window Size: ");
 	write_str(window, 0, termsize[1] - 14, str(termsize));
 
