@@ -178,7 +178,7 @@ def clean_forms(window):
 		a += 1;
 	a = 16;
 	while (a < 19):
-		wmove(window['vm'], a, 12); wclrtoeol(window['vm']);
+		wmove(window['vm'], a, 11); wclrtoeol(window['vm']);
 		a += 1;
 	box(window['vm']);
 	write_str_color(window['vm'], 0, 5, " VM ", 3, 0);
@@ -217,7 +217,7 @@ def create_system_form(window):
 	write_str_color(window, 4, 2, "Provisioning State: ", 4 , 1);
 
 def create_vm_form(window):
-	write_str_color(window, 1, 10, "    INSTANCE VIEW    ", 3, 0);
+	write_str_color(window, 1, 10, "    INSTANCE VIEW     ", 3, 0);
 	write_str_color(window, 2, 2, "Instance ID..: ", 4, 1);
 	write_str_color(window, 3, 2, "Hostname.....: ", 4, 1);
 	write_str_color(window, 4, 2, "Prov. State..: ", 4, 1);
@@ -226,15 +226,15 @@ def create_vm_form(window):
 	write_str_color(window, 7, 2, "Power State..: ", 4, 1);
 	write_str_color(window, 8, 2, "Update Domain: ", 4, 1);
 	write_str_color(window, 9, 2, "Fault Domain.: ", 4, 1);
-	write_str_color(window, 10, 10, "    NETWORK          ", 3, 0);
+	write_str_color(window, 10, 10, "    NETWORK           ", 3, 0);
 	write_str_color(window, 11, 2, "NIC.....: ", 4, 1);
 	write_str_color(window, 12, 2, "MAC.....: ", 4, 1);
 	write_str_color(window, 13, 2, "IP......: ", 4, 1);
 	write_str_color(window, 14, 2, "Primary.: ", 4, 1);
-	write_str_color(window, 15, 10, "    VM Guest Agent   ", 3, 0);
-	write_str_color(window, 16, 2, "Version.: ", 4, 1);
-	write_str_color(window, 17, 2, "Status..: ", 4, 1);
-	write_str_color(window, 18, 2, "State...: ", 4, 1);
+	write_str_color(window, 15, 10, "    VM Guest Agent    ", 3, 0);
+	write_str_color(window, 16, 2, "Version: ", 4, 1);
+	write_str_color(window, 17, 2, "Status.: ", 4, 1);
+	write_str_color(window, 18, 2, "State..: ", 4, 1);
 
 def create_help_form(window):
 	write_str(window, 1, 2, "To enter commands, type: ':'");

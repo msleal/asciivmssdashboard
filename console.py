@@ -90,30 +90,30 @@ def main(): #{
 
 	#Here starts our game...
 	#Continents create_window(lines, colunms, startline, startcolunm)
-	window_continents['northandcentralamerica'] = create_window(26, 86, 2, 39);
+	window_continents['northandcentralamerica'] = create_window(26, 86, 1, 39);
 	panel_continents['northandcentralamerica'] = new_panel(window_continents['northandcentralamerica']);
 	draw_map(window_continents['northandcentralamerica'], "northandcentralamerica");
 	mark_datacenters_map(window_continents['northandcentralamerica'], "northandcentralamerica");
 	#win_animation(panel_continents['northandcentralamerica'], termsize, 2, 2);
 
-	window_continents['southamerica'] = create_window(20, 27, 27, 86);
+	window_continents['southamerica'] = create_window(20, 27, 26, 86);
 	panel_continents['southamerica'] = new_panel(window_continents['southamerica']);
 	draw_map(window_continents['southamerica'], "southamerica");
 	mark_datacenters_map(window_continents['southamerica'], "southamerica");
 	#win_animation(panel_continents['southamerica'], termsize, 27, 49);
 
-	window_continents['europeandasia'] = create_window(26, 109, 4, 125);
+	window_continents['europeandasia'] = create_window(26, 109, 3, 125);
 	panel_continents['europeandasia'] = new_panel(window_continents['europeandasia']);
 	draw_map(window_continents['europeandasia'], "europeandasia");
 	mark_datacenters_map(window_continents['europeandasia'], "europeandasia");
 	#win_animation(panel_continents['europeandasia'], termsize, 4, 88);
 
-	window_continents['africa'] = create_window(20, 38, 20, 121);
+	window_continents['africa'] = create_window(20, 38, 19, 121);
 	panel_continents['africa'] = new_panel(window_continents['africa']);
 	draw_map(window_continents['africa'], "africa");
 	#win_animation(panel_continents['africa'], termsize, 20, 84);
 
-	window_continents['oceania'] = create_window(15, 48, 29, 180);
+	window_continents['oceania'] = create_window(15, 48, 28, 180);
 	panel_continents['oceania'] = new_panel(window_continents['oceania']);
 	draw_map(window_continents['oceania'], "oceania");
 	mark_datacenters_map(window_continents['oceania'], "oceania");
@@ -130,7 +130,7 @@ def main(): #{
 	panel_information['system'] = new_panel(window_information['system']);
 	write_str_color(window_information['system'], 0, 5, " SYSTEM INFO ", 3, 0);
 
-	window_information['status'] = create_window(3, 36, 2, 2); 
+	window_information['status'] = create_window(3, 36, 1, 2); 
 	panel_information['status'] = new_panel(window_information['status']);
 	box(window_information['status']);
 	write_str_color(window_information['status'], 0, 5, " STATUS ", 3, 1);
@@ -148,23 +148,23 @@ def main(): #{
 	write_str_color(window_information['monitor'], 0, 5, " VM UPDATE MONITOR ", 3, 0);
 	write_str_color(window_information['monitor'], 1, 2, "Processing Virtual Machine: ", 4, 1);
 
-	window_information['usage'] = create_window(14, 36, 5, 2);
+	window_information['usage'] = create_window(15, 36, 4, 2);
 	box(window_information['usage']);
 	panel_information['usage'] = new_panel(window_information['usage']);
 	write_str_color(window_information['usage'], 0, 5, " COMPUTE USAGE ", 3, 0);
 	create_usage_form(window_information['usage']);
 
-	window_information['log'] = create_window(17, 195, 2, 38);
+	window_information['log'] = create_window(18, 195, 1, 38);
 	panel_information['log'] = new_panel(window_information['log']);
 	hide_panel(panel_information['log']);
 	box(window_information['log']);
 	write_str_color(window_information['log'], 0, 5, " LOG ", 3, 0);
 
-	#window_information['info3'] = create_window(9, 17, 45, 88);
-	#panel_information['info3'] = new_panel(window_information['info3']);
+	window_information['info3'] = create_window(9, 16, 45, 89);
+	panel_information['info3'] = new_panel(window_information['info3']);
 	#hide_panel(panel_information['info3']);
-	#box(window_information['info3']);
-	#write_str_color(window_information['info3'], 0, 5, " INFO3 ", 3, 0);
+	box(window_information['info3']);
+	write_str_color(window_information['info3'], 0, 5, " INFO3 ", 3, 0);
 
 	window_information['exit'] = create_window(8, 57, 22, 86);
 	panel_information['exit'] = new_panel(window_information['exit']);
@@ -194,7 +194,7 @@ def main(): #{
 	write_str_color(window_information['help'], 0, 5, " HELP ", 3, 0);
 	create_help_form(window_information['help']);
 
-	window_information['vm'] = create_window(20, 32, 34, 56);
+	window_information['vm'] = create_window(20, 33, 34, 56);
 	box(window_information['vm']);
 	panel_information['vm'] = new_panel(window_information['vm']);
 	hide_panel(panel_information['vm']);

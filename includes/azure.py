@@ -282,9 +282,15 @@ def fill_vm_details(window, instanceId, vmName, provisioningState):
 		if (vm_details['vmAgent']['statuses'][0]['message'] == "Guest Agent is running"): 
 			cor=6;
 			agentstatus = "Agent is running";
-		write_str(window['vm'], 16, 12, vm_details['vmAgent']['vmAgentVersion']);
-		write_str(window['vm'], 17, 12, vm_details['vmAgent']['statuses'][0]['displayStatus']);
-		write_str_color(window['vm'], 18, 12, agentstatus, cor, 0);
+		elif (vm_details['vmAgent']['statuses'][0]['message'] == "VM Agent is unresponsive."):
+			cor=7;
+			agentstatus = "Agent is unresponsive";
+		else:
+			cor=7;
+			agentstatus = vm_details['vmAgent']['statuses'][0]['message'];
+		write_str(window['vm'], 16, 11, vm_details['vmAgent']['vmAgentVersion']);
+		write_str(window['vm'], 17, 11, vm_details['vmAgent']['statuses'][0]['displayStatus']);
+		write_str_color(window['vm'], 18, 11, agentstatus, cor, 0);
 
 def deselect_vm(window, panel, instanceId, counter):
 	global vm_selected;
