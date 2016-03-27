@@ -23,6 +23,21 @@ def set_colors():
 	init_pair(8, COLOR_RED, COLOR_BLACK);
 	init_pair(9, COLOR_RED, COLOR_RED);
 
+#Draw logo...
+def draw_logo(window):
+	first_square = derwin(window, 3, 6, 1, 1);
+	second_square = derwin(window, 3, 6, 1, 8);
+	third_square = derwin(window, 3, 6, 4, 1);
+	forth_square = derwin(window, 3, 6, 4, 8);
+	write_str_color(first_square, 0, 1, "     ", 9, 0);
+	write_str_color(first_square, 1, 1, "     ", 9, 0);
+	write_str_color(second_square, 0, 1, "     ", 5, 0);
+	write_str_color(second_square, 1, 1, "     ", 5, 0);
+	write_str_color(third_square, 0, 1, "     ", 1, 0);
+	write_str_color(third_square, 1, 1, "     ", 1, 0);
+	write_str_color(forth_square, 0, 1, "     ", 2, 0);
+	write_str_color(forth_square, 1, 1, "     ", 2, 0);
+
 #Create Windows...
 def create_window(x, y, w, z):
         #window = newwin(lines, colunms, startline, startcolunm);

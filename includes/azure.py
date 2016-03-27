@@ -474,7 +474,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			counter_page = 0;
 			if (DEPLOYED >= counter):
 				time.sleep(0.5);
-				write_str_color(window_information['monitor'], 1, 30, "Removing deleted VM's", 7, 0);
+				write_str_color(window_information['monitor'], 1, 30, "Removing VM's...", 7, 0);
 				wrefresh(window_information['monitor']);
 				time.sleep(1);
 				clean_monitor_form(window_information);
