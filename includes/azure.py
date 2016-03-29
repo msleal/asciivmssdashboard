@@ -117,7 +117,7 @@ def exec_cmd(window, access_token, cap, cmd):
 			if (ifound):
 				vm = int(c);
 			else:
-				return syntaxerror;
+				return execerror;
 		if (counter == 2 and op == "rg" and c != "vmss"):
 				return syntaxerror;
 		if (counter == 2 and op == "show"):
@@ -528,7 +528,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 def get_cmd(access_token, run_event, window_information, panel_information):
 	global key, rgname, vmssname, vm_selected, quit;
 	
-	win_help = 0; win_log = 0;
+	win_help = 0; win_log = 0; win_insight = 0; win_info3 = 0;
 	lock = threading.Lock()
 	while (run_event.is_set() and quit == 0):
 		with lock:
@@ -562,6 +562,17 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 				else:
 					show_panel(panel_information['help']);
 					win_help = 1;
+			elif (command == "debug"):
+				if (win_log and win_insight and win_info3):
+					hide_panel(panel_information['log']);
+					hide_panel(panel_information['insight']);
+					hide_panel(panel_information['info3']);
+					win_log = 0; win_insight = 0; win_info3 = 0;
+				else:
+					show_panel(panel_information['log']);
+					show_panel(panel_information['insight']);
+					show_panel(panel_information['info3']);
+					win_log = 1; win_insight = 1; win_info3 = 1;
 			elif (command == "log"):
 				if (win_log):
 					hide_panel(panel_information['log']);
@@ -569,6 +580,20 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 				else:
 					show_panel(panel_information['log']);
 					win_log = 1;
+			elif (command == "insight"):
+				if (win_insight):
+					hide_panel(panel_information['insight']);
+					win_insight = 0;
+				else:
+					show_panel(panel_information['insight']);
+					win_insight = 1;
+			elif (command == "info3"):
+				if (win_info3):
+					hide_panel(panel_information['info3']);
+					win_info3 = 0;
+				else:
+					show_panel(panel_information['info3']);
+					win_info3 = 1;
 			elif (command == "quit" or command == 'exit'):
 				quit = 1;
 			elif (command == "deselect"):

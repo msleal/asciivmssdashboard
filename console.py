@@ -29,8 +29,8 @@ access_token="";
 # Curses...
 window_continents = {'northandcentralamerica':0,'southamerica':0,'europeandasia':0,'africa':0,'oceania':0};
 panel_continents = {'northandcentralamerica':0,'southamerica':0,'europeandasia':0,'africa':0,'oceania':0};
-window_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'monitor':0,'usage':0,'gauge':0,'gaugeas':0,'gaugerc':0,'gaugevm':0,'gaugess':0,'log':0,'exit':0,'error':0,'logo':0,'cmd':0,'help':0};
-panel_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'monitor':0,'usage':0,'gauge':0,'gaugeas':0,'gaugerc':0,'gaugevm':0,'gaugess':0,'log':0,'exit':0,'error':0,'logo':0,'cmd':0,'help':0};
+window_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'monitor':0,'usage':0,'gauge':0,'gaugeas':0,'gaugerc':0,'gaugevm':0,'gaugess':0,'log':0,'insight':0,'info3':0,'exit':0,'error':0,'logo':0,'cmd':0,'help':0};
+panel_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'monitor':0,'usage':0,'gauge':0,'gaugeas':0,'gaugerc':0,'gaugevm':0,'gaugess':0,'log':0,'insight':0,'info3':0,'exit':0,'error':0,'logo':0,'cmd':0,'help':0};
 
 def main(): #{
 	#Initialize...
@@ -159,6 +159,18 @@ def main(): #{
 	hide_panel(panel_information['log']);
 	box(window_information['log']);
 	write_str_color(window_information['log'], 0, 5, " LOG ", 3, 0);
+
+	window_information['insight'] = create_window(15, 177, 19, 56);
+	panel_information['insight'] = new_panel(window_information['insight']);
+	hide_panel(panel_information['insight']);
+	box(window_information['insight']);
+	write_str_color(window_information['insight'], 0, 5, " INSIGHT ", 3, 0);
+
+	window_information['info3'] = create_window(11, 144, 34, 89);
+	panel_information['info3'] = new_panel(window_information['info3']);
+	hide_panel(panel_information['info3']);
+	box(window_information['info3']);
+	write_str_color(window_information['info3'], 0, 5, " INFO3 ", 3, 0);
 
 	window_azure = create_window(3, 16, 45, 89);
 	panel_azure = new_panel(window_azure);
