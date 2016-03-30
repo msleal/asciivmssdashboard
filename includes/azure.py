@@ -53,6 +53,7 @@ region=""
 capacity=999999
 #VM
 vm_selected = [999999, 999999];
+insights_flag = 0;
 
 #Window VM
 countery=0
@@ -74,7 +75,7 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s:%(message)s', level=logL
 
 #Exec command...
 def exec_cmd(window, access_token, cap, cmd):
-	global subscription_id, rgname, vmssname, vmsku, tier, vm_selected, window_vm, panel_vm, vm_details, vm_nic, page;
+	global subscription_id, rgname, vmssname, vmsku, tier, vm_selected, window_vm, panel_vm, vm_details, vm_nic, page, insights_flag;
 
 	#Return codes...
 	initerror = 2; syntaxerror = 3; capacityerror = 4;
@@ -185,6 +186,8 @@ def exec_cmd(window, access_token, cap, cmd):
 			rgname = rgname_new; vmssname = vmssname_new;
 			#Just a flag for us to know that we changed the vmss and need to deselect any VM...
 			vm_selected[1] = 999998;
+			#We need to clear the Insights graph too...
+			insights_flag = 1;
 			page = 1;
 			return execsuccess;
 		except:
@@ -614,32 +617,36 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 			doupdate();
 
 def insights_in_window(log, window, panel, run_event):
-	global intervalInsights;
+	global intervalInsights, insights_flag;
 
 	total_values = 87;
 	lock = threading.Lock()
 	x, y = getmaxyx(window)
 	values = [];
-	index = 0; flag = 0;
+	index = 0;
 
 	while (run_event.is_set() and quit == 0):
 		#Clean the graph area...
 		clean_insights(window);
+		flag = 0;
 		#If the user changed the RG and VMSS we need to set the 'flag' before calling the graph routine...
-		if (vm_selected[1] == 999998): 
+		if (insights_flag): 
 			flag = 1;
+			insights_flag = 0;
 			values = [];
 			index = 0;
 
+		#Open space to a new sample...
+		values.append(index);
 		#Get the Insights metric...
 		metric = randint(0, 100);
-
-		values.append(index);
 		values[index] = metric;
+
 		if (index == total_values):
 			values.pop(0);
 			index = (total_values - 1);
 		index += 1;
+
 		#Draw graph...
 		draw_insights(window, values, flag);
 		#Sleep a little...
