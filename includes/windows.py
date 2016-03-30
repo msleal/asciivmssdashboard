@@ -186,8 +186,8 @@ def clean_insights(window):
 		a += 1;
 	box(window);
 	write_str(window, 0, 20, " MAX: ");
-	write_str(window, 0, 40, " MIN: ");
-	write_str(window, 0, 60, " LAST: ");
+	write_str(window, 0, 60, " MIN: ");
+	write_str(window, 0, 100, " LAST: ");
 	write_str_color(window, 0, 5, " INSIGHTS ", 3, 0);
 
 def clean_forms(window):
@@ -325,8 +325,8 @@ def draw_insights(window, values):
 	#Print the MAX and MIN values to facilitate graph interpretation...
 	write_str(window, 0, 26, max_value);
 	write_str(window, 0, 26 + len(str(max_value)), " ");
-	write_str(window, 0, 46, min_value);
-	write_str(window, 0, 46 + len(str(min_value)), " ");
+	write_str(window, 0, 66, min_value);
+	write_str(window, 0, 66 + len(str(min_value)), " ");
 
 	vlines = [];
 	index = 0;
@@ -339,8 +339,8 @@ def draw_insights(window, values):
 
 	index = 0; column = 2;
 	while (index < values.__len__()):
-		write_str(window, 0, 67, values[index]);
-		write_str(window, 0, 67 + len(str(values[index])), " ");
+		write_str(window, 0, 107, values[index]);
+		write_str(window, 0, 107 + len(str(values[index])), " ");
 		line = 0;
 		while (line < vlines[index]):
 			draw_line(window, max_lines - line, column, 1, ACS_VLINE);

@@ -613,7 +613,7 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 def insights_in_window(log, window, panel, run_event):
 	global interval;
 
-	total_values = 88;
+	total_values = 87;
 	lock = threading.Lock()
 	x, y = getmaxyx(window)
 	values = [];
