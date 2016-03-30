@@ -620,12 +620,20 @@ def insights_in_window(log, window, panel, run_event):
 	lock = threading.Lock()
 	x, y = getmaxyx(window)
 	values = [];
-	index = 0;
+	index = 0; flag = 0;
+
 	while (run_event.is_set() and quit == 0):
 		#Clean the graph area...
 		clean_insights(window);
+		#If the user changed the RG and VMSS we need to set the 'flag' before calling the graph routine...
+		if (vm_selected[1] == 999998): 
+			flag = 1;
+			values = [];
+			index = 0;
+
 		#Get the Insights metric...
 		metric = randint(0, 100);
+
 		values.append(index);
 		values[index] = metric;
 		if (index == total_values):
@@ -633,7 +641,7 @@ def insights_in_window(log, window, panel, run_event):
 			index = (total_values - 1);
 		index += 1;
 		#Draw graph...
-		draw_insights(window, values);
+		draw_insights(window, values, flag);
 		#Sleep a little...
 		time.sleep(intervalInsights);
 

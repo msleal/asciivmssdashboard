@@ -321,14 +321,17 @@ def create_usage_form(window):
 	write_str_color(window, 4, 2, "[Virtual  Machines] [     /     ]", 4, 1);
 	write_str_color(window, 5, 2, "[  VM Scale Sets  ] [     /     ]", 4, 1);
 
-def draw_insights(window, values):
+def draw_insights(window, values, flag):
 	global sample;
+
+	#If we have a flag, means that we switched RG and VMSS and so we need to reset...
+	if (flag): sample = 0;
+	sample += 1;
 
 	max_value = max(values);
 	min_value = min(values);
 	x, y = getmaxyx(window);
 	max_lines = x - 2;
-	sample += 1;
 
 	#Print the MAX and MIN values to facilitate graph interpretation...
 	write_str(window, 0, 29, sample);
