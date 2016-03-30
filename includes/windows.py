@@ -11,6 +11,9 @@ import time
 from subprocess import call
 from unicurses import *
 
+#Insights sample counter...
+sample = 0;
+
 #Colors...
 def set_colors():
 	init_pair(1, COLOR_BLUE, COLOR_BLUE);
@@ -185,22 +188,13 @@ def clean_insights(window):
 		draw_line_color(window, a, 1, y - 2, ACS_HLINE, 10);
 		a += 1;
 	box(window);
-	write_str(window, 0, 20, " MAX: ");
-	write_str(window, 0, 60, " MIN: ");
-	write_str(window, 0, 100, " LAST: ");
+	write_str(window, 0, 20, " SAMPLE: ");
+	write_str(window, 0, 60, " MAX: ");
+	write_str(window, 0, 100, " MIN: ");
+	write_str(window, 0, 140, " LAST VALUE: ");
 	write_str_color(window, 0, 5, " INSIGHTS ", 3, 0);
 
-def clean_forms(window):
-	#Let's handle the status wwindow here...
-	wmove(window['status'], 1, 22); wclrtoeol(window['status']);
-	box(window['status']);
-	write_str_color(window['status'], 0, 5, " STATUS ", 3, 0);
-
-	#Window Update Monitor...
-	wmove(window['monitor'], 1, 30); wclrtoeol(window['monitor']);
-	box(window['monitor']);
-	write_str_color(window['monitor'], 0, 5, " VM UPDATE MONITOR ", 3, 0);
-
+def clean_vm(window):
 	#Window VM...
 	a = 2;
 	while (a < 10):
@@ -217,8 +211,19 @@ def clean_forms(window):
 	box(window['vm']);
 	write_str_color(window['vm'], 0, 5, " VM ", 3, 0);
 
+def clean_forms(window):
+	#Let's handle the status window here...
+	wmove(window['status'], 1, 22); wclrtoeol(window['status']);
+	box(window['status']);
+	write_str_color(window['status'], 0, 5, " STATUS ", 3, 0);
+
+	#Window Update Monitor...
+	wmove(window['monitor'], 1, 30); wclrtoeol(window['monitor']);
+	box(window['monitor']);
+	write_str_color(window['monitor'], 0, 5, " VM UPDATE MONITOR ", 3, 0);
+
 	#Info and Sys Windows...
-	a = 2;
+	a = 1;
 	while (a < 5):
 		#Clean up lines...
 		wmove(window['vmss_info'], a, 1); wclrtoeol(window['vmss_info']);
@@ -317,32 +322,42 @@ def create_usage_form(window):
 	write_str_color(window, 5, 2, "[  VM Scale Sets  ] [     /     ]", 4, 1);
 
 def draw_insights(window, values):
+	global sample;
+
 	max_value = max(values);
 	min_value = min(values);
 	x, y = getmaxyx(window);
 	max_lines = x - 2;
+	sample += 1;
 
 	#Print the MAX and MIN values to facilitate graph interpretation...
-	write_str(window, 0, 26, max_value);
-	write_str(window, 0, 26 + len(str(max_value)), " ");
-	write_str(window, 0, 66, min_value);
-	write_str(window, 0, 66 + len(str(min_value)), " ");
+	write_str(window, 0, 29, sample);
+	write_str(window, 0, 29 + len(str(sample)), " ");
+	write_str(window, 0, 66, max_value);
+	write_str(window, 0, 66 + len(str(max_value)), " ");
+	write_str(window, 0, 106, min_value);
+	write_str(window, 0, 106 + len(str(min_value)), " ");
 
 	vlines = [];
 	index = 0;
 	for z in values:
-		prop =  (z * 100.0) / max_value;
-		ld = max_lines * (prop / 100.0);
 		vlines.append(index);	
-		vlines[index] = int(ld);
+		if (z > 0):
+			prop =  (z * 100.0) / max_value;
+			ld = max_lines * (prop / 100.0);
+			vlines[index] = int(ld);
+		else:
+			vlines[index] = 0;
 		index += 1;
 
 	index = 0; column = 2;
 	while (index < values.__len__()):
-		write_str(window, 0, 107, values[index]);
-		write_str(window, 0, 107 + len(str(values[index])), " ");
+		write_str(window, 0, 153, values[index]);
+		write_str(window, 0, 153 + len(str(values[index])), " ");
 		line = 0;
 		while (line < vlines[index]):
+			if (line == 0):
+				draw_line(window, x - 1, column, 1, ACS_BTEE);
 			draw_line(window, max_lines - line, column, 1, ACS_VLINE);
 			line += 1;
 		index += 1; column += 2;

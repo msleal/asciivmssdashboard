@@ -409,6 +409,8 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			page_top = (snap_page * 100);
 			page_base = ((snap_page - 1) * 100);
 
+			#Clean VM...
+			clean_vm(window_information);
 			#Loop each VM...
 			for vm in vmssvms['value']:
 				instanceId = vm['instanceId'];

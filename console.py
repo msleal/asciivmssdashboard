@@ -180,7 +180,7 @@ def main(): #{
 	box(window_information['logo']);
 	draw_logo(window_information['logo']);
 
-	window_information['exit'] = create_window(8, 57, 22, 86);
+	window_information['exit'] = create_window(8, 57, 22, 88);
 	panel_information['exit'] = new_panel(window_information['exit']);
 	hide_panel(panel_information['exit']);
 	box(window_information['exit']);
