@@ -43,6 +43,7 @@ purgeLog = configData['purgeLog']
 logName = configData['logName']
 logLevel = configData['logLevel']
 interval = configData['interval']
+intervalInsights = configData['intervalInsights']
 configFile.close()
 
 #Region...
@@ -613,7 +614,7 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 			doupdate();
 
 def insights_in_window(log, window, panel, run_event):
-	global interval;
+	global intervalInsights;
 
 	total_values = 87;
 	lock = threading.Lock()
@@ -634,7 +635,7 @@ def insights_in_window(log, window, panel, run_event):
 		#Draw graph...
 		draw_insights(window, values);
 		#Sleep a little...
-		time.sleep(interval);
+		time.sleep(intervalInsights);
 
 def vmss_monitor_thread(window_information, panel_information, window_continents, panel_continents):
 	global access_token;
