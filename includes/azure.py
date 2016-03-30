@@ -19,6 +19,7 @@ from logtail import *
 from unicurses import *
 from windows import *
 from datacenters import *
+from random import *
 
 # Load Azure app defaults
 try:
@@ -528,7 +529,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 def get_cmd(access_token, run_event, window_information, panel_information):
 	global key, rgname, vmssname, vm_selected, quit;
 	
-	win_help = 0; win_log = 0; win_insight = 0; win_info3 = 0;
+	win_help = 0; win_log = 0; win_insights = 0; win_info3 = 0;
 	lock = threading.Lock()
 	while (run_event.is_set() and quit == 0):
 		with lock:
@@ -563,16 +564,16 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 					show_panel(panel_information['help']);
 					win_help = 1;
 			elif (command == "debug"):
-				if (win_log and win_insight and win_info3):
+				if (win_log and win_insights and win_info3):
 					hide_panel(panel_information['log']);
-					hide_panel(panel_information['insight']);
+					hide_panel(panel_information['insights']);
 					hide_panel(panel_information['info3']);
-					win_log = 0; win_insight = 0; win_info3 = 0;
+					win_log = 0; win_insights = 0; win_info3 = 0;
 				else:
 					show_panel(panel_information['log']);
-					show_panel(panel_information['insight']);
+					show_panel(panel_information['insights']);
 					show_panel(panel_information['info3']);
-					win_log = 1; win_insight = 1; win_info3 = 1;
+					win_log = 1; win_insights = 1; win_info3 = 1;
 			elif (command == "log"):
 				if (win_log):
 					hide_panel(panel_information['log']);
@@ -580,13 +581,13 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 				else:
 					show_panel(panel_information['log']);
 					win_log = 1;
-			elif (command == "insight"):
-				if (win_insight):
-					hide_panel(panel_information['insight']);
-					win_insight = 0;
+			elif (command == "insights"):
+				if (win_insights):
+					hide_panel(panel_information['insights']);
+					win_insights = 0;
 				else:
-					show_panel(panel_information['insight']);
-					win_insight = 1;
+					show_panel(panel_information['insights']);
+					win_insights = 1;
 			elif (command == "info3"):
 				if (win_info3):
 					hide_panel(panel_information['info3']);
@@ -609,6 +610,30 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 			update_panels();
 			doupdate();
 
+def insights_in_window(log, window, panel, run_event):
+	global interval;
+
+	total_values = 88;
+	lock = threading.Lock()
+	x, y = getmaxyx(window)
+	values = [];
+	index = 0;
+	while (run_event.is_set() and quit == 0):
+		#Clean the graph area...
+		clean_insights(window);
+		#Get the Insights metric...
+		metric = randint(0, 100);
+		values.append(index);
+		values[index] = metric;
+		if (index == total_values):
+			values.pop(0);
+			index = (total_values - 1);
+		index += 1;
+		#Draw graph...
+		draw_insights(window, values);
+		#Sleep a little...
+		time.sleep(interval);
+
 def vmss_monitor_thread(window_information, panel_information, window_continents, panel_continents):
 	global access_token;
 
@@ -621,13 +646,19 @@ def vmss_monitor_thread(window_information, panel_information, window_continents
 	# get an access token for Azure authentication
 	access_token = azurerm.get_access_token(str(tenant_id), str(app_id), str(app_secret));
 
-	# logtail...
+	# ---= ASCii Dashboard THREADS =---
+
+	# VMSS Monitoring Thread...
+	vmss_thread = threading.Thread(target=get_vmss_properties, args=(access_token, run_event, window_information, panel_information, window_continents, panel_continents))
+	vmss_thread.start()
+
+	# Logtail Thread...
 	thread = threading.Thread(target=tail_in_window, args=(logName, window_information['log'], panel_information['log'], run_event))
 	thread.start()
 
-	# start a VMSS monitoring thread
-	vmss_thread = threading.Thread(target=get_vmss_properties, args=(access_token, run_event, window_information, panel_information, window_continents, panel_continents))
-	vmss_thread.start()
+	# Insights Thread...
+	thread = threading.Thread(target=insights_in_window, args=(logName, window_information['insights'], panel_information['insights'], run_event))
+	thread.start()
 
 	time.sleep(.2);
 
