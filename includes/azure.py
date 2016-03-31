@@ -15,6 +15,7 @@ import azurerm
 import threading
 import platform
 import logging
+import requests
 from logtail import *
 from unicurses import *
 from windows import *
@@ -45,7 +46,11 @@ logLevel = configData['logLevel']
 interval = configData['interval']
 intervalInsights = configData['intervalInsights']
 insightsOneEnabled = configData['insightsOneEnabled']
+insightsOneUrl = configData['insightsOneUrl']
+insightsOneTitle = configData['insightsOneTitle']
 insightsTwoEnabled = configData['insightsTwoEnabled']
+insightsTwoUrl = configData['insightsTwoUrl']
+insightsTwoTitle = configData['insightsTwoTitle']
 insightsKey = configData['insightsKey']
 configFile.close()
 
@@ -625,8 +630,8 @@ def insights_in_window(log, window, run_event):
 	lock = threading.Lock()
 
 	total_values_one = 87; total_values_two = 71;
-	x, y = getmaxyx(window['insightsone']);
-	a, b = getmaxyx(window['insightstwo']);
+	#x, y = getmaxyx(window['insightsone']);
+	#a, b = getmaxyx(window['insightstwo']);
 	values_insightsone = []; values_insightstwo = [];
 	index_one = 0; index_two = 0;
 
@@ -642,29 +647,31 @@ def insights_in_window(log, window, run_event):
 			values_insightsone = []; values_insightstwo = [];
 			index_one = 0; index_two = 0;
 
-		#Open space to a new sample...
-		values_insightsone.append(index_one); values_insightstwo.append(index_two);
-		#Get the Insights metrics...
-		#aaa = azurerm.list_insights_components(access_token, subscription_id, rgname);
-		#logging.info("INSIGHTS: %s", aaa);
-		metricone = randint(0, 100); metrictwo = randint(0, 100);
-		values_insightsone[index_one] = metricone; values_insightstwo[index_two] = metrictwo;
-
-		if (index_one == total_values_one):
-			values_insightsone.pop(0);
-			index_one = (total_values_one - 1);
-		index_one += 1;
-
-		if (index_two == total_values_two):
-			values_insightstwo.pop(0);
-			index_two = (total_values_two - 1);
-		index_two += 1;
-
-		#Draw graph...
+		#Get the Insights metrics and draw graph...
+		#metricone = randint(0, 100); metrictwo = randint(0, 100);
 		if (insightsOneEnabled):
-			draw_insights(window['insightsone'], values_insightsone, flag);
+			#Open space to a new sample...
+			values_insightsone.append(index_one);
+			metricone = requests.get(insightsOneUrl);
+			logging.info("INSIGHTS %s: %s", insightsOneTitle, metricone.text);
+			values_insightsone[index_one] = int(metricone.text);
+			if (index_one == total_values_one):
+				values_insightsone.pop(0);
+				index_one = (total_values_one - 1);
+			index_one += 1;
+			draw_insights(window['insightsone'], values_insightsone, insightsOneTitle, flag);
+
 		if (insightsTwoEnabled):
-			draw_insights(window['insightstwo'], values_insightstwo, flag);
+			#Open space to a new sample...
+			values_insightstwo.append(index_two);
+			metrictwo = requests.get(insightsTwoUrl);
+			logging.info("INSIGHTS %s: %s", insightsTwoTitle, metrictwo.text);
+			values_insightstwo[index_two] = int(metrictwo.text);
+			if (index_two == total_values_two):
+				values_insightstwo.pop(0);
+				index_two = (total_values_two - 1);
+			index_two += 1;
+			draw_insights(window['insightstwo'], values_insightstwo, insightsTwoTitle, flag);
 		#Sleep a little...
 		time.sleep(intervalInsights);
 

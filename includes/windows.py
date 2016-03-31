@@ -189,10 +189,10 @@ def clean_insights(window, cor):
 		a += 1;
 	box(window);
 	write_str(window, 0, 30, " SAMPLE: ");
-	write_str(window, 0, 60, " MAX: ");
-	write_str(window, 0, 90, " MIN: ");
-	write_str(window, 0, 120, " LAST VALUE: ");
-	write_str_color(window, 0, 5, " INSIGHTS METRIC #1 ", 3, 0);
+	write_str(window, 0, 57, " MAX: ");
+	write_str(window, 0, 84, " MIN: ");
+	write_str(window, 0, 113, " LAST VALUE: ");
+	write_str_color(window, 0, 5, " INSIGHTS: ", 3, 0);
 
 def clean_vm(window):
 	#Window VM...
@@ -321,7 +321,7 @@ def create_usage_form(window):
 	write_str_color(window, 4, 2, "[Virtual  Machines] [     /     ]", 4, 1);
 	write_str_color(window, 5, 2, "[  VM Scale Sets  ] [     /     ]", 4, 1);
 
-def draw_insights(window, values, flag):
+def draw_insights(window, values, title, flag):
 	global sample;
 
 	#If we have a flag, means that we switched RG and VMSS and so we need to reset...
@@ -334,12 +334,14 @@ def draw_insights(window, values, flag):
 	max_lines = x - 2;
 
 	#Print the MAX and MIN values to facilitate graph interpretation...
+	write_str(window, 0, 16, title);
+	write_str(window, 0, 16 + len(title), " ");
 	write_str(window, 0, 39, sample);
 	write_str(window, 0, 39 + len(str(sample)), " ");
-	write_str(window, 0, 66, max_value);
-	write_str(window, 0, 66 + len(str(max_value)), " ");
-	write_str(window, 0, 96, min_value);
-	write_str(window, 0, 96 + len(str(min_value)), " ");
+	write_str(window, 0, 63, max_value);
+	write_str(window, 0, 63 + len(str(max_value)), " ");
+	write_str(window, 0, 90, min_value);
+	write_str(window, 0, 90 + len(str(min_value)), " ");
 
 	vlines = [];
 	index = 0;
@@ -355,8 +357,8 @@ def draw_insights(window, values, flag):
 
 	index = 0; column = 2;
 	while (index < values.__len__()):
-		write_str(window, 0, 133, values[index]);
-		write_str(window, 0, 133 + len(str(values[index])), " ");
+		write_str(window, 0, 126, values[index]);
+		write_str(window, 0, 126 + len(str(values[index])), " ");
 		line = 0;
 		while (line < vlines[index]):
 			if (line == 0):
