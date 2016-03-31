@@ -179,20 +179,20 @@ def clean_monitor_form(window):
 	box(window['monitor']);
 	write_str_color(window['monitor'], 0, 5, " VM UPDATE MONITOR ", 3, 0);
 
-def clean_insights(window):
+def clean_insights(window, cor):
 	#Window Insights...
 	x, y = getmaxyx(window);
 	a = 1;
 	while (a < 16):
 		wmove(window, a, 1); wclrtoeol(window);
-		draw_line_color(window, a, 1, y - 2, ACS_HLINE, 10);
+		draw_line_color(window, a, 1, y - 2, ACS_HLINE, cor);
 		a += 1;
 	box(window);
-	write_str(window, 0, 20, " SAMPLE: ");
+	write_str(window, 0, 30, " SAMPLE: ");
 	write_str(window, 0, 60, " MAX: ");
-	write_str(window, 0, 100, " MIN: ");
-	write_str(window, 0, 140, " LAST VALUE: ");
-	write_str_color(window, 0, 5, " INSIGHTS ", 3, 0);
+	write_str(window, 0, 90, " MIN: ");
+	write_str(window, 0, 120, " LAST VALUE: ");
+	write_str_color(window, 0, 5, " INSIGHTS METRIC #1 ", 3, 0);
 
 def clean_vm(window):
 	#Window VM...
@@ -334,12 +334,12 @@ def draw_insights(window, values, flag):
 	max_lines = x - 2;
 
 	#Print the MAX and MIN values to facilitate graph interpretation...
-	write_str(window, 0, 29, sample);
-	write_str(window, 0, 29 + len(str(sample)), " ");
+	write_str(window, 0, 39, sample);
+	write_str(window, 0, 39 + len(str(sample)), " ");
 	write_str(window, 0, 66, max_value);
 	write_str(window, 0, 66 + len(str(max_value)), " ");
-	write_str(window, 0, 106, min_value);
-	write_str(window, 0, 106 + len(str(min_value)), " ");
+	write_str(window, 0, 96, min_value);
+	write_str(window, 0, 96 + len(str(min_value)), " ");
 
 	vlines = [];
 	index = 0;
@@ -355,8 +355,8 @@ def draw_insights(window, values, flag):
 
 	index = 0; column = 2;
 	while (index < values.__len__()):
-		write_str(window, 0, 153, values[index]);
-		write_str(window, 0, 153 + len(str(values[index])), " ");
+		write_str(window, 0, 133, values[index]);
+		write_str(window, 0, 133 + len(str(values[index])), " ");
 		line = 0;
 		while (line < vlines[index]):
 			if (line == 0):
