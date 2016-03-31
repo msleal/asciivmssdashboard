@@ -84,7 +84,6 @@ def do_update_bar(window, sp, flag):
 	while (a < total):
 		write_str_color(window, 1, a, " ", 5, 1);
 		a += 1;
-	#wrefresh(window);
 	update_panels();
 	time.sleep(.2);
 
@@ -378,3 +377,5 @@ def draw_insights(window, values, title, metric, flag):
 		sample_one = sample;
 	else:
 		sample_two = sample;
+	update_panels();
+	doupdate();

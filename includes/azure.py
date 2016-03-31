@@ -673,8 +673,6 @@ def insights_in_window(log, window, run_event):
 			index_two += 1;
 			draw_insights(window['insightstwo'], values_insightstwo, insightsTwoTitle, "Two", flag);
 
-		update_panels();
-		doupdate();
 		#Sleep a little...
 		time.sleep(intervalInsights);
 
