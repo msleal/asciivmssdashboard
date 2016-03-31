@@ -526,7 +526,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			write_str(window_information['status'], 1, 13, ourtime);
 			write_str_color(window_information['status'], 1, 22, "     OK     ", 6, 0);
 			#update_panels();
-			#doupdate();
+			doupdate();
 			# sleep before each loop to avoid throttling...
 			time.sleep(interval);
 		except:
