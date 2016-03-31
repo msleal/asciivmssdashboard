@@ -674,6 +674,8 @@ def insights_in_window(log, window, run_event):
 			draw_insights(window['insightstwo'], values_insightstwo, insightsTwoTitle, "Two", flag);
 
 		#Sleep a little...
+		update_panels();
+		doupdate();
 		time.sleep(intervalInsights);
 
 def vmss_monitor_thread(window_information, panel_information, window_continents, panel_continents):
