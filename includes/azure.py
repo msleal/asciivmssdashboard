@@ -476,8 +476,8 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 						vm_nic = azurerm.get_vmss_vm_nics(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
 						if (vm_details != "" and vm_nic != ""):
 							fill_vm_details(window_information, instanceId, vmName, provisioningState);
-				update_panels();
-				doupdate();
+				#update_panels();
+				#doupdate();
 				counter += 1;
 				do_update_bar(window_information['status'], step, 0);
 				step += step;
@@ -518,15 +518,15 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 				wobj = window_vm[lastvm]; window_vm.remove(wobj);
 				wobj = instances_deployed[lastvm]; instances_deployed.remove(wobj);
 				DEPLOYED -= 1;
-				update_panels();
-				doupdate();
+				#update_panels();
+				#doupdate();
 			write_str(window_information['monitor'], 1, 30, "Done.");
 			ourtime = time.strftime("%H:%M:%S");
 			do_update_bar(window_information['status'], step, 1);
 			write_str(window_information['status'], 1, 13, ourtime);
 			write_str_color(window_information['status'], 1, 22, "     OK     ", 6, 0);
-			update_panels();
-			doupdate();
+			#update_panels();
+			#doupdate();
 			# sleep before each loop to avoid throttling...
 			time.sleep(interval);
 		except:
