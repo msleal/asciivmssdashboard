@@ -75,13 +75,13 @@ def draw_vm(vmc, window, ps, flag):
 		box(window);
 
 def do_update_bar(window, sp, flag):
-        a = bar = 22; total = 34;
-        curstep = bar + sp;
+	a = bar = 22; total = 34;
+	curstep = bar + sp;
 
-        if (curstep > total): curstep = total;
-        if (flag != 1): total = curstep;
+	if (curstep > total): curstep = total;
+	if (flag != 1): total = curstep;
 
-        while (a < total):
+	while (a < total):
 		write_str_color(window, 1, a, " ", 5, 1);
 		a += 1;
 	#wrefresh(window);
