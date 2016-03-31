@@ -477,7 +477,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 						if (vm_details != "" and vm_nic != ""):
 							fill_vm_details(window_information, instanceId, vmName, provisioningState);
 				update_panels();
-				doupdate();
+				#doupdate();
 				counter += 1;
 				do_update_bar(window_information['status'], step, 0);
 				step += step;
@@ -519,7 +519,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 				wobj = instances_deployed[lastvm]; instances_deployed.remove(wobj);
 				DEPLOYED -= 1;
 				update_panels();
-				doupdate();
+				#doupdate();
 			write_str(window_information['monitor'], 1, 30, "Done.");
 			ourtime = time.strftime("%H:%M:%S");
 			do_update_bar(window_information['status'], step, 1);
@@ -622,7 +622,7 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 				if (cmd_status == 4): cor = 3;
 			write_str_color(window_information['cmd'], 1, 125, "E", cor, 1);
 			update_panels();
-			doupdate();
+			#doupdate();
 
 def insights_in_window(log, window, run_event):
 	global insights_flag;
@@ -718,7 +718,7 @@ def vmss_monitor_thread(window_information, panel_information, window_continents
 	except KeyboardInterrupt:
 		show_panel(panel_information['exit']);
 		update_panels();
-		doupdate();
+		#doupdate();
 		run_event.clear();
 		log_thread.join();
 		vmss_thread.join();
