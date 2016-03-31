@@ -12,7 +12,7 @@ from subprocess import call
 from unicurses import *
 
 #Insights sample counter...
-sample = 0;
+sample_one = 0; sample_two = 0;
 
 #Colors...
 def set_colors():
@@ -321,8 +321,14 @@ def create_usage_form(window):
 	write_str_color(window, 4, 2, "[Virtual  Machines] [     /     ]", 4, 1);
 	write_str_color(window, 5, 2, "[  VM Scale Sets  ] [     /     ]", 4, 1);
 
-def draw_insights(window, values, title, flag):
-	global sample;
+def draw_insights(window, values, title, metric, flag):
+	global sample_one, sample_two;
+
+	#Which counter should we use?
+	if (metric == "One"):
+		sample = sample_one;
+	else:
+		sample = sample_two;
 
 	#If we have a flag, means that we switched RG and VMSS and so we need to reset...
 	if (flag): sample = 0;
@@ -366,5 +372,8 @@ def draw_insights(window, values, title, flag):
 			draw_line(window, max_lines - line, column, 1, ACS_VLINE);
 			line += 1;
 		index += 1; column += 2;
-	update_panels();
-	doupdate();
+
+	if (metric == "One"):
+		sample_one = sample;
+	else:
+		sample_two = sample;

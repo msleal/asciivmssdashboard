@@ -637,8 +637,6 @@ def insights_in_window(log, window, run_event):
 
 	while (run_event.is_set() and quit == 0):
 		#Clean the graph area...
-		clean_insights(window['insightsone'], 10);
-		clean_insights(window['insightstwo'], 7);
 		flag = 0;
 		#If the user changed the RG and VMSS we need to set the 'flag' before calling the graph routine...
 		if (insights_flag): 
@@ -650,6 +648,7 @@ def insights_in_window(log, window, run_event):
 		#Get the Insights metrics and draw graph...
 		#metricone = randint(0, 100); metrictwo = randint(0, 100);
 		if (insightsOneEnabled):
+			clean_insights(window['insightsone'], 10);
 			#Open space to a new sample...
 			values_insightsone.append(index_one);
 			metricone = requests.get(insightsOneUrl);
@@ -659,9 +658,10 @@ def insights_in_window(log, window, run_event):
 				values_insightsone.pop(0);
 				index_one = (total_values_one - 1);
 			index_one += 1;
-			draw_insights(window['insightsone'], values_insightsone, insightsOneTitle, flag);
+			draw_insights(window['insightsone'], values_insightsone, insightsOneTitle, "One", flag);
 
 		if (insightsTwoEnabled):
+			clean_insights(window['insightstwo'], 7);
 			#Open space to a new sample...
 			values_insightstwo.append(index_two);
 			metrictwo = requests.get(insightsTwoUrl);
@@ -671,7 +671,10 @@ def insights_in_window(log, window, run_event):
 				values_insightstwo.pop(0);
 				index_two = (total_values_two - 1);
 			index_two += 1;
-			draw_insights(window['insightstwo'], values_insightstwo, insightsTwoTitle, flag);
+			draw_insights(window['insightstwo'], values_insightstwo, insightsTwoTitle, "Two", flag);
+
+		update_panels();
+		doupdate();
 		#Sleep a little...
 		time.sleep(intervalInsights);
 
