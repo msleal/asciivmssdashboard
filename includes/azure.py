@@ -429,7 +429,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			page_base = ((snap_page - 1) * 100);
 
 			if (vm_selected[1] == 999998):
-				#Clean VM...
+				#Clean VM Info...
 				clean_vm(window_information);
 			#Loop each VM...
 			for vm in vmssvms['value']:
@@ -522,6 +522,10 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 					update_vm_footer(window_information, cur_page, tot_pages);
 				else:
 					counter_page += 1;
+				
+				#Clean VM Info...
+				if (vm_selected[0] == instances_deployed[lastvm]):
+					clean_vm(window_information);
 				#Free up some memory...
 				del_panel(panel_vm[lastvm]); delwin(window_vm[lastvm]);
 				wobj = panel_vm[lastvm]; panel_vm.remove(wobj);
