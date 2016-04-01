@@ -1,7 +1,11 @@
-# ASCii VMSS Dashboard v1.2
+# ASCii VMSS Dashboard v1.4
 Dashboard to show and configure Azure VM Scale Set status and properties
 
-![Image of ASCii VMSS Dashboard](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-2.png)
+![Image of ASCii VMSS Dashboard](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4.png)
+
+Fear nothing, the global map is still here...
+
+![Image of ASCii VMSS Dashboard](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4-map.png)
 
 
 ## Installation
@@ -25,8 +29,26 @@ Don't forget to subscribe to the channel for updates...
 Enjoy some code and loud music!
 
 ## FEATURES:
-The Version 1.2 brings many new features and commands for the ASCiiVMSSDashboard utility. 
+The Version 1.4 brings many new features and commands for the ASCiiVMSSDashboard utility. 
 This is the General Info window:
+
+![Image of ASCii VMSS Dashboard Log](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4-log.png)
+
+Version 1.4 has an option to create a log file with many useful information that can be watched live directly in the ASCiiVMSSDashboard.
+It's very simple to display the log on the screen, just issue the command: 'log'. using the console config file, you can set the log level 
+(e.g.: INFO, DEBUG, and etc).
+
+![Image of ASCii VMSS Dashboard Insights 1](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4-insights1.png)
+
+One of the key features of this new version of the ASCiiVMSSDashboard is the ability to see in real time two instrumentation graphs.
+You can eanble this feature on the vmssconfig.json file, and set the title of the graph and the URL that the console will use to gather the 
+metrics. The console will just do a HTTP GET on each URL and expect to receive an 'number' to plot on the graphs.
+
+![Image of ASCii VMSS Dashboard Insights 1](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4-insights2.png)
+
+There is an option to enable one, two or disable both graphs. In the future this feature will be integrated directly on Azure Application
+Insights, and we will be able to select any of the metrics configured on the platform.
+
 
 ![Image of ASCii VMSS Dashboard General Info](https://raw.githubusercontent.com/msleal/msleal.github.com/master/general.png)
 
@@ -80,6 +102,10 @@ You can select any Virtual Machine, and get specific details about it:
 
 - deselect: Use this command to clear the selection of any specific virtual machine (and hide the VM details window).
 - rg 'resourcegroupname' vmss 'vmscalesetname': Use this command to switch the visualization to another VM Scale Set.
+- log: Use this command to show/hide a live log about the console executiong (e.g.: http requests, errors, and etc).
+- insights 1: This command will show/hide the graph window for the first metric configured.
+- insights 2: This command will show/hide the graph window for the second metric configured.
+- debug: Use this command to show/hide all three windows (log, insights 1 and insights 2).
 - quit 'or' exit: Use this command to exit the console (Any platform).
 - Ctrl+c: Use this key combination to exit the ASCiiVMSSDashboard (Not working on windows for now).
 - help: Use this command to get help about the dashboard commands (inside the ASCiiVMSSDashboard).

@@ -548,7 +548,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 def get_cmd(access_token, run_event, window_information, panel_information):
 	global key, rgname, vmssname, vm_selected, quit;
 	
-	win_help = 0; win_log = 0; win_insights = 0; win_insightstwo = 0;
+	win_help = 0; win_log = 0; win_insights = 0; win_insightsone = 0; win_insightstwo = 0;
 	lock = threading.Lock()
 	while (run_event.is_set() and quit == 0):
 		with lock:
