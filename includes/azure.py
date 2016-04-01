@@ -421,8 +421,9 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			page_top = (snap_page * 100);
 			page_base = ((snap_page - 1) * 100);
 
-			#Clean VM...
-			clean_vm(window_information);
+			if (vm_selected[1] == 999998):
+				#Clean VM...
+				clean_vm(window_information);
 			#Loop each VM...
 			for vm in vmssvms['value']:
 				instanceId = vm['instanceId'];
@@ -475,6 +476,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 					if (vm_selected[0] == int(instanceId) and vm_selected[1] != 999998):
 						vm_details = azurerm.get_vmss_vm_instance_view(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
 						vm_nic = azurerm.get_vmss_vm_nics(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
+						clean_vm(window_information);
 						if (vm_details != "" and vm_nic != ""):
 							fill_vm_details(window_information, instanceId, vmName, provisioningState);
 				update_panels();
@@ -521,25 +523,21 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 				DEPLOYED -= 1;
 				update_panels();
 				doupdate();
-				wrefresh(window_information['virtualmachines']);
 			write_str(window_information['monitor'], 1, 30, "Done.");
 			ourtime = time.strftime("%H:%M:%S");
 			do_update_bar(window_information['status'], step, 1);
 			write_str(window_information['status'], 1, 13, ourtime);
 			write_str_color(window_information['status'], 1, 22, "     OK     ", 6, 0);
-			wrefresh(window_information['monitor']);
-			wrefresh(window_information['status']);
-			#update_panels();
-			#doupdate();
+			update_panels();
+			doupdate();
 			# sleep before each loop to avoid throttling...
 			time.sleep(interval);
 		except:
 			logging.exception("ERROR:")
 			write_str(window_information['error'], 1, 24, "Let's sleep for 30 seconds and try to refresh the dashboard again...");
 			show_panel(panel_information['error']);
-			wrefresh(window_information['error']);
-			#update_panels();
-			#doupdate();
+			update_panels();
+			doupdate();
 			## break out of loop when an error is encountered
 			#break
 			time.sleep(30);

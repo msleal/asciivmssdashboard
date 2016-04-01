@@ -84,6 +84,8 @@ def do_update_bar(window, sp, flag):
 	while (a < total):
 		write_str_color(window, 1, a, " ", 5, 1);
 		a += 1;
+		update_panels();
+		doupdate();
 	time.sleep(.2);
 
 def win_animation(panel, nasp, xfinal, yfinal):
