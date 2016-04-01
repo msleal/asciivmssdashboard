@@ -365,6 +365,9 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			# Get public ip address for RG (First IP) - modify this if your RG has multiple ips
 			net = azurerm.list_public_ips(access_token, subscription_id, rgname);
 
+			#Clean Info and Sys Windows...
+			clean_infoandsys(window_information);
+
 			#Fill the information...
 			fill_vmss_info(window_information, vmssget, net);
 
@@ -372,7 +375,6 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			(name, capacity, location, offer, sku, provisioningState, dns, ipaddr) = set_vmss_variables(vmssget, net);
 
 			#Set the current and old location...
-			#Old
 			old_location = region;
 			if (old_location != ""):
 				continent_old_location = get_continent_dc(old_location);

@@ -223,6 +223,7 @@ def clean_forms(window):
 	box(window['monitor']);
 	write_str_color(window['monitor'], 0, 5, " VM UPDATE MONITOR ", 3, 0);
 
+def clean_infoandsys(window):
 	#Info and Sys Windows...
 	a = 1;
 	while (a < 5):
