@@ -386,5 +386,3 @@ def draw_insights(window, values, title, metric, flag):
 		sample_one = sample;
 	else:
 		sample_two = sample;
-	#update_panels();
-	#doupdate();

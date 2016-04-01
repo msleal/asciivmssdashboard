@@ -20,7 +20,6 @@ from logtail import *
 from unicurses import *
 from windows import *
 from datacenters import *
-from random import *
 
 # Load Azure app defaults
 try:

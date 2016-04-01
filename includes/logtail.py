@@ -7,20 +7,15 @@ Copyright (c) 2013, Tyler Hobbs
 Description: The power is in the terminal...
 License: MIT (see LICENSE.txt file for details)
 """
-#import fcntl
 import os
 import io
 import struct
-#import termios
 import threading
 import time
 from unicurses import *
 from windows import *
 
-position_on_file = 0;
-
 def _seek_to_n_lines_from_end_ng(f, numlines=10):
-	global position_on_file;
 	"""
 	(Python3) Seek to `numlines` lines from the end of the file `f`.
 	"""
@@ -111,7 +106,6 @@ def tail_in_window(filename, window, panel, run_event):
 	Update a curses window with tailed lines from a file.
 	"""
 	lock = threading.Lock()
-	#title = " %s " % (filename,)
 	title = " LOG ";
 	max_lines, max_chars = getmaxyx(window)
 	max_line_len = max_chars - 2
@@ -151,9 +145,12 @@ def tail_in_window(filename, window, panel, run_event):
 					#wmove(window, y, x)
 
 					if not (panel_hidden(panel)):
-						wrefresh(window)
-				except KeyboardInterrupt:
-					return
+						#wrefresh(window)
+						update_panels();
+						doupdate();
+				#except KeyboardInterrupt:
+				except:
+					print("PROBLEM");
 
 def _terminal_size():
 	raw = fcntl.ioctl(0, termios.TIOCGWINSZ, struct.pack('HHHH', 0, 0, 0, 0))
