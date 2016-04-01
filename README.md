@@ -1,5 +1,5 @@
 # ASCii VMSS Dashboard v1.4
-Dashboard to show and configure Azure VM Scale Set status, properties, and watch live graphs of Telemetry data.
+Dashboard to show and configure Azure VM Scale Set status, properties, watch live graphs of Telemetry data, logs and more!
 
 ![Image of ASCii VMSS Dashboard](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4.png)
 
