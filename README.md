@@ -30,26 +30,25 @@ Enjoy some code and loud music!
 
 ## FEATURES:
 The Version 1.4 brings many new features and commands for the ASCiiVMSSDashboard utility. 
-This is the General Info window:
-
-![Image of ASCii VMSS Dashboard Log](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4-log.png)
-
 Version 1.4 has an option to create a log file with many useful information that can be watched live directly in the ASCiiVMSSDashboard.
-It's very simple to display the log on the screen, just issue the command: 'log'. using the console config file, you can set the log level 
+It's very simple to display the log on the screen, just issue the command: 'log'. Using the console config file, you can set the log level 
 (e.g.: INFO, DEBUG, and etc).
 
-![Image of ASCii VMSS Dashboard Insights 1](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4-insights1.png)
+![Image of ASCii VMSS Dashboard Log](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4-log.png)
 
 One of the key features of this new version of the ASCiiVMSSDashboard is the ability to see in real time two instrumentation graphs.
 You can eanble this feature on the vmssconfig.json file, and set the title of the graph and the URL that the console will use to gather the 
 metrics. The console will just do a HTTP GET on each URL and expect to receive an 'number' to plot on the graphs.
 
-![Image of ASCii VMSS Dashboard Insights 1](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4-insights2.png)
+![Image of ASCii VMSS Dashboard Insights 1](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4-insights1.png)
 
 There is an option to enable one, two or disable both graphs. In the future this feature will be integrated directly on Azure Application
 Insights, and we will be able to select any of the metrics configured on the platform.
 
+![Image of ASCii VMSS Dashboard Insights 1](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4-insights2.png)
 
+
+This is the Main Screen with the General Info window at the bottom:
 ![Image of ASCii VMSS Dashboard General Info](https://raw.githubusercontent.com/msleal/msleal.github.com/master/general.png)
 
 Multiple pages for visualization of all your Virtual Machines (each page shows 100 VM's).
