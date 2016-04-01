@@ -147,7 +147,7 @@ def tail_in_window(filename, window, panel, run_event):
 					if not (panel_hidden(panel)):
 						#wrefresh(window)
 						update_panels();
-						doupdate();
+						#doupdate();
 				#except KeyboardInterrupt:
 				except:
 					print("PROBLEM");
