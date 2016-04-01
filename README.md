@@ -88,11 +88,12 @@ back will be proportional to you refresh interval (e.g.: max='INTERVAL'). You ca
 ## ASCiiVMSSDashboard Commands
   To issue commands for the Azure Resource Manager API to add and/or delete virtual machines from the Scale Set,
 you just need to type ':'. After that, the cursor will appear at (PROMPT window), and you will be able to enter commands.
-To see a help window just type ':' (to activate the command PROMPT), and 'help' again to hide it.
+To see a help window just type ':' (to activate the command PROMPT), and 'help'. To hide the help window, just type 
+'help' again.
 
 REMEMBER: To activate the prompt window, type: ':'
 
-Commands (v1.2):
+Commands (v1.4):
 - add vm 'nr': Use this command to add virtual machines to your VMSS deployment.
 - del vm 'nr': Use this command to delete virtual machines to your VMSS deployment.
 - select vm 'nr': Use this command to select a specific virtual machine on your VMSS deployment and see detailed info.
