@@ -34,7 +34,7 @@ panel_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm
 
 def main(): #{
 	#Initialize...
-	COLSTART=100;
+	COLSTART=100; SZ = 0;
 	ourhome = platform.system();
 	stdscr = initscr();
 
@@ -57,15 +57,14 @@ def main(): #{
 		else:
 			SZ = 0;
 	if (SZ == 0):
+		endwin();
 		print ("You need a terminal at least 55x235...");
 		print ("If you are running this application on Linux, you can resize your terminal using: resize -s 55 235.");
-		endwin();
-		exit(1);
+		sys.exit(1);
 
-	if (not has_colors()): #{
+	if (not has_colors()):
 		print ("You need to have colors")
-		return 0;
-        #}
+		sys.exit(1);
 	start_color();
 	set_colors();
 	noecho();

@@ -30,29 +30,34 @@ except FileNotFoundError:
 	print("Error: Expecting asciivmssdashboard.json in current folder")
 	sys.exit()
 
-#Read the config params...
-tenant_id = configData['tenantId']
-app_id = configData['appId']
-app_secret = configData['appSecret']
-subscription_id = configData['subscriptionId']
-# this is the resource group, VM Scale Set to monitor..
-rgname = configData['resourceGroup']
-vmssname = configData['vmssName']
-vmsku = configData['vmSku']
-tier = configData['tier']
-purgeLog = configData['purgeLog']
-logName = configData['logName']
-logLevel = configData['logLevel']
-interval = configData['interval']
-intervalInsights = configData['intervalInsights']
-insightsOneEnabled = configData['insightsOneEnabled']
-insightsOneUrl = configData['insightsOneUrl']
-insightsOneTitle = configData['insightsOneTitle']
-insightsTwoEnabled = configData['insightsTwoEnabled']
-insightsTwoUrl = configData['insightsTwoUrl']
-insightsTwoTitle = configData['insightsTwoTitle']
-insightsKey = configData['insightsKey']
-configFile.close()
+try:
+	tenant_id = configData['tenantId']
+	app_id = configData['appId']
+	app_secret = configData['appSecret']
+	subscription_id = configData['subscriptionId']
+	# this is the resource group, VM Scale Set to monitor..
+	rgname = configData['resourceGroup']
+	vmssname = configData['vmssName']
+	vmsku = configData['vmSku']
+	tier = configData['tier']
+	purgeLog = configData['purgeLog']
+	logName = configData['logName']
+	logLevel = configData['logLevel']
+	interval = configData['interval']
+	intervalInsights = configData['intervalInsights']
+	insightsOneEnabled = configData['insightsOneEnabled']
+	insightsOneUrl = configData['insightsOneUrl']
+	insightsOneTitle = configData['insightsOneTitle']
+	insightsTwoEnabled = configData['insightsTwoEnabled']
+	insightsTwoUrl = configData['insightsTwoUrl']
+	insightsTwoTitle = configData['insightsTwoTitle']
+	insightsKey = configData['insightsKey']
+	configFile.close()
+except:
+	print("Missing configuration parameter. You can disable some features, but the config option must be present.")
+	print("Use the asciivmssdashboard.json.tmpl file as a template to fill in your custom values...")
+	configFile.close()
+	sys.exit()
 
 #Region...
 region=""
@@ -73,7 +78,7 @@ page = 1;
 quit = 0;
 
 #Remove old log file if requested (default behavior)...
-if (purgeLog == "Yes"):
+if (purgeLog.lower() == "yes"):
 	if (os.path.isfile(logName)):
 		os.remove(logName);
 
@@ -536,7 +541,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			# sleep before each loop to avoid throttling...
 			time.sleep(interval);
 		except:
-			logging.exception("ERROR:")
+			logging.exception("Getting VMSS Information...")
 			write_str(window_information['error'], 1, 24, "Let's sleep for 30 seconds and try to refresh the dashboard again...");
 			show_panel(panel_information['error']);
 			update_panels();
@@ -631,7 +636,7 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 			doupdate();
 
 def insights_in_window(log, window, run_event):
-	global insights_flag;
+	global insights_flag, insightsOneEnabled, insightsTwoEnabled;
 
 	lock = threading.Lock()
 
@@ -652,7 +657,7 @@ def insights_in_window(log, window, run_event):
 			index_one = 0; index_two = 0;
 
 		#Get the Insights metrics and draw graph...
-		if (insightsOneEnabled):
+		if (insightsOneEnabled.lower() == "yes"):
 			clean_insights(window['insightsone'], 10);
 			#Open space to a new sample...
 			values_insightsone.append(index_one);
@@ -666,9 +671,9 @@ def insights_in_window(log, window, run_event):
 				index_one += 1;
 				draw_insights(window['insightsone'], values_insightsone, insightsOneTitle, "One", flag);
 			except:
-				logging.info("ERROR Getting Insights Metric: %s", insightsOneTitle);
+				logging.exception("Getting Insights Metric: %s", insightsOneTitle);
 
-		if (insightsTwoEnabled):
+		if (insightsTwoEnabled.lower() == "yes"):
 			clean_insights(window['insightstwo'], 7);
 			#Open space to a new sample...
 			values_insightstwo.append(index_two);
@@ -682,7 +687,7 @@ def insights_in_window(log, window, run_event):
 				index_two += 1;
 				draw_insights(window['insightstwo'], values_insightstwo, insightsTwoTitle, "Two", flag);
 			except:
-				logging.info("ERROR Getting Insights Metric: %s", insightsTwoTitle);
+				logging.exception("Getting Insights Metric: %s", insightsTwoTitle);
 
 		#Sleep a little...
 		update_panels();
@@ -690,7 +695,7 @@ def insights_in_window(log, window, run_event):
 		time.sleep(intervalInsights);
 
 def vmss_monitor_thread(window_information, panel_information, window_continents, panel_continents):
-	global access_token;
+	global access_token, insightsOneEnabled, insightsTwoEnabled;
 
 	run_event = threading.Event()
 	run_event.set()
@@ -714,8 +719,23 @@ def vmss_monitor_thread(window_information, panel_information, window_continents
 	cmd_thread = threading.Thread(target=get_cmd, args=(access_token, run_event, window_information, panel_information))
 	cmd_thread.start()
 
+	#Simple consistent check for the Insights configuration...
+	if (insightsOneEnabled.lower() == "yes"):
+		if (insightsOneUrl == "" or insightsOneTitle == ""):
+			logging.warning("Configuration for insightsOne Graph is inconsistent...");
+			insightsOneEnabled = "No";
+
+	try:
+		if (insightsTwoEnabled.lower() == "yes"):
+			if (insightsTwoUrl == "" or insightsTwoTitle == ""):
+				logging.warning("Configuration for InsightsTwo Graph is inconsistent...");
+				insightsTwoEnabled = "No";
+	except:
+		logging.exception("Missing configuration parameter. You can disable features, but the config option must be present...")
+		insightsTwoEnabled = "No";
+
 	# Insights Thread...
-	if (insightsOneEnabled or insightsTwoEnabled):
+	if (insightsOneEnabled.lower() == "yes" or insightsTwoEnabled.lower() == "yes"):
 		insights_thread = threading.Thread(target=insights_in_window, args=(logName, window_information, run_event))
 		insights_thread.start()
 
