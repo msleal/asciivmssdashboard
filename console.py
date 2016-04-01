@@ -201,7 +201,7 @@ def main(): #{
 	write_str_color(window_information['cmd'], 1, 3, ">", 4, 1);
 	create_prompt_form(window_information['cmd']);
 
-	window_information['help'] = create_window(12, 32, 21, 201);
+	window_information['help'] = create_window(20, 33, 34, 56);
 	box(window_information['help']);
 	panel_information['help'] = new_panel(window_information['help']);
 	hide_panel(panel_information['help']);

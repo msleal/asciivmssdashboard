@@ -15,6 +15,7 @@ import struct
 import threading
 import time
 from unicurses import *
+from windows import *
 
 position_on_file = 0;
 
@@ -141,11 +142,14 @@ def tail_in_window(filename, window, panel, run_event):
 						wmove(window, y, x + 1)
 						waddstr(window, line_portion)
 
-					box(window)
-					#window.addstr(0, 5, title)
-					#window.addstr(0, max_chars / 2 - len(title) / 2, title)
+					#We save the cursor position, write the title, and put the cursor back in curse...
 					y, x = getyx(window)
+					box(window)
+					write_str_color(window, 0, 5, title, 3, 0);
 					wmove(window, y, x)
+					#y, x = getyx(window)
+					#wmove(window, y, x)
+
 					if not (panel_hidden(panel)):
 						wrefresh(window)
 				except KeyboardInterrupt:

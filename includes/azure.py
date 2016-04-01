@@ -412,8 +412,9 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			if (step < 1): step = 1;	
 
 			#We take more time on our VM effect depending on how many VMs we are talking about...
-			if (qtd < 20): ts = 0.01;
-			elif (qtd < 60): ts = 0.003;
+			if (qtd < 10): ts = 0.02;
+			elif (qtd < 25): ts = 0.01;
+			elif (qtd < 50): ts = 0.003;
 			elif (qtd < 100): ts = 0.0005;
 			else: ts = 0;
 
@@ -651,32 +652,37 @@ def insights_in_window(log, window, run_event):
 			index_one = 0; index_two = 0;
 
 		#Get the Insights metrics and draw graph...
-		#metricone = randint(0, 100); metrictwo = randint(0, 100);
 		if (insightsOneEnabled):
 			clean_insights(window['insightsone'], 10);
 			#Open space to a new sample...
 			values_insightsone.append(index_one);
-			metricone = requests.get(insightsOneUrl);
-			logging.info("INSIGHTS %s: %s", insightsOneTitle, metricone.text);
-			values_insightsone[index_one] = int(metricone.text);
-			if (index_one == total_values_one):
-				values_insightsone.pop(0);
-				index_one = (total_values_one - 1);
-			index_one += 1;
-			draw_insights(window['insightsone'], values_insightsone, insightsOneTitle, "One", flag);
+			try:
+				metricone = requests.get(insightsOneUrl);
+				logging.info("INSIGHTS %s: %s", insightsOneTitle, metricone.text);
+				values_insightsone[index_one] = int(metricone.text);
+				if (index_one == total_values_one):
+					values_insightsone.pop(0);
+					index_one = (total_values_one - 1);
+				index_one += 1;
+				draw_insights(window['insightsone'], values_insightsone, insightsOneTitle, "One", flag);
+			except:
+				logging.info("ERROR Getting Insights Metric: %s", insightsOneTitle);
 
 		if (insightsTwoEnabled):
 			clean_insights(window['insightstwo'], 7);
 			#Open space to a new sample...
 			values_insightstwo.append(index_two);
-			metrictwo = requests.get(insightsTwoUrl);
-			logging.info("INSIGHTS %s: %s", insightsTwoTitle, metrictwo.text);
-			values_insightstwo[index_two] = int(metrictwo.text);
-			if (index_two == total_values_two):
-				values_insightstwo.pop(0);
-				index_two = (total_values_two - 1);
-			index_two += 1;
-			draw_insights(window['insightstwo'], values_insightstwo, insightsTwoTitle, "Two", flag);
+			try:
+				metrictwo = requests.get(insightsTwoUrl);
+				logging.info("INSIGHTS %s: %s", insightsTwoTitle, metrictwo.text);
+				values_insightstwo[index_two] = int(metrictwo.text);
+				if (index_two == total_values_two):
+					values_insightstwo.pop(0);
+					index_two = (total_values_two - 1);
+				index_two += 1;
+				draw_insights(window['insightstwo'], values_insightstwo, insightsTwoTitle, "Two", flag);
+			except:
+				logging.info("ERROR Getting Insights Metric: %s", insightsTwoTitle);
 
 		#Sleep a little...
 		update_panels();

@@ -278,22 +278,29 @@ def create_vm_form(window):
 	write_str_color(window, 18, 2, "State..: ", 4, 1);
 
 def create_help_form(window):
-	write_str(window, 1, 2, "To enter commands, type: ':'");
-	write_str(window, 2, 3, " ---= Command Examples =---");
-	write_str_color(window, 3, 2, "Adding 2 VM's: ", 4, 1);
-	write_str(window, 3, 17, "add vm 2");
-	write_str_color(window, 4, 2, "Deleting 1 VM: ", 4, 1);
-	write_str(window, 4, 17, "del vm 1");
-	write_str_color(window, 5, 2, "Select VM 8: ", 4, 1);
-	write_str(window, 5, 15, "select vm 8");
-	write_str_color(window, 6, 2, "Deselect any VM: ", 4, 1);
-	write_str(window, 6, 19, "deselect");
-	write_str_color(window, 7, 2, "Change Page: ", 4, 1);
-	write_str(window, 7, 15, "show page 3");
-	write_str_color(window, 8, 2, "Show LOG: ", 4, 1);
-	write_str(window, 8, 12, "log");
-	write_str_color(window, 9, 2, "Change VMSS:", 4, 1);
-	write_str(window, 10, 2, "rg <rgname> vmss <vmssname>");
+	write_str(window, 2, 2, "To enter commands, type: ':'");
+	write_str(window, 4, 3, "---= Command Examples =---");
+	write_str_color(window, 6, 2, "Adding 2 VM's: ", 4, 1);
+	write_str(window, 6, 17, "add vm 2");
+	write_str_color(window, 7, 2, "Deleting 1 VM: ", 4, 1);
+	write_str(window, 7, 17, "del vm 1");
+	write_str_color(window, 8, 2, "Select VM 8: ", 4, 1);
+	write_str(window, 8, 15, "select vm 8");
+	write_str_color(window, 9, 2, "Deselect any VM: ", 4, 1);
+	write_str(window, 9, 19, "deselect");
+	write_str_color(window, 10, 2, "Change Page: ", 4, 1);
+	write_str(window, 10, 15, "show page 3");
+	write_str_color(window, 11, 2, "Show LOG: ", 4, 1);
+	write_str(window, 11, 12, "log");
+	write_str_color(window, 12, 2, "Show Insights 1: ", 4, 1);
+	write_str(window, 12, 19, "insights 1");
+	write_str_color(window, 13, 2, "Show Insights 2: ", 4, 1);
+	write_str(window, 13, 19, "insights 2");
+	write_str_color(window, 14, 2, "Show all Windows: ", 4, 1);
+	write_str(window, 14, 20, "debug");
+	write_str_color(window, 15, 2, "Change VMSS: rg <rgname>", 4, 1);
+	write_str(window, 15, 15, "rg <rgname>");
+	write_str(window, 16, 2, "vmss <vmssname>");
 
 def create_virtualmachines_form(window):
 	write_str(window, 0, 2, " 1 ");
