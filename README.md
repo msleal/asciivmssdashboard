@@ -42,8 +42,8 @@ metrics. The console will just do a HTTP GET on each URL and expect to receive a
 
 ![Image of ASCii VMSS Dashboard Insights 1](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4-insights1.png)
 
-There is an option to enable one, two or disable both graphs. In the future this feature will be integrated directly on Azure Application
-Insights, and we will be able to select any of the metrics configured on the platform.
+There is an option to enable one, two or disable both graphs. In the future I plan to integrate with the Azure Application Insights, 
+and so we should be able to select any of the metrics configured on the platform. Stay tuned!
 
 ![Image of ASCii VMSS Dashboard Insights 1](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4-insights2.png)
 
