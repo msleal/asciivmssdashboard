@@ -75,9 +75,10 @@ To not create the .pyc files, I use the following (on Linux): export PYTHONDONTW
 
 ###TIP #2:
 I have used the console with no issues using a refresh interval of 60 seconds. If you use a more 'agressive'
-update interval, keep one eye at the last-update registered at the top-left of the dashboard window, to see if the console 
-is stil running.  If you notice it stopped, it should have generated an 'error.log' in the current directory. 
-Look into it, if it has information about AZURE API 'throttling", you will need to restart it (with a bigger inteval)...
+update interval, keep one eye at the last-update registered at the top-left of the dashboard window and/or in the log
+window (e.g.: 'log'), to see if the console is stil running.  If you notice it stopped, you should see the 'ERROR' window
+described above, and the console should resume in 30 seconds. if the log has information about AZURE API 'throttling", 
+you will need to restart the ASCiiVMSSDashboard (with a bigger inteval)...
  
 ###TIP #3:
 As we wait for the threads to finish as you hit 'Ctrl+C' or 'quit' (to exit), the time you will wait to get your prompt
