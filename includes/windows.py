@@ -296,11 +296,13 @@ def create_help_form(window):
 	write_str(window, 12, 19, "insights 1");
 	write_str_color(window, 13, 2, "Show Insights 2: ", 4, 1);
 	write_str(window, 13, 19, "insights 2");
-	write_str_color(window, 14, 2, "Show all Windows: ", 4, 1);
-	write_str(window, 14, 20, "debug");
-	write_str_color(window, 15, 2, "Change VMSS: rg <rgname>", 4, 1);
-	write_str(window, 15, 15, "rg <rgname>");
-	write_str(window, 16, 2, "vmss <vmssname>");
+	write_str_color(window, 14, 2, "Show both Insights: ", 4, 1);
+	write_str(window, 14, 23, "insights");
+	write_str_color(window, 15, 2, "Show all Windows: ", 4, 1);
+	write_str(window, 15, 20, "debug");
+	write_str_color(window, 16, 2, "Change VMSS: rg <rgname>", 4, 1);
+	write_str(window, 16, 15, "rg <rgname>");
+	write_str(window, 17, 2, "vmss <vmssname>");
 
 def create_virtualmachines_form(window):
 	write_str(window, 0, 2, " 1 ");

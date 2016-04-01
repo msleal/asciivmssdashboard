@@ -553,7 +553,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 def get_cmd(access_token, run_event, window_information, panel_information):
 	global key, rgname, vmssname, vm_selected, quit;
 	
-	win_help = 0; win_log = 0; win_insights = 0; win_insightsone = 0; win_insightstwo = 0;
+	win_help = 0; win_log = 0; win_insightsone = 0; win_insightstwo = 0;
 	lock = threading.Lock()
 	while (run_event.is_set() and quit == 0):
 		with lock:
@@ -588,16 +588,16 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 					show_panel(panel_information['help']);
 					win_help = 1;
 			elif (command == "debug"):
-				if (win_log and win_insights and win_insightstwo):
+				if (win_log and win_insightsone and win_insightstwo):
 					hide_panel(panel_information['log']);
 					hide_panel(panel_information['insightsone']);
 					hide_panel(panel_information['insightstwo']);
-					win_log = 0; win_insights = 0; win_insightsone = 0; win_insightstwo = 0; 
+					win_log = 0; win_insightsone = 0; win_insightstwo = 0; 
 				else:
 					show_panel(panel_information['log']);
 					show_panel(panel_information['insightsone']);
 					show_panel(panel_information['insightstwo']);
-					win_log = 1; win_insights = 1; win_insightsone = 1; win_insightstwo = 1;
+					win_log = 1; win_insightsone = 1; win_insightstwo = 1;
 			elif (command == "log"):
 				if (win_log):
 					hide_panel(panel_information['log']);
@@ -605,6 +605,15 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 				else:
 					show_panel(panel_information['log']);
 					win_log = 1;
+			elif (command == "insights"):
+				if (win_insightsone and win_insightstwo):
+					hide_panel(panel_information['insightsone']);
+					hide_panel(panel_information['insightstwo']);
+					win_insightsone = 0; win_insightstwo = 0;
+				else:
+					show_panel(panel_information['insightsone']);
+					show_panel(panel_information['insightstwo']);
+					win_insightsone = 1; win_insightstwo = 1;
 			elif (command == "insights 1"):
 				if (win_insightsone):
 					hide_panel(panel_information['insightsone']);
