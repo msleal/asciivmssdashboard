@@ -1,5 +1,5 @@
 # Application files
-vmssconfig.json
+asciivmssdashboard.json
 # Python cache and pdcurses DLL...
 includes/__pycache__/
 pdcurses.dll

@@ -24,10 +24,10 @@ from random import *
 
 # Load Azure app defaults
 try:
-	with open('vmssconfig.json') as configFile:
+	with open('asciivmssdashboard.json') as configFile:
 		configData = json.load(configFile)
 except FileNotFoundError:
-	print("Error: Expecting vmssconfig.json in current folder")
+	print("Error: Expecting asciivmssdashboard.json in current folder")
 	sys.exit()
 
 #Read the config params...

@@ -15,7 +15,7 @@ Fear nothing, the global map is still here...
   4. On Windows, Install [pdcurses](http://pdcurses.sourceforge.net/). I have used the: pdc34dllw.zip file. See 'PDCURSES' bellow...
   5. Clone this repo locally.
   6. Register an Azure application, create a service principal and get your tenant id. See "Using ASCiiVMSSDashboard".
-  7. Put in values for your application, along with your resource group name, and VM Scale Set name in vmssconfig.json.
+  7. Put in values for your application, along with your resource group name, and VM Scale Set name in asciivmssdashboard.json.
   8. Run (on Linux): ./console.py or (on Windows): python console.py.
   9. To Exit the Console, just hit: Ctrl+C or use the command: 'quit' (for a 'clean' exit, we will wait for the update threads to finish).
 In the Windows Platform you can just use the command: 'quit' for now (See "CAVEATS" bellow)...
@@ -30,14 +30,14 @@ Enjoy some code and loud music!
 
 ## FEATURES:
 The Version 1.4 brings many new features and commands for the ASCiiVMSSDashboard utility. 
-Version 1.4 has an option to create a log file with many useful information that can be watched live directly in the ASCiiVMSSDashboard.
+This version has an option to create a log file with many useful information that can be watched live directly in the ASCiiVMSSDashboard.
 It's very simple to display the log on the screen, just issue the command: 'log'. Using the console config file, you can set the log level 
 (e.g.: INFO, DEBUG, and etc).
 
 ![Image of ASCii VMSS Dashboard Log](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4-log.png)
 
 One of the key features of this new version of the ASCiiVMSSDashboard is the ability to see in real time two instrumentation graphs.
-You can eanble this feature on the vmssconfig.json file, and set the title of the graph and the URL that the console will use to gather the 
+You can eanble this feature on the asciivmssdashboard.json file, and set the title of the graph and the URL that the console will use to gather the 
 metrics. The console will just do a HTTP GET on each URL and expect to receive an 'number' to plot on the graphs.
 
 ![Image of ASCii VMSS Dashboard Insights 1](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4-insights1.png)
@@ -48,7 +48,7 @@ Insights, and we will be able to select any of the metrics configured on the pla
 ![Image of ASCii VMSS Dashboard Insights 1](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4-insights2.png)
 
 
-This is the Main Screen with the General Info window at the bottom:
+These are the PROMPT, General Info, and System Info windows:
 ![Image of ASCii VMSS Dashboard General Info](https://raw.githubusercontent.com/msleal/msleal.github.com/master/general.png)
 
 Multiple pages for visualization of all your Virtual Machines (each page shows 100 VM's).
@@ -82,7 +82,7 @@ Look into it, if it has information about AZURE API 'throttling", you will need 
 ###TIP #3:
 As we wait for the threads to finish as you hit 'Ctrl+C' or 'quit' (to exit), the time you will wait to get your prompt
 back will be proportional to you refresh interval (e.g.: max='INTERVAL'). You can change the update interval in the 
-'vmssconfig.json' file.
+'asciivmssdashboard.json' file.
 
 ## ASCiiVMSSDashboard Commands
   To issue commands for the Azure Resource Manager API to add and/or delete virtual machines from the Scale Set,
@@ -125,7 +125,7 @@ still needs to have the UniCurses installed, but you have the Windows Installer 
 To use this app (and in general to access Azure Resource Manager from a program without going through 2 factor authentication), 
 you need to register your application with Azure and create a "Service Principal" (an application equivalent of a user). 
 Once you've done this you'll have 3 pieces of information: A 'tenant ID', an 'application ID', and an 'application secret'.
-You will use these to populate the 'vmssconfig.json' file. 
+You will use these to populate the 'asciivmssdashboard.json' file. 
 
 For more information on how to get this information go here: [Authenticating a service principal with Azure Resource Manager][service-principle].
 See also: [Azure Resource Manager REST calls from Python][python-auth].
