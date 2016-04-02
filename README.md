@@ -22,9 +22,11 @@ In the Windows Platform you can just use the command: 'quit' for now (See "CAVEA
 
 ## WATCH THE CONSOLE IN ACTION:
 Subtitle/Captions should be enabled by default, but if not, enable them to follow the action (English and Portuguese BR available).
+Don't forget to subscribe to the channel for updates...
+
+[ASCiiVMSSDashboard (v1.4) - Screencast](https://www.youtube.com/watch?v=PUagvJ6fTd0)
 
 [ASCiiVMSSDashboard (v1.0) - Screencast](https://www.youtube.com/watch?v=MomiZ9rU9NU)
-Don't forget to subscribe to the channel for updates...
 
 Enjoy some code and loud music!
 
