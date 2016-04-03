@@ -9,6 +9,23 @@ Fear nothing, the global map is still here...
 
 
 ## Installation
+
+USING DOCKER (Ubuntu):
+- If you don't have docker installed, first execute:
+  sudo apt-get install -y docker.io
+
+- With docker installed:
+  1. sudo docker pull msleal/asciivmssdashboard
+  2. sudo docker run -i -t e28007e9030b /bin/bash
+  3. su - architect
+  4. cd asciivmssdashboard
+  5. git pull origin master
+  6. cp asciivmssdashboard.json.tmpl asciivmssdashboard.json
+- Fill in the asciivmssdashboard.json config file with your custom values...
+  8. export TERM=screen; export PYTHONDONTWRITEBYTECODE=1; ./console.py 
+
+OR:
+
   1. Install Python 2.x or 3.x.
   2. Install the azurerm REST wrappers for Microsoft Azure: pip install azurerm.
   3. Install [Pyunicurses](https://sourceforge.net/projects/pyunicurses/).
@@ -73,7 +90,9 @@ In case of any errors, you will be able to see the messages on the LOG Window, a
 ![Image of ASCii VMSS Dashboard Error Message](https://raw.githubusercontent.com/msleal/msleal.github.com/master/error.png)
 
 ###TIP #1: 
-To not create the .pyc files, I use the following (on Linux): export PYTHONDONTWRITEBYTECODE=1; ./console.py.
+To not create the .pyc files, I use the following (on Linux): export TERM=screen; export PYTHONDONTWRITEBYTECODE=1; ./console.py.
+IMPORTANT: I use 'screen' terminal and it was the best emulation I found to run curses application. You can try other terminals
+that you have the best experience or compatibility in your system (e.g.: TERM=xterm, TERM=xterm-color, etc).
 
 ###TIP #2:
 I have used the console with no issues using a refresh interval of 60 seconds. If you use a more 'agressive'
