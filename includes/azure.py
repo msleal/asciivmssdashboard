@@ -766,7 +766,7 @@ def vmss_monitor_thread(window_information, panel_information, window_continents
 		log_thread.join();
 		vmss_thread.join();
 		cmd_thread.join();
-		if (insightsOneEnabled or insightsTwoEnabled):
+		if (insightsOneEnabled.lower() == "yes" or insightsTwoEnabled.lower() == "yes"):
 			insights_thread.join();
 		wmove(window_information['exit'], 3, 5); wclrtoeol(window_information['exit']);
 		box(window_information['exit']);
