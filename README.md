@@ -43,7 +43,7 @@ Don't forget to subscribe to the channel for updates...
 
 [ASCiiVMSSDashboard (v1.4) - Screencast](https://www.youtube.com/watch?v=PUagvJ6fTd0)
 
-[ASCiiVMSSDashboard (v1.4) - running natively on Android (ASCii Player)](https://asciinema.org/a/3m5fo6la3f1bbpnh7l5gz5lk2)
+[ASCiiVMSSDashboard (v1.4) - running natively on Android (ASCii Player - Watch in Fullscreen)](https://asciinema.org/a/3m5fo6la3f1bbpnh7l5gz5lk2)
 
 [ASCiiVMSSDashboard (v1.4) - running natively on Android (Youtube Version)](https://www.youtube.com/watch?v=pK-xQNnyZfY)
 
