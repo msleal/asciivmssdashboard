@@ -77,7 +77,7 @@ def main(): #{
 	box(window);
 	panel = new_panel(window);
 	#Window Headers...
-	write_str(window, 0, 5, "| ASCii VMSS Dashboard - Version: 1.4 |");
+	write_str(window, 0, 5, "| ASCii VMSS Dashboard - Version: 1.6 |");
 	write_str(window, 0, 50, " PYTHON Version: ");
 	write_str(window, 0, 67, cur_version.major);
 	write_str(window, 0, 68, "x ");
