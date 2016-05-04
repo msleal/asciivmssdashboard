@@ -679,12 +679,15 @@ def insights_in_window(log, window, run_event):
 			#Open space to a new sample...
 			values_insightsone.append(index_one);
 			try:
-				if (insightsUrl != ""):
+				if (insightsOneUrl == ""):
 					insightsOneUrl = insightsUrl + insightsAppId + "/metrics/" + insightsOneMetric + "?timespan=PT" + str(insightsInterval) + "S";
 
 				metricone = requests.get(insightsOneUrl, headers=customheader);
 				metriconevalue = metricone.json();
-				values_insightsone[index_one] = int(metriconevalue['value'][insightsOneMetric]['sum']);
+				if (metriconevalue['value'][insightsOneMetric]['sum'] is not None):
+					values_insightsone[index_one] = int(metriconevalue['value'][insightsOneMetric]['sum']);
+				else:
+					values_insightsone[index_one] = 0;
 				logging.info("INSIGHTS %s: %s", insightsOneTitle, values_insightsone[index_one]);
 				if (index_one == total_values_one):
 					values_insightsone.pop(0);
@@ -699,12 +702,15 @@ def insights_in_window(log, window, run_event):
 			#Open space to a new sample...
 			values_insightstwo.append(index_two);
 			try:
-				if (insightsUrl != ""):
+				if (insightsTwoUrl == ""):
 					insightsTwoUrl = insightsUrl + insightsAppId + "/metrics/" + insightsTwoMetric + "?timespan=PT" + str(insightsInterval) + "S";
 
 				metrictwo = requests.get(insightsTwoUrl, headers=customheader);
 				metrictwovalue = metrictwo.json();
-				values_insightstwo[index_two] = int(metrictwovalue['value'][insightsTwoMetric]['sum']);
+				if (metrictwovalue['value'][insightsTwoMetric]['avg'] is not None):
+					values_insightstwo[index_two] = int(metrictwovalue['value'][insightsTwoMetric]['avg']);
+				else:
+					values_insightstwo[index_two] = 0;
 				logging.info("INSIGHTS %s: %s", insightsTwoTitle, values_insightstwo[index_two]);
 				if (index_two == total_values_two):
 					values_insightstwo.pop(0);
@@ -745,26 +751,14 @@ def vmss_monitor_thread(window_information, panel_information, window_continents
 	cmd_thread.start()
 
 	#Simple consistent check for the Insights configuration...
-	if (insightsUrl != ""):
-		if (insightsOneEnabled.lower() != "yes" and insightsTwoEnabled.lower() != "yes"):
-			logging.warning("Configuration for Insights is inconsistent. You configured insightsUrl but have not enabled insights[One|Two] metrics.");
-			insightsOneEnabled = "No"; insightsTwoEnabled = "No";
-		else:
-			if ((insightsOneUrl != "" and insightsOneEnabled.lower() == "yes") or (insightsTwoUrl != "" and insightsTwoEnabled.lower() == "yes")):
-				logging.warning("Configuration for Insights is inconsistent. You can use insightsUrl OR insights[One|Two]Urls, but not both.");
-				insightsOneEnabled = "No"; insightsTwoEnabled = "No";
-			if ((insightsOneMetric == "" or insightsOneTitle == "") and (insightsTwoMetric == "" or insightsTwoTitle == "")):
-				logging.warning("Configuration for Insights is inconsistent. You configured insightsUrl but not insights[One|Two] metric's name and title.");
-				insightsOneEnabled = "No"; insightsTwoEnabled = "No";
-
 	if (insightsOneEnabled.lower() == "yes"):
-		if ((insightsOneUrl == "" and insightsUrl == "") or (insightsOneTitle == "")):
-			logging.warning("Configuration for insightsOne Graph is inconsistent. You need to configure insightsUrl or insightsOneUrl AND insightsOneTitle");
+		if ((insightsOneUrl == "" and insightsUrl == "") or (insightsOneTitle == "") or (insightsOneMetric == "")):
+			logging.warning("Configuration for insightsOne Graph is inconsistent. You need to configure insightsUrl or insightsOneUrl AND insightsOneTitle AND insightsOneMetric");
 			insightsOneEnabled = "No";
 
 	if (insightsTwoEnabled.lower() == "yes"):
-		if ((insightsTwoUrl == "" and insightsUrl == "") or (insightsTwoTitle == "")):
-			logging.warning("Configuration for InsightsTwo Graph is inconsistent. You need to configure insightsUrl or insightsTwoUrl AND insightsTwoTitle");
+		if ((insightsTwoUrl == "" and insightsUrl == "") or (insightsTwoTitle == "") or (insightsTwoMetric == "")):
+			logging.warning("Configuration for InsightsTwo Graph is inconsistent. You need to configure insightsUrl or insightsTwoUrl AND insightsTwoTitle AND insightsTwoMetric");
 			insightsTwoEnabled = "No";
 
 	# Insights Thread...
