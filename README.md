@@ -1,5 +1,5 @@
-# ASCii VMSS Dashboard v1.4
-Dashboard to show and configure Azure VM Scale Set status, properties, watch live graphs of Telemetry data, logs and more!
+# ASCii VMSS Dashboard v1.6
+Dashboard to show and configure Azure VM Scale Set status, properties, watch live graphs of Insights Telemetry data, logs and more!
 
 ![Image of ASCii VMSS Dashboard](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4.png)
 
@@ -31,11 +31,17 @@ OR:
   3. Install [Pyunicurses](https://sourceforge.net/projects/pyunicurses/).
   4. On Windows, Install [pdcurses](http://pdcurses.sourceforge.net/). I have used the: pdc34dllw.zip file. See 'PDCURSES' bellow...
   5. Clone this repo locally.
-  6. Register an Azure application, create a service principal and get your tenant id. See "Using ASCiiVMSSDashboard".
-  7. Put in values for your application, along with your resource group name, and VM Scale Set name in asciivmssdashboard.json.
-  8. Run (on Linux): ./console.py or (on Windows): python console.py.
-  9. To Exit the Console, just hit: Ctrl+C or use the command: 'quit' (for a 'clean' exit, we will wait for the update threads to finish).
-In the Windows Platform you can just use the command: 'quit' for now (See "CAVEATS" bellow)...
+
+After you have the application installed, you will need:
+  a. Register an Azure application, create a service principal, and get your tenant id. See "Using ASCiiVMSSDashboard".
+  b. Put in values for your application along with your resource group name and VM Scale Set name in asciivmssdashboard.json file.
+  c. If you want to watch the Insights Telemetry Graphs (for the Azure Service), you will need to configure Azure Insights. See "Using Application Insights Telemetry Data".
+     You can use a custom URL (e.g.: Your own Telemetry API). For that, you will need to have an Telemetry API that provides the metrics (e.g.: JSON), similar to Azure Application Insights.
+     NOTE: If you want to use custom telemetry APIs Services, leave the 'insightsUrl' config option 'empty'. If the insightsUrl is configured, it will have precedence and ASCiiVMSSDashboard will use it
+           in conjuction with the metric (e.g.: insightsOneMetric) configured. If it is not configured, and (for example): insightsOne is enabled, the insightsOneUrl will be used to get the first metric.
+  d. Run (on Linux): ./console.py or (on Windows): python console.py.
+  e. To Exit the Console, just hit: Ctrl+C or use the command: 'quit' (for a 'clean' exit, we will wait for the update threads to finish).
+     In the Windows Platform you can just use the command: 'quit' for now (See "CAVEATS" bellow)...
 
 ## WATCH THE CONSOLE IN ACTION:
 Subtitle/Captions should be enabled by default, but if not, enable them to follow the action (English and Portuguese BR available).
@@ -157,9 +163,15 @@ You will use these to populate the 'asciivmssdashboard.json' file.
 For more information on how to get this information go here: [Authenticating a service principal with Azure Resource Manager][service-principle].
 See also: [Azure Resource Manager REST calls from Python][python-auth].
 
+## Using Application Insights Telemetry Data
+If you want to have integrated graphs on the ASCiiVMSSDashboard directly from Azure Application Insights, you should follow the steps
+described here: [App Insights I][create-resource] and [App Insights II][api-key].
+
 ## Example VMSS ARM Template:
 [Ubuntu Linux VM Scale Set integrated with Azure autoscale][arm-template].
 
 [service-principle]: https://azure.microsoft.com/en-us/documentation/articles/resource-group-authenticate-service-principal/
 [python-auth]: https://msftstack.wordpress.com/2016/01/05/azure-resource-manager-authentication-with-python
+[create-resource]: https://azure.microsoft.com/en-us/documentation/articles/app-insights-create-new-resource/
+[api-key]: 
 [arm-template]: https://github.com/Azure/azure-quickstart-templates/tree/master/201-vmss-ubuntu-autoscale

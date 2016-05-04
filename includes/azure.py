@@ -43,14 +43,18 @@ try:
 	logName = configData['logName']
 	logLevel = configData['logLevel']
 	interval = configData['interval']
-	intervalInsights = configData['intervalInsights']
+	insightsAppId = configData['insightsAppId']
+	insightsKey = configData['insightsKey']
+	insightsUrl = configData['insightsUrl']
 	insightsOneEnabled = configData['insightsOneEnabled']
 	insightsOneUrl = configData['insightsOneUrl']
+	insightsOneMetric = configData['insightsOneMetric']
 	insightsOneTitle = configData['insightsOneTitle']
 	insightsTwoEnabled = configData['insightsTwoEnabled']
 	insightsTwoUrl = configData['insightsTwoUrl']
+	insightsTwoMetric = configData['insightsTwoMetric']
 	insightsTwoTitle = configData['insightsTwoTitle']
-	insightsKey = configData['insightsKey']
+	insightsInterval = configData['insightsInterval']
 	configFile.close()
 except:
 	print("Missing configuration parameter. You can disable some features, but the config option must be present.")
@@ -648,7 +652,7 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 			doupdate();
 
 def insights_in_window(log, window, run_event):
-	global insights_flag, insightsOneEnabled, insightsTwoEnabled;
+	global insights_flag, insightsOneUrl, insightsTwoUrl;
 
 	lock = threading.Lock()
 
@@ -669,14 +673,19 @@ def insights_in_window(log, window, run_event):
 			index_one = 0; index_two = 0;
 
 		#Get the Insights metrics and draw graph...
+		customheader = {'X-Api-Key': insightsKey}
 		if (insightsOneEnabled.lower() == "yes"):
 			clean_insights(window['insightsone'], 10);
 			#Open space to a new sample...
 			values_insightsone.append(index_one);
 			try:
-				metricone = requests.get(insightsOneUrl);
-				logging.info("INSIGHTS %s: %s", insightsOneTitle, metricone.text);
-				values_insightsone[index_one] = int(metricone.text);
+				if (insightsUrl != ""):
+					insightsOneUrl = insightsUrl + insightsAppId + "/metrics/" + insightsOneMetric + "?timespan=PT" + str(insightsInterval) + "S";
+
+				metricone = requests.get(insightsOneUrl, headers=customheader);
+				metriconevalue = metricone.json();
+				values_insightsone[index_one] = int(metriconevalue['value'][insightsOneMetric]['sum']);
+				logging.info("INSIGHTS %s: %s", insightsOneTitle, values_insightsone[index_one]);
 				if (index_one == total_values_one):
 					values_insightsone.pop(0);
 					index_one = (total_values_one - 1);
@@ -690,9 +699,13 @@ def insights_in_window(log, window, run_event):
 			#Open space to a new sample...
 			values_insightstwo.append(index_two);
 			try:
-				metrictwo = requests.get(insightsTwoUrl);
-				logging.info("INSIGHTS %s: %s", insightsTwoTitle, metrictwo.text);
-				values_insightstwo[index_two] = int(metrictwo.text);
+				if (insightsUrl != ""):
+					insightsTwoUrl = insightsUrl + insightsAppId + "/metrics/" + insightsTwoMetric + "?timespan=PT" + str(insightsInterval) + "S";
+
+				metrictwo = requests.get(insightsTwoUrl, headers=customheader);
+				metrictwovalue = metrictwo.json();
+				values_insightstwo[index_two] = int(metrictwovalue['value'][insightsTwoMetric]['sum']);
+				logging.info("INSIGHTS %s: %s", insightsTwoTitle, values_insightstwo[index_two]);
 				if (index_two == total_values_two):
 					values_insightstwo.pop(0);
 					index_two = (total_values_two - 1);
@@ -704,7 +717,7 @@ def insights_in_window(log, window, run_event):
 		#Sleep a little...
 		update_panels();
 		doupdate();
-		time.sleep(intervalInsights);
+		time.sleep(insightsInterval);
 
 def vmss_monitor_thread(window_information, panel_information, window_continents, panel_continents):
 	global access_token, insightsOneEnabled, insightsTwoEnabled;
@@ -732,19 +745,27 @@ def vmss_monitor_thread(window_information, panel_information, window_continents
 	cmd_thread.start()
 
 	#Simple consistent check for the Insights configuration...
+	if (insightsUrl != ""):
+		if (insightsOneEnabled.lower() != "yes" and insightsTwoEnabled.lower() != "yes"):
+			logging.warning("Configuration for Insights is inconsistent. You configured insightsUrl but have not enabled insights[One|Two] metrics.");
+			insightsOneEnabled = "No"; insightsTwoEnabled = "No";
+		else:
+			if ((insightsOneUrl != "" and insightsOneEnabled.lower() == "yes") or (insightsTwoUrl != "" and insightsTwoEnabled.lower() == "yes")):
+				logging.warning("Configuration for Insights is inconsistent. You can use insightsUrl OR insights[One|Two]Urls, but not both.");
+				insightsOneEnabled = "No"; insightsTwoEnabled = "No";
+			if ((insightsOneMetric == "" or insightsOneTitle == "") and (insightsTwoMetric == "" or insightsTwoTitle == "")):
+				logging.warning("Configuration for Insights is inconsistent. You configured insightsUrl but not insights[One|Two] metric's name and title.");
+				insightsOneEnabled = "No"; insightsTwoEnabled = "No";
+
 	if (insightsOneEnabled.lower() == "yes"):
-		if (insightsOneUrl == "" or insightsOneTitle == ""):
-			logging.warning("Configuration for insightsOne Graph is inconsistent...");
+		if ((insightsOneUrl == "" and insightsUrl == "") or (insightsOneTitle == "")):
+			logging.warning("Configuration for insightsOne Graph is inconsistent. You need to configure insightsUrl or insightsOneUrl AND insightsOneTitle");
 			insightsOneEnabled = "No";
 
-	try:
-		if (insightsTwoEnabled.lower() == "yes"):
-			if (insightsTwoUrl == "" or insightsTwoTitle == ""):
-				logging.warning("Configuration for InsightsTwo Graph is inconsistent...");
-				insightsTwoEnabled = "No";
-	except:
-		logging.exception("Missing configuration parameter. You can disable features, but the config option must be present...")
-		insightsTwoEnabled = "No";
+	if (insightsTwoEnabled.lower() == "yes"):
+		if ((insightsTwoUrl == "" and insightsUrl == "") or (insightsTwoTitle == "")):
+			logging.warning("Configuration for InsightsTwo Graph is inconsistent. You need to configure insightsUrl or insightsTwoUrl AND insightsTwoTitle");
+			insightsTwoEnabled = "No";
 
 	# Insights Thread...
 	if (insightsOneEnabled.lower() == "yes" or insightsTwoEnabled.lower() == "yes"):
