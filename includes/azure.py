@@ -684,8 +684,8 @@ def insights_in_window(log, window, run_event):
 
 				metricone = requests.get(insightsOneUrl, headers=customheader);
 				metriconevalue = metricone.json();
-				if (metriconevalue['value'][insightsOneMetric]['sum'] is not None):
-					values_insightsone[index_one] = int(metriconevalue['value'][insightsOneMetric]['sum']);
+				if (metriconevalue['value'][insightsOneMetric].values()[-1] is not None):
+					values_insightsone[index_one] = int(metriconevalue['value'][insightsOneMetric].values()[-1]);
 				else:
 					values_insightsone[index_one] = 0;
 				logging.info("INSIGHTS %s: %s", insightsOneTitle, values_insightsone[index_one]);
@@ -707,8 +707,8 @@ def insights_in_window(log, window, run_event):
 
 				metrictwo = requests.get(insightsTwoUrl, headers=customheader);
 				metrictwovalue = metrictwo.json();
-				if (metrictwovalue['value'][insightsTwoMetric]['avg'] is not None):
-					values_insightstwo[index_two] = int(metrictwovalue['value'][insightsTwoMetric]['avg']);
+				if (metrictwovalue['value'][insightsTwoMetric].values()[-1] is not None):
+					values_insightstwo[index_two] = int(metrictwovalue['value'][insightsTwoMetric].values()[-1]);
 				else:
 					values_insightstwo[index_two] = 0;
 				logging.info("INSIGHTS %s: %s", insightsTwoTitle, values_insightstwo[index_two]);
