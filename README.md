@@ -33,15 +33,16 @@ OR:
   5. Clone this repo locally.
 
 After you have the application installed, you will need:
-  a. Register an Azure application, create a service principal, and get your tenant id. See "Using ASCiiVMSSDashboard".
-  b. Put in values for your application along with your resource group name and VM Scale Set name in asciivmssdashboard.json file.
-  c. If you want to watch the Insights Telemetry Graphs (for the Azure Service), you will need to configure Azure Insights. See "Using Application Insights Telemetry Data".
+
+  1. Register an Azure application, create a service principal, and get your tenant id. See "Using ASCiiVMSSDashboard".
+  2. Put in values for your application along with your resource group name and VM Scale Set name in asciivmssdashboard.json file.
+  3. If you want to watch the Insights Telemetry Graphs (for the Azure Service), you will need to configure Azure Insights. See "Using Application Insights Telemetry Data".
      You can use a custom URL (e.g.: Your own Telemetry API). For that, you will need to have an Telemetry API that provides the metrics (e.g.: JSON), similar to Azure Application Insights.
      NOTE: If you want to use custom telemetry APIs Services, leave the 'insightsUrl' config option 'empty'. If the insightsUrl is configured, it will have precedence and ASCiiVMSSDashboard will use it
            in conjuction with the metric (e.g.: insightsOneMetric) configured. If it is not configured, and (for example): insightsOne is enabled, the insightsOneUrl will be used to get the first metric.
-  d. Run (on Linux): ./console.py or (on Windows): python console.py.
-  e. To Exit the Console, just hit: Ctrl+C or use the command: 'quit' (for a 'clean' exit, we will wait for the update threads to finish).
-     In the Windows Platform you can just use the command: 'quit' for now (See "CAVEATS" bellow)...
+  4. Run (on Linux): ./console.py or (on Windows): python console.py.
+  5. To Exit the Console, just hit: Ctrl+C or use the command: 'quit' (for a 'clean' exit, we will wait for the update threads to finish).
+     In the Windows Platform you can just use the command: 'quit' for now (See "CAVEATS" bellow).
 
 ## WATCH THE CONSOLE IN ACTION:
 Subtitle/Captions should be enabled by default, but if not, enable them to follow the action (English and Portuguese BR available).
