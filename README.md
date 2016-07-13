@@ -177,5 +177,5 @@ described here: [App Insights I][create-resource] and [App Insights II][api-key]
 [service-principle]: https://azure.microsoft.com/en-us/documentation/articles/resource-group-authenticate-service-principal/
 [python-auth]: https://msftstack.wordpress.com/2016/01/05/azure-resource-manager-authentication-with-python
 [create-resource]: https://azure.microsoft.com/en-us/documentation/articles/app-insights-create-new-resource/
-[api-key]: 
+[api-key]: https://github.com/Microsoft/ApplicationInsights-Home/wiki
 [arm-template]: https://github.com/Azure/azure-quickstart-templates/tree/master/201-vmss-ubuntu-autoscale
