@@ -162,7 +162,7 @@ def exec_cmd(window, access_token, cap, cmd):
 
 	#Execution...
 	if (op == "add" or op == "del"):
-		if (qtd > 9): 
+		if (qtd > 99): 
 			return capacityerror;
 		#Scale-in or Scale-out...
 		if (op == "add"):
