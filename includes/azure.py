@@ -171,7 +171,9 @@ def exec_cmd(window, access_token, cap, cmd):
    			newCapacity = cap - int(c);
 		#Ok, everything seems fine, let's do it...
 		#Change the VM scale set capacity by 'qtd' (can be positive or negative for scale-out/in)
-		scaleoutput = azurerm.scale_vmss(access_token, subscription_id, rgname, vmssname, vmsku, tier, newCapacity);
+		#The interface for scale_vmss changed from 7 to just 5 arguments...
+		#scaleoutput = azurerm.scale_vmss(access_token, subscription_id, rgname, vmssname, vmsku, tier, newCapacity);
+		scaleoutput = azurerm.scale_vmss(access_token, subscription_id, rgname, vmssname, newCapacity);
 		if (scaleoutput.status_code == 200):
 			return execsuccess;
 		else:
