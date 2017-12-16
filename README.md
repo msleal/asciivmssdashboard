@@ -171,6 +171,17 @@ See also: [Azure Resource Manager REST calls from Python][python-auth].
 If you want to have integrated graphs on the ASCiiVMSSDashboard directly from Azure Application Insights, you should follow the steps
 described here: [App Insights I][create-resource] and [App Insights II][api-key].
 
+Example JSON:
+```json
+    {
+      "value": {
+          "request/totalCount": {
+              "values": "30"
+          }
+      }
+    }
+```
+
 ## Example VMSS ARM Template:
 [Ubuntu Linux VM Scale Set integrated with Azure autoscale][arm-template].
 
