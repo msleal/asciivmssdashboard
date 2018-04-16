@@ -103,19 +103,19 @@ The ASCiiVMSSDashboard can run on Python 2.x or 3.x versions, and you will see t
 In case of any errors, you will be able to see the messages on the LOG Window, and also as a specific message in the main window:
 ![Image of ASCii VMSS Dashboard Error Message](https://raw.githubusercontent.com/msleal/msleal.github.com/master/error.png)
 
-###TIP #1: 
+### TIP #1: 
 To not create the .pyc files, I use the following (on Linux): export TERM=screen; export PYTHONDONTWRITEBYTECODE=1; ./console.py.
 IMPORTANT: I use 'screen' terminal and it was the best emulation I found to run curses application. You can try other terminals
 that you have the best experience or compatibility in your system (e.g.: TERM=xterm, TERM=xterm-color, etc).
 
-###TIP #2:
+### TIP #2:
 I have used the console with no issues using a refresh interval of 60 seconds. If you use a more 'agressive'
 update interval, keep one eye at the last-update registered at the top-left of the dashboard window and/or in the log
 window (e.g.: 'log'), to see if the console is stil running.  If you notice it stopped, you should see the 'ERROR' window
 described above, and the console should resume in 30 seconds. if the log has information about AZURE API 'throttling", 
 you will need to restart the ASCiiVMSSDashboard (with a bigger inteval)...
  
-###TIP #3:
+### TIP #3:
 As we wait for the threads to finish as you hit 'Ctrl+C' or 'quit' (to exit), the time you will wait to get your prompt
 back will be proportional to you refresh interval (e.g.: max='INTERVAL'). You can change the update interval in the 
 'asciivmssdashboard.json' file.
