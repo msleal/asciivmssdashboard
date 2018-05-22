@@ -32,6 +32,13 @@ OR:
   4. On Windows, Install [pdcurses](http://pdcurses.sourceforge.net/). I have used the: pdc34dllw.zip file. See 'PDCURSES' bellow...
   5. Clone this repo locally.
 
+OR:
+- Run the ```setup_script.sh``` to install all dependencies. You can run like this:
+ ```
+chmod +x setup_script.sh
+./setup_script.sh
+```
+
 After you have the application installed, you will need:
 
   1. Register an Azure application, create a service principal, and get your tenant id. See "Using ASCiiVMSSDashboard".
@@ -152,7 +159,7 @@ as a non-block function when reading user commands. For now, use the command 'qu
 I'm looking for an alternative non-block call to use on windows and fix this.
 - It would be nice to have any feedback of this program running on MacOS or any other platform... 
 
-##PDCURSES
+## PDCURSES
 - If you have problems installing pdcurses on windows (not able to load uniCurses: import error), you can just add the DLL directly
 on the current directory of the ASCiiVMSSDashboard installation. To run the ASCiiVMSSDashboard on Windows, I have tested it 
 just cloning the repo on Windows 10, and copying the 'pdcurses.dll' file to the cloned folder, and it runs without any issues (you
