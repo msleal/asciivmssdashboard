@@ -26,6 +26,8 @@ def set_colors():
 	init_pair(8, COLOR_RED, COLOR_BLACK);
 	init_pair(9, COLOR_RED, COLOR_RED);
 	init_pair(10, COLOR_BLUE, COLOR_BLACK);
+	init_pair(11, COLOR_CYAN, COLOR_BLACK);
+	init_pair(12, COLOR_MAGENTA, COLOR_MAGENTA);
 
 #Draw logo...
 def draw_logo(window):

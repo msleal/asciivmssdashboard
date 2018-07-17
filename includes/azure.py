@@ -421,11 +421,11 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			step = qtd / 10;
 			if (step < 1): step = 1;	
 
-			#We take more time on our VM effect depending on how many VMs we are talking about...
+			#We take more time on our VM effects depending on how many VMs we are talking about...
 			if (qtd < 10): ts = 0.01;
-			elif (qtd < 25): ts = 0.005;
-			elif (qtd < 50): ts = 0.002;
-			elif (qtd < 100): ts = 0.0005;
+			elif (qtd < 25): ts = 0.004;
+			elif (qtd < 50): ts = 0.0008;
+			elif (qtd < 100): ts = 0.0004;
 			else: ts = 0;
 
 			counter = 1; counter_page = 0; nr_pages = 1;
