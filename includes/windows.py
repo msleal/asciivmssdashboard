@@ -99,13 +99,13 @@ def win_animation(panel, nasp, xfinal, yfinal):
 		update_panels();
 		doupdate();
 		xstart -= 1;
-		time.sleep(.003);
+		time.sleep(.005);
 	while (ystart != yfinal):
 		move_panel (panel, xstart, ystart);
 		update_panels();
 		doupdate();
 		ystart -= 1;
-		time.sleep(.003);
+		time.sleep(.005);
 
 def vm_animation(panel, nasp, xfinal, yfinal, flag, ts):
 	xstart = nasp[0];

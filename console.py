@@ -9,6 +9,7 @@ License: MIT (see LICENSE.txt file for details)
 
 import sys
 import time
+import json
 import platform
 from unicurses import *
 #Now to load our modules, we need to inform our modules path first...
@@ -19,6 +20,22 @@ from windows import *
 from datacenters import *
 import requests.packages.urllib3
 
+# Load Azure app defaults
+try:
+        with open('asciivmssdashboard.json') as configFile:
+                configData = json.load(configFile)
+except FileNotFoundError:
+        print("Error: Expecting asciivmssdashboard.json in current folder")
+        sys.exit()
+
+try:
+        animationEnabled = configData['animationEnabled']
+        configFile.close()
+except:
+        print("Missing 'animationEnabled' configuration parameter. You can disable some features, but the config option must be present.")
+        print("Use the asciivmssdashboard.json.tmpl file as a template to fill in your custom values...")
+        configFile.close()
+        sys.exit()
 
 # app state variables
 vmssProperties = [];
@@ -43,7 +60,7 @@ def main(): #{
 		# This does not work on Windows, so we will not be able to exit nicely...
 		stdscr.nodelay(1);
 	#Just a workaround for the SSL warning...
-	cur_version = sys.version_info
+	cur_version = sys.version_info;
 	if (cur_version.major == 2):
 		requests.packages.urllib3.disable_warnings()
 
@@ -89,34 +106,60 @@ def main(): #{
 
 	#Here starts our game...
 	#Continents create_window(lines, colunms, startline, startcolunm)
-	window_continents['northandcentralamerica'] = create_window(26, 86, 1, 39);
+
+	# NORTHAMERICA
+	if (animationEnabled.lower() == 'yes'):
+		window_continents['northandcentralamerica'] = create_window(26, 86, 1, termsize[1] + 1);
+	else:
+		window_continents['northandcentralamerica'] = create_window(26, 86, 1, 39);
 	panel_continents['northandcentralamerica'] = new_panel(window_continents['northandcentralamerica']);
 	draw_map(window_continents['northandcentralamerica'], "northandcentralamerica");
 	mark_datacenters_map(window_continents['northandcentralamerica'], "northandcentralamerica");
-	#win_animation(panel_continents['northandcentralamerica'], termsize, 2, 2);
+	if (animationEnabled.lower() == 'yes'):
+		win_animation(panel_continents['northandcentralamerica'], termsize, 1, 38);
 
-	window_continents['southamerica'] = create_window(20, 27, 26, 86);
+	# SOUTHAMERICA
+	if (animationEnabled.lower() == 'yes'):
+		window_continents['southamerica'] = create_window(20, 27, 26, termsize[1] + 1);
+	else:
+		window_continents['southamerica'] = create_window(20, 27, 26, 86);
 	panel_continents['southamerica'] = new_panel(window_continents['southamerica']);
 	draw_map(window_continents['southamerica'], "southamerica");
 	mark_datacenters_map(window_continents['southamerica'], "southamerica");
-	#win_animation(panel_continents['southamerica'], termsize, 27, 49);
+	if (animationEnabled.lower() == 'yes'):
+		win_animation(panel_continents['southamerica'], termsize, 26, 86);
 
-	window_continents['europeandasia'] = create_window(26, 109, 3, 125);
+	# EUROPEANDASIA
+	if (animationEnabled.lower() == 'yes'):
+		window_continents['europeandasia'] = create_window(26, 109, termsize[0] + 1, 125);
+	else:
+		window_continents['europeandasia'] = create_window(26, 109, 3, 125);
 	panel_continents['europeandasia'] = new_panel(window_continents['europeandasia']);
 	draw_map(window_continents['europeandasia'], "europeandasia");
 	mark_datacenters_map(window_continents['europeandasia'], "europeandasia");
-	#win_animation(panel_continents['europeandasia'], termsize, 4, 88);
+	if (animationEnabled.lower() == 'yes'):
+		win_animation(panel_continents['europeandasia'], termsize, 3, 125);
 
-	window_continents['africa'] = create_window(20, 38, 19, 121);
+	# AFRICA
+	if (animationEnabled.lower() == 'yes'):
+		window_continents['africa'] = create_window(20, 38, termsize[0] + 1, 121);
+	else:
+		window_continents['africa'] = create_window(20, 38, 19, 121);
 	panel_continents['africa'] = new_panel(window_continents['africa']);
 	draw_map(window_continents['africa'], "africa");
-	#win_animation(panel_continents['africa'], termsize, 20, 84);
+	if (animationEnabled.lower() == 'yes'):
+		win_animation(panel_continents['africa'], termsize, 19, 121);
 
-	window_continents['oceania'] = create_window(15, 48, 28, 180);
+	# OCEANIA
+	if (animationEnabled.lower() == 'yes'):
+		window_continents['oceania'] = create_window(15, 48, termsize[0] + 1, 180);
+	else:
+		window_continents['oceania'] = create_window(15, 48, 28, 180);
 	panel_continents['oceania'] = new_panel(window_continents['oceania']);
 	draw_map(window_continents['oceania'], "oceania");
 	mark_datacenters_map(window_continents['oceania'], "oceania");
-	#win_animation(panel_continents['oceania'], termsize, 29, 143);
+	if (animationEnabled.lower() == 'yes'):
+		win_animation(panel_continents['oceania'], termsize, 28, 180);
 
 	#Create all information windows...
 	window_information['vmss_info'] = create_window(6, 90, 48, 105); 
