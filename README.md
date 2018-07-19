@@ -1,12 +1,14 @@
-# ASCii VMSS Dashboard v1.6
-Dashboard to show and configure Azure VM Scale Set status, properties, watch live graphs of Insights Telemetry data, logs and more!
+# ASCii VMSS Dashboard v1.8
+Dashboard to show and configure Azure VM Scale Set status, properties...
+![Image of ASCii VMSS Dashboard](https://raw.githubusercontent.com/msleal/msleal.github.com/master/screencast-win_animation.gif)
+
+Simple and easy to start VMs...
 ![Image of ASCii VMSS Dashboard](https://raw.githubusercontent.com/msleal/msleal.github.com/master/ascii-screencast.gif)
 
-Graphs, Log Window...
+Watch live graphs of Insights Telemetry data, logs and more!
 ![Image of ASCii VMSS Dashboard](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4.png)
 
 Fear nothing, the global map is still here...
-
 ![Image of ASCii VMSS Dashboard](https://raw.githubusercontent.com/msleal/msleal.github.com/master/asciidash-v1-4-map.png)
 
 
