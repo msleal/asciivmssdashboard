@@ -38,13 +38,16 @@ dc_coords = {
              'australiasoutheast':[10,29]
 };
 
+#SYMBOL
+dc_symbol = u"\u2588";
+
 #Do the work...
 def do_dcmark(window, coords, cor=11):
 	if sys.version_info.major >= 3:
 		#In Python +3 we can print in unicode a nice and bright block out-of-the-box!
-		wmove(window, coords[0], coords[1]); waddstr(window,'█', color_pair(cor) + A_BOLD);
+		wmove(window, coords[0], coords[1]); waddstr(window, dc_symbol, color_pair(cor) + A_BOLD);
 	else:
-		wmove(window, coords[0], coords[1]); waddstr(window, " ", color_pair(cor) + A_BOLD);
+		wmove(window, coords[0], coords[1]); waddstr(window, dc_symbol.encode("utf-8"), color_pair(cor) + A_BOLD);
 
 #Mark Datacenters on world map...
 def mark_datacenters_map(window, continent):
