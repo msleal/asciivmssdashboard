@@ -19,23 +19,34 @@ dc_coords = {
              'westcentralus':[16,30], \
              'eastus':[19,46], \
              'eastus2':[18,49], \
+             'centralus':[14,41], \
              'westus':[17,24], \
              'westus2':[15,25], \
              'canadacentral':[14,50], \
              'canadaeast':[13,57], \
-             'northeurope':[13,1], \
-             'westeurope':[13,8], \
+             'northeurope':[12,1], \
+             'uksouth':[13,2], \
+             'ukwest':[12,4], \
+             'westeurope':[12,8], \
+             'francecentral':[14,6], \
+             'francesouth':[15,7], \
+             'germanynortheast':[12,15], \
+             'germanycentral':[13,14], \
              'eastasia':[20,64], \
              'southeastasia':[24,60], \
              'japaneast':[15,81], \
              'japanwest':[16,79], \
-             'centralindia':[21,47], \
-             'westindia':[21,45], \
+             'westindia':[20,43], \
+             'centralindia':[21,46], \
              'southindia':[23,47], \
              'chinaeast':[18,70], \
-             'chinanorth':[16,67], \
-             'australiaeast':[9,31], \
-             'australiasoutheast':[10,29]
+             'chinanorth':[14,67], \
+             'koreacentral':[15,73], \
+             'koreasouth':[17,74], \
+             'chinanorth2':[14,69], \
+             'australiaeast':[8,33], \
+             'australiacentral':[9,31], \
+             'australiasoutheast':[10,27]
 };
 
 #SYMBOL
@@ -59,13 +70,20 @@ def mark_datacenters_map(window, continent):
 		do_dcmark(window, dc_coords['westcentralus']);
 		do_dcmark(window, dc_coords['eastus']);
 		do_dcmark(window, dc_coords['eastus2']);
+		do_dcmark(window, dc_coords['centralus']);
 		do_dcmark(window, dc_coords['westus']);
 		do_dcmark(window, dc_coords['westus2']);
 		do_dcmark(window, dc_coords['canadacentral']);
 		do_dcmark(window, dc_coords['canadaeast']);
 	if (continent == "europeandasia"):
 		do_dcmark(window, dc_coords['northeurope']);
+		do_dcmark(window, dc_coords['uksouth']);
+		do_dcmark(window, dc_coords['ukwest']);
 		do_dcmark(window, dc_coords['westeurope']);
+		do_dcmark(window, dc_coords['francecentral']);
+		do_dcmark(window, dc_coords['francesouth']);
+		do_dcmark(window, dc_coords['germanynortheast']);
+		do_dcmark(window, dc_coords['germanycentral']);
 		do_dcmark(window, dc_coords['eastasia']);
 		do_dcmark(window, dc_coords['southeastasia']);
 		do_dcmark(window, dc_coords['japaneast']);
@@ -75,8 +93,12 @@ def mark_datacenters_map(window, continent):
 		do_dcmark(window, dc_coords['southindia']);
 		do_dcmark(window, dc_coords['chinaeast']);
 		do_dcmark(window, dc_coords['chinanorth']);
+		do_dcmark(window, dc_coords['chinanorth2']);
+		do_dcmark(window, dc_coords['koreacentral']);
+		do_dcmark(window, dc_coords['koreasouth']);
 	if (continent == "oceania"):
 		do_dcmark(window, dc_coords['australiaeast']);
+		do_dcmark(window, dc_coords['australiacentral']);
 		do_dcmark(window, dc_coords['australiasoutheast']);
 
 #Mark Deployment dc...
