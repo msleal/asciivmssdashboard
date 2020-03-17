@@ -166,10 +166,14 @@ def draw_gauge(window, used, limit):
 def get_continent_dc(dc):
 	if (dc == "brazilsouth"):
 		return 'southamerica';
-	if (dc == "southcentralus" or dc == "eastus" or dc == "eastus2" or dc == "northcentralus" or dc == "centralus" or dc == "westus"):
+	if (dc == "southcentralus" or "northcentralus" or "westcentralus" or "eastus" or "eastus2" or "centralus" or "westus" or "westus2" or "canadacentral" or "canadaeast"):
 		return 'northandcentralamerica';
-	if (dc == "northeurope" or dc == "westeurope" or dc == "eastasia" or dc == "southeastasia" or dc == "japaneast" or dc == "japanwest" or dc == "centralindia" or dc == "westindia" or dc == "southindia" or dc == "chinaeast" or dc == "chinanorth"):
+	if (dc == "northeurope" or "uksouth" or "ukwest" or "westeurope" or "francecentral" or "francesouth" or "germanynortheast" or "germanycentral" or "eastasia" or "southeastasia" or "japaneast" or "japanwest" or "westindia" or "centralindia" or "southindia" or "chinaeast" or "chinanorth" or "koreacentral" or "koreasouth" or "chinanorth2"):
 		return 'europeandasia';
+	if (dc == "southafricanorth" or "southafricawest"):
+		return 'africa';
+	if (dc == "australiacentral" or "australiacentral2" or "australiaeast" or "australiasoutheast"):
+		return 'oceania';
 
 def resize_terminal():
 	#errnr = call(["resize", "-s 55 235 >/dev/null"]);

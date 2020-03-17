@@ -12,6 +12,7 @@ from unicurses import *
 from maps import *
 
 #DC Coordinates (row x col)...
+# Do not forget to update the file includes/windows.py too...
 dc_coords = {
              'brazilsouth':[9,18], \
              'southcentralus':[20,39], \
@@ -41,10 +42,13 @@ dc_coords = {
              'southindia':[23,47], \
              'chinaeast':[18,70], \
              'chinanorth':[14,67], \
+             'chinanorth2':[14,69], \
              'koreacentral':[15,73], \
              'koreasouth':[17,74], \
-             'chinanorth2':[14,69], \
+             'southafricanorth':[16,24], \
+             'southafricawest':[18,19], \
              'australiaeast':[8,33], \
+             'australiacentral2':[9,29], \
              'australiacentral':[9,31], \
              'australiasoutheast':[10,27]
 };
@@ -96,9 +100,13 @@ def mark_datacenters_map(window, continent):
 		do_dcmark(window, dc_coords['chinanorth2']);
 		do_dcmark(window, dc_coords['koreacentral']);
 		do_dcmark(window, dc_coords['koreasouth']);
+	if (continent == "africa"):
+		do_dcmark(window, dc_coords['southafricanorth']);
+		do_dcmark(window, dc_coords['southafricawest']);
 	if (continent == "oceania"):
 		do_dcmark(window, dc_coords['australiaeast']);
 		do_dcmark(window, dc_coords['australiacentral']);
+		do_dcmark(window, dc_coords['australiacentral2']);
 		do_dcmark(window, dc_coords['australiasoutheast']);
 
 #Mark Deployment dc...
