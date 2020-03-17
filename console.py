@@ -49,6 +49,54 @@ panel_continents = {'northandcentralamerica':0,'southamerica':0,'europeandasia':
 window_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'monitor':0,'usage':0,'gauge':0,'gaugeas':0,'gaugerc':0,'gaugevm':0,'gaugess':0,'log':0,'insightsone':0,'insightstwo':0,'exit':0,'error':0,'logo':0,'cmd':0,'help':0};
 panel_information = {'vmss_info':0,'system':0,'status':0,'virtualmachines':0,'vm':0,'monitor':0,'usage':0,'gauge':0,'gaugeas':0,'gaugerc':0,'gaugevm':0,'gaugess':0,'log':0,'insightsone':0,'insightstwo':0,'exit':0,'error':0,'logo':0,'cmd':0,'help':0};
 
+#Draw Helper...
+def draw_helper(geo, termsize):
+        #First we create the window in the right location...
+	if (animationEnabled.lower() == 'yes'):
+            if (geo == 'northandcentralamerica'):
+		window_continents['northandcentralamerica'] = create_window(26, 86, 1, termsize[1] + 1);
+            if (geo == 'southamerica'):
+		window_continents['southamerica'] = create_window(20, 27, 26, termsize[1] + 1);
+            if (geo == 'europeandasia'):
+		window_continents['europeandasia'] = create_window(26, 109, termsize[0] + 1, 125);
+            if (geo == 'africa'):
+		window_continents['africa'] = create_window(20, 38, termsize[0] + 1, 121);
+            if (geo == 'oceania'):
+		window_continents['oceania'] = create_window(15, 48, termsize[0] + 1, 180);
+        else:
+            if (geo == 'northandcentralamerica'):
+		window_continents['northandcentralamerica'] = create_window(26, 86, 1, 39);
+            if (geo == 'southamerica'):
+		window_continents['southamerica'] = create_window(20, 27, 26, 86);
+            if (geo == 'europeandasia'):
+		window_continents['europeandasia'] = create_window(26, 109, 3, 125);
+            if (geo == 'africa'):
+		window_continents['africa'] = create_window(20, 38, 19, 121);
+            if (geo == 'oceania'):
+		window_continents['oceania'] = create_window(15, 48, 28, 180);
+
+        #Create the other panels...
+        if (geo == 'africa'):
+            panel_continents[geo] = new_panel(window_continents[geo]);
+            draw_map(window_continents[geo], geo);
+        else:
+            panel_continents[geo] = new_panel(window_continents[geo]);
+            draw_map(window_continents[geo], geo);
+            mark_datacenters_map(window_continents[geo], geo);
+
+        #Do the animation if needed...
+	if (animationEnabled.lower() == 'yes'):
+            if (geo == 'northandcentralamerica'):
+		win_animation(panel_continents['northandcentralamerica'], termsize, 1, 38);
+            if (geo == 'southamerica'):
+		win_animation(panel_continents['southamerica'], termsize, 26, 86);
+            if (geo == 'europeandasia'):
+		win_animation(panel_continents['europeandasia'], termsize, 3, 125);
+            if (geo == 'africa'):
+		win_animation(panel_continents['africa'], termsize, 19, 121);
+            if (geo == 'oceania'):
+		win_animation(panel_continents['oceania'], termsize, 28, 180);
+
 def main(): #{
 	#Initialize...
 	COLSTART=100; SZ = 0;
@@ -88,7 +136,7 @@ def main(): #{
 	curs_set(False);
 	keypad(stdscr,True);
 
-        #Our main window with margin and out title...
+        #Our main window with margin and our title...
         #newwin(lines, colunms, startline, startcolunm);
 	window = newwin(0, 0, 0, 0);
 	box(window);
@@ -108,58 +156,19 @@ def main(): #{
 	#Continents create_window(lines, colunms, startline, startcolunm)
 
 	# NORTHAMERICA
-	if (animationEnabled.lower() == 'yes'):
-		window_continents['northandcentralamerica'] = create_window(26, 86, 1, termsize[1] + 1);
-	else:
-		window_continents['northandcentralamerica'] = create_window(26, 86, 1, 39);
-	panel_continents['northandcentralamerica'] = new_panel(window_continents['northandcentralamerica']);
-	draw_map(window_continents['northandcentralamerica'], "northandcentralamerica");
-	mark_datacenters_map(window_continents['northandcentralamerica'], "northandcentralamerica");
-	if (animationEnabled.lower() == 'yes'):
-		win_animation(panel_continents['northandcentralamerica'], termsize, 1, 38);
+	draw_helper('northandcentralamerica', termsize);
 
 	# SOUTHAMERICA
-	if (animationEnabled.lower() == 'yes'):
-		window_continents['southamerica'] = create_window(20, 27, 26, termsize[1] + 1);
-	else:
-		window_continents['southamerica'] = create_window(20, 27, 26, 86);
-	panel_continents['southamerica'] = new_panel(window_continents['southamerica']);
-	draw_map(window_continents['southamerica'], "southamerica");
-	mark_datacenters_map(window_continents['southamerica'], "southamerica");
-	if (animationEnabled.lower() == 'yes'):
-		win_animation(panel_continents['southamerica'], termsize, 26, 86);
+	draw_helper('southamerica', termsize);
 
 	# EUROPEANDASIA
-	if (animationEnabled.lower() == 'yes'):
-		window_continents['europeandasia'] = create_window(26, 109, termsize[0] + 1, 125);
-	else:
-		window_continents['europeandasia'] = create_window(26, 109, 3, 125);
-	panel_continents['europeandasia'] = new_panel(window_continents['europeandasia']);
-	draw_map(window_continents['europeandasia'], "europeandasia");
-	mark_datacenters_map(window_continents['europeandasia'], "europeandasia");
-	if (animationEnabled.lower() == 'yes'):
-		win_animation(panel_continents['europeandasia'], termsize, 3, 125);
+	draw_helper('europeandasia', termsize);
 
 	# AFRICA
-	if (animationEnabled.lower() == 'yes'):
-		window_continents['africa'] = create_window(20, 38, termsize[0] + 1, 121);
-	else:
-		window_continents['africa'] = create_window(20, 38, 19, 121);
-	panel_continents['africa'] = new_panel(window_continents['africa']);
-	draw_map(window_continents['africa'], "africa");
-	if (animationEnabled.lower() == 'yes'):
-		win_animation(panel_continents['africa'], termsize, 19, 121);
+	draw_helper('africa', termsize);
 
 	# OCEANIA
-	if (animationEnabled.lower() == 'yes'):
-		window_continents['oceania'] = create_window(15, 48, termsize[0] + 1, 180);
-	else:
-		window_continents['oceania'] = create_window(15, 48, 28, 180);
-	panel_continents['oceania'] = new_panel(window_continents['oceania']);
-	draw_map(window_continents['oceania'], "oceania");
-	mark_datacenters_map(window_continents['oceania'], "oceania");
-	if (animationEnabled.lower() == 'yes'):
-		win_animation(panel_continents['oceania'], termsize, 28, 180);
+	draw_helper('oceania', termsize);
 
 	#Create all information windows...
 	window_information['vmss_info'] = create_window(6, 90, 48, 105); 
