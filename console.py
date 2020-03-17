@@ -76,13 +76,9 @@ def draw_helper(geo, termsize):
 		window_continents['oceania'] = create_window(15, 48, 28, 180);
 
         #Create the other panels...
-        if (geo == 'africa'):
-            panel_continents[geo] = new_panel(window_continents[geo]);
-            draw_map(window_continents[geo], geo);
-        else:
-            panel_continents[geo] = new_panel(window_continents[geo]);
-            draw_map(window_continents[geo], geo);
-            mark_datacenters_map(window_continents[geo], geo);
+        panel_continents[geo] = new_panel(window_continents[geo]);
+        draw_map(window_continents[geo], geo);
+        mark_datacenters_map(window_continents[geo], geo);
 
         #Do the animation if needed...
 	if (animationEnabled.lower() == 'yes'):
