@@ -166,13 +166,13 @@ def draw_gauge(window, used, limit):
 def get_continent_dc(dc):
 	if (dc == "brazilsouth"):
 		return 'southamerica';
-	if (dc == "southcentralus" or "northcentralus" or "westcentralus" or "eastus" or "eastus2" or "centralus" or "westus" or "westus2" or "canadacentral" or "canadaeast"):
+	if (dc == "southcentralus" or dc == "northcentralus" or dc == "westcentralus" or dc == "eastus" or dc == "eastus2" or dc == "centralus" or dc == "westus" or dc == "westus2" or dc == "canadacentral" or dc == "canadaeast"):
 		return 'northandcentralamerica';
-	if (dc == "northeurope" or "uksouth" or "ukwest" or "westeurope" or "francecentral" or "francesouth" or "germanynortheast" or "germanycentral" or "eastasia" or "southeastasia" or "japaneast" or "japanwest" or "westindia" or "centralindia" or "southindia" or "chinaeast" or "chinanorth" or "koreacentral" or "koreasouth" or "chinanorth2"):
+	if (dc == "northeurope" or dc == "uksouth" or dc == "ukwest" or dc == "westeurope" or dc == "francecentral" or dc == "francesouth" or dc == "germanynorth" or dc == "germanywestcentral" or dc == "eastasia" or dc == "southeastasia" or dc == "japaneast" or dc == "japanwest" or dc == "westindia" or dc == "centralindia" or dc == "southindia" or dc == "chinaeast" or dc == "chinanorth" or dc == "koreacentral" or dc == "koreasouth" or dc == "chinanorth2" or dc == "norwaywest" or dc == "norwayeast"):
 		return 'europeandasia';
-	if (dc == "southafricanorth" or "southafricawest"):
+	if (dc == "uaecentral" or dc == "uaenorth" or dc == "southafricanorth" or dc == "southafricawest"):
 		return 'africa';
-	if (dc == "australiacentral" or "australiacentral2" or "australiaeast" or "australiasoutheast"):
+	if (dc == "australiacentral" or dc == "australiacentral2" or dc == "australiaeast" or dc == "australiasoutheast"):
 		return 'oceania';
 
 def resize_terminal():

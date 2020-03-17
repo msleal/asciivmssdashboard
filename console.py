@@ -54,44 +54,44 @@ def draw_helper(geo, termsize):
         #First we create the window in the right location...
 	if (animationEnabled.lower() == 'yes'):
             if (geo == 'northandcentralamerica'):
-		window_continents['northandcentralamerica'] = create_window(26, 86, 1, termsize[1] + 1);
+                window_continents['northandcentralamerica'] = create_window(26, 86, 1, termsize[1] + 1);
             if (geo == 'southamerica'):
-		window_continents['southamerica'] = create_window(20, 27, 26, termsize[1] + 1);
+                window_continents['southamerica'] = create_window(20, 27, 26, termsize[1] + 1);
             if (geo == 'europeandasia'):
-		window_continents['europeandasia'] = create_window(26, 109, termsize[0] + 1, 125);
+                window_continents['europeandasia'] = create_window(26, 109, termsize[0] + 1, 125);
             if (geo == 'africa'):
-		window_continents['africa'] = create_window(20, 38, termsize[0] + 1, 121);
+                window_continents['africa'] = create_window(20, 38, termsize[0] + 1, 121);
             if (geo == 'oceania'):
-		window_continents['oceania'] = create_window(15, 48, termsize[0] + 1, 180);
-        else:
+                window_continents['oceania'] = create_window(15, 48, termsize[0] + 1, 180);
+	else:
             if (geo == 'northandcentralamerica'):
-		window_continents['northandcentralamerica'] = create_window(26, 86, 1, 39);
+                window_continents['northandcentralamerica'] = create_window(26, 86, 1, 39);
             if (geo == 'southamerica'):
-		window_continents['southamerica'] = create_window(20, 27, 26, 86);
+                window_continents['southamerica'] = create_window(20, 27, 26, 86);
             if (geo == 'europeandasia'):
-		window_continents['europeandasia'] = create_window(26, 109, 3, 125);
+                window_continents['europeandasia'] = create_window(26, 109, 3, 125);
             if (geo == 'africa'):
-		window_continents['africa'] = create_window(20, 38, 19, 121);
+                window_continents['africa'] = create_window(20, 38, 19, 121);
             if (geo == 'oceania'):
-		window_continents['oceania'] = create_window(15, 48, 28, 180);
+                window_continents['oceania'] = create_window(15, 48, 28, 180);
 
         #Create the other panels...
-        panel_continents[geo] = new_panel(window_continents[geo]);
-        draw_map(window_continents[geo], geo);
-        mark_datacenters_map(window_continents[geo], geo);
+	panel_continents[geo] = new_panel(window_continents[geo]);
+	draw_map(window_continents[geo], geo);
+	mark_regions_map(window_continents[geo], geo);
 
         #Do the animation if needed...
 	if (animationEnabled.lower() == 'yes'):
             if (geo == 'northandcentralamerica'):
-		win_animation(panel_continents['northandcentralamerica'], termsize, 1, 38);
+                win_animation(panel_continents['northandcentralamerica'], termsize, 1, 38);
             if (geo == 'southamerica'):
-		win_animation(panel_continents['southamerica'], termsize, 26, 86);
+                win_animation(panel_continents['southamerica'], termsize, 26, 86);
             if (geo == 'europeandasia'):
-		win_animation(panel_continents['europeandasia'], termsize, 3, 125);
+                win_animation(panel_continents['europeandasia'], termsize, 3, 125);
             if (geo == 'africa'):
-		win_animation(panel_continents['africa'], termsize, 19, 121);
+                win_animation(panel_continents['africa'], termsize, 19, 121);
             if (geo == 'oceania'):
-		win_animation(panel_continents['oceania'], termsize, 28, 180);
+                win_animation(panel_continents['oceania'], termsize, 28, 180);
 
 def main(): #{
 	#Initialize...

@@ -12,7 +12,7 @@ from unicurses import *
 from maps import *
 
 #DC Coordinates (row x col)...
-# Do not forget to update the file includes/windows.py too...
+# Do not forget to update the mark_regions_map function in this file, and also the file includes/windows.py...
 dc_coords = {
              'brazilsouth':[9,18], \
              'southcentralus':[20,39], \
@@ -31,8 +31,10 @@ dc_coords = {
              'westeurope':[12,8], \
              'francecentral':[14,6], \
              'francesouth':[15,7], \
-             'germanynortheast':[12,15], \
-             'germanycentral':[13,14], \
+             'germanynorth':[12,15], \
+             'germanywestcentral':[13,14], \
+             'norwaywest':[9,8], \
+             'norwayeast':[8,11], \
              'eastasia':[20,64], \
              'southeastasia':[24,60], \
              'japaneast':[15,81], \
@@ -45,6 +47,8 @@ dc_coords = {
              'chinanorth2':[14,69], \
              'koreacentral':[15,73], \
              'koreasouth':[17,74], \
+             'uaecentral':[5,35], \
+             'uaenorth':[4,37], \
              'southafricanorth':[16,24], \
              'southafricawest':[18,19], \
              'australiaeast':[8,33], \
@@ -56,6 +60,13 @@ dc_coords = {
 #SYMBOL
 dc_symbol = u"\u2588";
 
+#CONTINENTS
+southamerica = ['brazilsouth']
+northandcentralamerica = ['southcentralus', 'northcentralus', 'westcentralus', 'eastus', 'eastus2', 'centralus', 'westus', 'westus2', 'canadacentral', 'canadaeast']
+europeandasia = ['northeurope', 'uksouth', 'ukwest', 'westeurope', 'francecentral', 'francesouth', 'germanynorth', 'germanywestcentral', 'eastasia', 'southeastasia', 'japaneast', 'japanwest', 'centralindia', 'westindia', 'southindia', 'chinaeast', 'chinanorth', 'chinanorth2', 'koreacentral', 'koreasouth', 'norwaywest', 'norwayeast']
+africa = ['uaecentral', 'uaenorth', 'southafricanorth', 'southafricawest']
+oceania = ['australiaeast', 'australiacentral', 'australiacentral2', 'australiasoutheast']
+
 #Do the work...
 def do_dcmark(window, coords, cor=11):
 	if sys.version_info.major >= 3:
@@ -65,49 +76,25 @@ def do_dcmark(window, coords, cor=11):
 		wmove(window, coords[0], coords[1]); waddstr(window, dc_symbol.encode("utf-8"), color_pair(cor) + A_BOLD);
 
 #Mark Datacenters on world map...
-def mark_datacenters_map(window, continent):
-	if (continent == "southamerica"):
-		do_dcmark(window, dc_coords['brazilsouth']);
-	if (continent == "northandcentralamerica"):
-		do_dcmark(window, dc_coords['southcentralus']);
-		do_dcmark(window, dc_coords['northcentralus']);
-		do_dcmark(window, dc_coords['westcentralus']);
-		do_dcmark(window, dc_coords['eastus']);
-		do_dcmark(window, dc_coords['eastus2']);
-		do_dcmark(window, dc_coords['centralus']);
-		do_dcmark(window, dc_coords['westus']);
-		do_dcmark(window, dc_coords['westus2']);
-		do_dcmark(window, dc_coords['canadacentral']);
-		do_dcmark(window, dc_coords['canadaeast']);
-	if (continent == "europeandasia"):
-		do_dcmark(window, dc_coords['northeurope']);
-		do_dcmark(window, dc_coords['uksouth']);
-		do_dcmark(window, dc_coords['ukwest']);
-		do_dcmark(window, dc_coords['westeurope']);
-		do_dcmark(window, dc_coords['francecentral']);
-		do_dcmark(window, dc_coords['francesouth']);
-		do_dcmark(window, dc_coords['germanynortheast']);
-		do_dcmark(window, dc_coords['germanycentral']);
-		do_dcmark(window, dc_coords['eastasia']);
-		do_dcmark(window, dc_coords['southeastasia']);
-		do_dcmark(window, dc_coords['japaneast']);
-		do_dcmark(window, dc_coords['japanwest']);
-		do_dcmark(window, dc_coords['centralindia']);
-		do_dcmark(window, dc_coords['westindia']);
-		do_dcmark(window, dc_coords['southindia']);
-		do_dcmark(window, dc_coords['chinaeast']);
-		do_dcmark(window, dc_coords['chinanorth']);
-		do_dcmark(window, dc_coords['chinanorth2']);
-		do_dcmark(window, dc_coords['koreacentral']);
-		do_dcmark(window, dc_coords['koreasouth']);
-	if (continent == "africa"):
-		do_dcmark(window, dc_coords['southafricanorth']);
-		do_dcmark(window, dc_coords['southafricawest']);
-	if (continent == "oceania"):
-		do_dcmark(window, dc_coords['australiaeast']);
-		do_dcmark(window, dc_coords['australiacentral']);
-		do_dcmark(window, dc_coords['australiacentral2']);
-		do_dcmark(window, dc_coords['australiasoutheast']);
+def mark_regions_map(window, continent):
+       if (continent != "southamerica" and continent != "northandcentralamerica" and continent != "europeandasia" and continent != "africa" and continent != "oceania"):
+          #TODO Handle it properly...
+          exit(1)
+
+       if continent == 'southamerica':
+           lista = southamerica;
+       if continent == 'northandcentralamerica':
+           lista = northandcentralamerica;
+       if continent == 'europeandasia':
+           lista = europeandasia;
+       if continent == 'africa':
+           lista = africa;
+       if continent == 'oceania':
+           lista = oceania;
+
+       #Let's paint the globe...
+       for region in lista:
+           do_dcmark(window, dc_coords[region]);
 
 #Mark Deployment dc...
 def mark_vmss_dc(continent, window_old, old_location, window_new, new_location, dc):
@@ -115,7 +102,7 @@ def mark_vmss_dc(continent, window_old, old_location, window_new, new_location, 
 		#Free up some memory...
 		wclear(dc); delwin(dc);
 		draw_map(window_old, continent);
-		mark_datacenters_map(window_old, continent);
+		mark_regions_map(window_old, continent);
 
 	do_dcmark(window_new, dc_coords[new_location], 5);
 	dc = derwin(window_new, 3, 3, dc_coords[new_location][0] - 1, dc_coords[new_location][1] - 1);
