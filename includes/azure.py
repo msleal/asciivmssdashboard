@@ -101,12 +101,16 @@ VMSSVMS_DEMO = json.dumps({"value": [{u"sku": {u"tier": u"Standard", u"name": u"
 logging.basicConfig(format='%(asctime)s - %(levelname)s:%(message)s', level=logLevel, filename=logName)
 
 #Exec command...
-def exec_cmd(window, access_token, cap, cmd):
+def exec_cmd(window, access_token, cap, cmd, demo):
 	global subscription_id, rgname, vmssname, vmsku, tier, vm_selected, window_vm, panel_vm, vm_details, vm_nic, page, insights_flag;
 
 	#Return codes...
 	initerror = 2; syntaxerror = 3; capacityerror = 4;
 	execsuccess = 0; execerror = 1;
+
+	#In demo mode we do not execute anything... just return simulating a success execution asap.
+	if demo:
+	   return execsuccess;
 
 	#Sanity check on capacity...
 	if (cap == "999999"):
@@ -584,11 +588,12 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			time.sleep(30);
 			hide_panel(panel_information['error']);
 
-def get_cmd(access_token, run_event, window_information, panel_information):
+def get_cmd(access_token, run_event, window_information, panel_information, demo):
 	global key, rgname, vmssname, vm_selected, quit;
 	
 	win_help = 0; win_log = 0; win_insightsone = 0; win_insightstwo = 0;
 	lock = threading.Lock()
+
 	while (run_event.is_set() and quit == 0):
 		with lock:
 			key = getch();
@@ -668,7 +673,7 @@ def get_cmd(access_token, run_event, window_information, panel_information):
 				vm_selected[1] = 999998;
 				hide_panel(panel_information['vm']);
 			else:
-				cmd_status = exec_cmd(window_information, access_token, capacity, command);
+				cmd_status = exec_cmd(window_information, access_token, capacity, command, demo);
 				if (cmd_status == 1): cor = 8;
 				if (cmd_status == 2): cor = 4;
 				if (cmd_status == 3): cor = 7;
@@ -783,7 +788,7 @@ def vmss_monitor_thread(window_information, panel_information, window_continents
 	vmss_thread.start()
 
 	# start a CMD Interpreter thread
-	cmd_thread = threading.Thread(target=get_cmd, args=(access_token, run_event, window_information, panel_information))
+	cmd_thread = threading.Thread(target=get_cmd, args=(access_token, run_event, window_information, panel_information, demo))
 	cmd_thread.start()
 
 	#Simple consistent check for the Insights configuration...
