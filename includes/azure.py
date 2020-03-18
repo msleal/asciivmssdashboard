@@ -96,6 +96,10 @@ VMSSPROPERTIES_DEMO = json.dumps([u"dashdemo", 1, u"brazilsouth", u"dashdemo", u
 
 VMSSVMS_DEMO = json.dumps({"value": [{u"sku": {u"tier": u"Standard", u"name": u"Standard_A2"}, u"name": u"dashdemo_0", u"instanceId": u"0", u"properties": {u"osProfile": {u"adminUsername": u"blackpanther", u"secrets": [], u"computerName": u"dashdemo000000", u"linuxConfiguration": {u"disablePasswordAuthentication": False}}, u"networkProfile": {u"networkInterfaces": [{u"id": u"/subscriptions/99999999-aaaa-bbbb-cccc-888888888888/resourceGroups/dashdemo/providers/Microsoft.Compute/virtualMachineScaleSets/dashdemo/virtualMachines/0/networkInterfaces/dashdemonic"}]}, u"storageProfile": {u"imageReference": {u"sku": u"16.04.0-LTS", u"publisher": u"Canonical", u"version": u"16.04.201903130", u"offer": u"UbuntuServer"}, u"osDisk": {u"osType": u"Linux", u"vhd": {u"uri": u"https://ababababababcdashdemosa.blob.core.windows.net/dashdemovhd/dashdemoosdisk-os-0-1111111111111111111111111111111.vhd"}, u"createOption": u"FromImage", u"name": u"dashdemoosdisk-os-0-11111111111111111111111111111111", u"caching": u"ReadOnly"}}, u"vmId": u"22222222-oooo-uuuu-hhhh-333333333333", u"hardwareProfile": {}, u"latestModelApplied": False, u"provisioningState": u"Succeeded"}, u"location": u"brazilsouth", u"type": u"Microsoft.Compute/virtualMachineScaleSets/virtualMachines", u"id": u"/subscriptions/99999999-aaaa-bbbb-cccc-888888888888/resourceGroups/dashdemo/providers/Microsoft.Compute/virtualMachineScaleSets/dashdemo/virtualMachines/0"}]})
 
+VMDETAILS_DEMO = json.dumps({u"computerName": u"dashdemo000000", u"disks": [{u"name": u"dashdemoosdisk-os-0-11111111112222222222333333333344", u"statuses": [{u"time": u"2019-05-03T20:46:26.6712371+00:00", u"code": u"ProvisioningState/succeeded", u"displayStatus": u"Provisioning succeeded", u"level": u"Info"}]}], u"osName": u"ubuntu", u"platformUpdateDomain": 0, u"vmAgent": {u"vmAgentVersion": u"2.2.46", u"extensionHandlers": [], u"statuses": [{u"time": u"2020-03-18T23:03:37+00:00", u"message": u"Guest Agent is running", u"code": u"ProvisioningState/succeeded", u"displayStatus": u"Ready", u"level": u"Info"}]}, u"platformFaultDomain": 0, u"placementGroupId": u"88888888-4444-4444-4444-121212121212", u"osVersion": u"16.04", u"statuses": [{u"time": u"2019-05-03T20:47:37.2369051+00:00", u"code": u"ProvisioningState/succeeded", u"displayStatus": u"Provisioning succeeded", u"level": u"Info"}, {u"code": u"PowerState/running", u"displayStatus": u"VM running", u"level": u"Info"}]})
+
+VMNIC_DEMO = json.dumps({u"value": [{u"properties": {u"provisioningState": u"Succeeded", u"macAddress": u"00-00-00-00-00-00", u"virtualMachine": {u"id": u"/subscriptions/88888888-4444-4444-4444-121212121212/resourceGroups/vmssdash/providers/Microsoft.Compute/virtualMachineScaleSets/vmssdash/virtualMachines/0"}, u"dnsSettings": {u"internalDomainNameSuffix": u"11111111111111111111111111.nx.internal.cloudapp.net", u"dnsServers": [], u"appliedDnsServers": []}, u"primary": True, u"resourceGuid": u"88888888-4444-4444-4444-121212121212", u"enableIPForwarding": False, u"ipConfigurations": [{u"properties": {u"subnet": {u"id": u"/subscriptions/88888888-4444-4444-4444-121212121212/resourceGroups/DASHDEMO/providers/Microsoft.Network/virtualNetworks/vmssdashvnet/subnets/dashdemosubnet"}, u"primary": True, u"privateIPAddressVersion": u"IPv4", u"privateIPAllocationMethod": u"Dynamic", u"privateIPAddress": u"10.0.0.5", u"provisioningState": u"Succeeded"}, u"etag": u"W/\'88888888-4444-4444-4444-121212121212\'", u"name": u"dashdemoipconfig", u"id": u"/subscriptions/88888888-4444-4444-4444-121212121212/resourceGroups/DASHDEMO/providers/Microsoft.Compute/virtualMachineScaleSets/dashdemo/virtualMachines/0/networkInterfaces/dashdemonic/ipConfigurations/dashdemoipconfig"}], u"enableAcceleratedNetworking": False}, u"etag": u"W/\'88888888-4444-4444-4444-121212121212\'", u"name": u"dashdemonic", u"id": u"/subscriptions/88888888-4444-4444-4444-121212121212/resourceGroups/DASHDEMO/providers/Microsoft.Compute/virtualMachineScaleSets/dashdemo/virtualMachines/0/networkInterfaces/dashdemonic"}]})
+
 #Basic Logging...
 #logging.basicConfig(format='%(asctime)s - %(levelname)s:%(message)s', datefmt='%H:%M:%S', level=logLevel, filename=logName)
 logging.basicConfig(format='%(asctime)s - %(levelname)s:%(message)s', level=logLevel, filename=logName)
@@ -107,10 +111,6 @@ def exec_cmd(window, access_token, cap, cmd, demo):
 	#Return codes...
 	initerror = 2; syntaxerror = 3; capacityerror = 4;
 	execsuccess = 0; execerror = 1;
-
-	#In demo mode we do not execute anything... just return simulating a success execution asap.
-	if demo:
-	   return execsuccess;
 
 	#Sanity check on capacity...
 	if (cap == "999999"):
@@ -142,16 +142,19 @@ def exec_cmd(window, access_token, cap, cmd, demo):
 			except:
 				return syntaxerror;
 		if (counter == 2 and op == "select"):
-			z = 0; ifound = 0;
-			while (z < instances_deployed.__len__()):
-				if (instances_deployed[z] == int(c)):
-					ifound = 1;
-					break;
-				z += 1;
-			if (ifound):
-				vm = int(c);
+			if demo:
+                            vm = 0
 			else:
-				return execerror;
+				z = 0; ifound = 0;
+				while (z < instances_deployed.__len__()):
+					if (instances_deployed[z] == int(c)):
+						ifound = 1;
+						break;
+					z += 1;
+				if (ifound):
+					vm = int(c);
+				else:
+					return execerror;
 		if (counter == 2 and op == "rg" and c != "vmss"):
 				return syntaxerror;
 		if (counter == 2 and op == "show"):
@@ -197,7 +200,10 @@ def exec_cmd(window, access_token, cap, cmd, demo):
 		vm_selected[1] = vm_selected[0];
 		vm_selected[0] = vm;
 		vm_details_old = vm_details; vm_nic_old = vm_nic;
-		vm_details = azurerm.get_vmss_vm_instance_view(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
+		if demo:
+                    vm_details = json.loads(VMDETAILS_DEMO);
+		else:
+		    vm_details = azurerm.get_vmss_vm_instance_view(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
 		#vm_nic = azurerm.get_vmss_vm_nics(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
 		#if (len(vm_details) > 0 and len(vm_nic) > 0):
 		if (len(vm_details) > 0):
@@ -515,8 +521,12 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 					draw_vm(int(instanceId), window_vm[counter - 1], provisioningState, vmsel);
 					#If a VM is selected, fill the details...
 					if (vm_selected[0] == int(instanceId) and vm_selected[1] != 999998):
-						vm_details = azurerm.get_vmss_vm_instance_view(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
-						vm_nic = azurerm.get_vmss_vm_nics(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
+						if demo:
+					            vm_details = json.loads(VMDETAILS_DEMO)
+					            vm_nic = json.loads(VMNIC_DEMO)
+						else:
+						    vm_details = azurerm.get_vmss_vm_instance_view(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
+						    vm_nic = azurerm.get_vmss_vm_nics(access_token, subscription_id, rgname, vmssname, vm_selected[0]);
 						clean_vm(window_information);
 						if (vm_details != "" and vm_nic != ""):
 							fill_vm_details(window_information, instanceId, vmName, provisioningState);
