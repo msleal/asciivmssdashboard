@@ -250,7 +250,7 @@ def create_vmssinfo_form(window):
 	write_str_color(window, 2, 37, "VMSS Name: ", 4 , 1);
 	write_str_color(window, 2, 68, "Tier..: ", 4 , 1);
 	write_str_color(window, 3, 2, "IP Address: ", 4 , 1);
-	write_str_color(window, 3, 29, "Region: ", 4 , 1);
+	write_str_color(window, 3, 37, "Region: ", 4 , 1);
 	write_str_color(window, 3, 68, "SKU...: ", 4 , 1);
 	write_str_color(window, 4, 68, "Capacity.: ", 4 , 1);
 	write_str_color(window, 4, 2, "DNS Name..: ", 4 , 1);

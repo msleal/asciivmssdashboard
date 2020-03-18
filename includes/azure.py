@@ -85,6 +85,17 @@ if (purgeLog.lower() == "yes"):
 	if (os.path.isfile(logName)):
 		os.remove(logName);
 
+#DEMO Assets...
+VMSSGET_DEMO = json.dumps({"name": "dashdemo", "id": "/subscriptions/99999999-aaaa-bbbb-cccc-888888888888/resourceGroups/dashdemo/providers/Microsoft.Compute/virtualMachineScaleSets/dashdemo", "type": "Microsoft.Compute/virtualMachineScaleSets", "location": "brazilsouth", "sku": {"name": "Standard_A2", "tier": "Standard", "capacity": 1}, "properties": {"singlePlacementGroup": True, "upgradePolicy": {"mode": "Manual", "automaticOSUpgrade": False}, "virtualMachineProfile": {"osProfile": {"computerNamePrefix": "dashdemo", "adminUsername": "blackpanther", "linuxConfiguration": {"disablePasswordAuthentication": False}, "secrets": []}, "storageProfile": {"osDisk": {"vhdContainers": ["https://ababababababcdashdemosa.blob.core.windows.net/dashdemovhd", "https://ababababababcdashdemosa.blob.core.windows.net/dashdemovhd", "https://8765432123456dashdemosa.blob.core.windows.net/dashdemovhd", "https://ababababababcdashdemosa.blob.core.windows.net/dashdemovhd", "https://ababababababcdashdemosa.blob.core.windows.net/dashdemovhd"], "name": "dashdemoosdisk", "createOption": "FromImage", "caching": "ReadOnly"}, "imageReference": {"publisher": "Canonical", "offer": "UbuntuServer", "sku": "16.04.0-LTS", "version": "latest"}}, "networkProfile": {"networkInterfaceConfigurations": [{"name": "dashdemonic", "properties": {"primary": True, "ipConfigurations": [{"name": "dashdemoipconfig", "properties": {"subnet": {"id": "/subscriptions/99999999-aaaa-bbbb-cccc-888888888888/resourceGroups/VMSSDASH/providers/Microsoft.Network/virtualNetworks/dashdemovnet/subnets/dashdemosubnet"}}}]}}]}}, "provisioningState": "Succeeded", "overprovision": False, "uniqueId": "88888888-cccc-bbbb-aaaa-999999999999"}})
+ 
+NET_DEMO = json.dumps({"value": [{"name": "dashdemopip", "id": "/subscriptions/99999999-aaaa-bbbb-cccc-888888888888/resourceGroups/VMSSDASH/providers/Microsoft.Network/publicIPAddresses/dashdemopip", "etag": "W/\'77777777-cccc-aaaa-bbbb-666666666666\'", "location": "brazilsouth", "properties": {"provisioningState": "Succeeded", "resourceGuid": "55555555-vvvv-nnnn-rrrr-444444444444", "ipAddress": "999.999.999.999", "publicIPAddressVersion": "IPv4", "publicIPAllocationMethod": "Dynamic", "idleTimeoutInMinutes": 4, "dnsSettings": {"domainNameLabel": "dashdemo", "fqdn": "dashdemo.brazilsouth.cloudapp.azure.com"}, "ipTags": [], "ipConfiguration": {"id": "/subscriptions/99999999-aaaa-bbbb-cccc-888888888888/resourceGroups/VMSSDASH/providers/Microsoft.Network/networkInterfaces/dashdemojboxnic/ipConfigurations/dashdemojboxipconfig"}}, "type": "Microsoft.Network/publicIPAddresses", "sku": {"name": "Basic"}}]})
+
+QUOTA_DEMO = json.dumps({u"value": [{u"currentValue": 0, u"limit": 2000, u"name": {u"localizedValue": u"Availability Sets", u"value": u"availabilitySets"}, u"unit": u"Count"}, {u"currentValue": 4, u"limit": 1000, u"name": {u"localizedValue": u"Total Regional vCPUs", u"value": u"cores"}, u"unit": u"Count"}, {u"currentValue": 2, u"limit": 25000, u"name": {u"localizedValue": u"Virtual Machines", u"value": u"virtualMachines"}, u"unit": u"Count"}, {u"currentValue": 1, u"limit": 2000, u"name": {u"localizedValue": u"Virtual Machine Scale Sets", u"value": u"virtualMachineScaleSets"}, u"unit": u"Count"}, {u"currentValue": 4, u"limit": 1000, u"name": {u"localizedValue": u"Standard A0-A7 Family vCPUs", u"value": u"standardA0_A7Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Basic A Family vCPUs", u"value": u"basicAFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard A8-A11 Family vCPUs", u"value": u"standardA8_A11Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard D Family vCPUs", u"value": u"standardDFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard Dv2 Family vCPUs", u"value": u"standardDv2Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard DS Family vCPUs", u"value": u"standardDSFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard DSv2 Family vCPUs", u"value": u"standardDSv2Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard G Family vCPUs", u"value": u"standardGFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard GS Family vCPUs", u"value": u"standardGSFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard F Family vCPUs", u"value": u"standardFFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard FS Family vCPUs", u"value": u"standardFSFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 24, u"name": {u"localizedValue": u"Standard NV Family vCPUs", u"value": u"standardNVFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 48, u"name": {u"localizedValue": u"Standard NC Family vCPUs", u"value": u"standardNCFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 8, u"name": {u"localizedValue": u"Standard H Family vCPUs", u"value": u"standardHFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard Av2 Family vCPUs", u"value": u"standardAv2Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard LS Family vCPUs", u"value": u"standardLSFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard Dv2 Promo Family vCPUs", u"value": u"standardDv2PromoFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard DSv2 Promo Family vCPUs", u"value": u"standardDSv2PromoFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 0, u"name": {u"localizedValue": u"Standard MS Family vCPUs", u"value": u"standardMSFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard Dv3 Family vCPUs", u"value": u"standardDv3Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard DSv3 Family vCPUs", u"value": u"standardDSv3Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard Ev3 Family vCPUs", u"value": u"standardEv3Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard ESv3 Family vCPUs", u"value": u"standardESv3Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard BS Family vCPUs", u"value": u"standardBSFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard FSv2 Family vCPUs", u"value": u"standardFSv2Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 0, u"name": {u"localizedValue": u"Standard NDS Family vCPUs", u"value": u"standardNDSFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 0, u"name": {u"localizedValue": u"Standard NCSv2 Family vCPUs", u"value": u"standardNCSv2Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 0, u"name": {u"localizedValue": u"Standard NCSv3 Family vCPUs", u"value": u"standardNCSv3Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard LSv2 Family vCPUs", u"value": u"standardLSv2Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 6, u"name": {u"localizedValue": u"Standard PBS Family vCPUs", u"value": u"standardPBSFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard EIv3 Family vCPUs", u"value": u"standardEIv3Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 100, u"name": {u"localizedValue": u"Standard EISv3 Family vCPUs", u"value": u"standardEISv3Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 8, u"name": {u"localizedValue": u"Standard DCS Family vCPUs", u"value": u"standardDCSFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 0, u"name": {u"localizedValue": u"Standard NVSv2 Family vCPUs", u"value": u"standardNVSv2Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 0, u"name": {u"localizedValue": u"Standard MSv2 Family vCPUs", u"value": u"standardMSv2Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 0, u"name": {u"localizedValue": u"Standard HBS Family vCPUs", u"value": u"standardHBSFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 0, u"name": {u"localizedValue": u"Standard HCS Family vCPUs", u"value": u"standardHCSFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 0, u"name": {u"localizedValue": u"Standard NVSv3 Family vCPUs", u"value": u"standardNVSv3Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 24, u"name": {u"localizedValue": u"Standard NV Promo Family vCPUs", u"value": u"standardNVPromoFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 48, u"name": {u"localizedValue": u"Standard NC Promo Family vCPUs", u"value": u"standardNCPromoFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 8, u"name": {u"localizedValue": u"Standard H Promo Family vCPUs", u"value": u"standardHPromoFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 0, u"name": {u"localizedValue": u"Standard DAv4 Family vCPUs", u"value": u"standardDAv4Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 0, u"name": {u"localizedValue": u"Standard DASv4 Family vCPUs", u"value": u"standardDASv4Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 0, u"name": {u"localizedValue": u"Standard EAv4 Family vCPUs", u"value": u"standardEAv4Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 0, u"name": {u"localizedValue": u"Standard EASv4 Family vCPUs", u"value": u"standardEASv4Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 0, u"name": {u"localizedValue": u"Standard NDSv3 Family vCPUs", u"value": u"standardNDSv3Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 8, u"name": {u"localizedValue": u"Standard DCSv2 Family vCPUs", u"value": u"standardDCSv2Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 0, u"name": {u"localizedValue": u"Standard NVSv4 Family vCPUs", u"value": u"standardNVSv4Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 0, u"name": {u"localizedValue": u"Standard NDSv2 Family vCPUs", u"value": u"standardNDSv2Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 0, u"name": {u"localizedValue": u"Standard NPS Family vCPUs", u"value": u"standardNPSFamily"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 0, u"name": {u"localizedValue": u"Standard HBrsv2 Family vCPUs", u"value": u"standardHBrsv2Family"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 50000, u"name": {u"localizedValue": u"Standard Storage Managed Disks", u"value": u"StandardDiskCount"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 50000, u"name": {u"localizedValue": u"Premium Storage Managed Disks", u"value": u"PremiumDiskCount"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 50000, u"name": {u"localizedValue": u"StandardSSDStorageDisks", u"value": u"StandardSSDDiskCount"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 1000, u"name": {u"localizedValue": u"UltraSSDStorageDisks", u"value": u"UltraSSDDiskCount"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 50000, u"name": {u"localizedValue": u"StandardStorageSnapshots", u"value": u"StandardSnapshotCount"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 50000, u"name": {u"localizedValue": u"PremiumStorageSnapshots", u"value": u"PremiumSnapshotCount"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 50000, u"name": {u"localizedValue": u"ZrsStorageSnapshots", u"value": u"ZRSSnapshotCount"}, u"unit": u"Count"}, {u"currentValue": 0, u"limit": 16384, u"name": {u"localizedValue": u"UltraSSDTotalSizeInGB", u"value": u"UltraSSDDiskSizeInGB"}, u"unit": u"Count"}]})
+
+VMSSPROPERTIES_DEMO = json.dumps([u"dashdemo", 1, u"brazilsouth", u"dashdemo", u"UbuntuServer", u"16.04.0-LTS", u"Succeeded", u"dashdemo.brazilsouth.cloudapp.azure.com", u"999.999.999.999"])
+
+VMSSVMS_DEMO = json.dumps({"value": [{u"sku": {u"tier": u"Standard", u"name": u"Standard_A2"}, u"name": u"dashdemo_0", u"instanceId": u"0", u"properties": {u"osProfile": {u"adminUsername": u"blackpanther", u"secrets": [], u"computerName": u"dashdemo000000", u"linuxConfiguration": {u"disablePasswordAuthentication": False}}, u"networkProfile": {u"networkInterfaces": [{u"id": u"/subscriptions/99999999-aaaa-bbbb-cccc-888888888888/resourceGroups/dashdemo/providers/Microsoft.Compute/virtualMachineScaleSets/dashdemo/virtualMachines/0/networkInterfaces/dashdemonic"}]}, u"storageProfile": {u"imageReference": {u"sku": u"16.04.0-LTS", u"publisher": u"Canonical", u"version": u"16.04.201903130", u"offer": u"UbuntuServer"}, u"osDisk": {u"osType": u"Linux", u"vhd": {u"uri": u"https://ababababababcdashdemosa.blob.core.windows.net/dashdemovhd/dashdemoosdisk-os-0-1111111111111111111111111111111.vhd"}, u"createOption": u"FromImage", u"name": u"dashdemoosdisk-os-0-11111111111111111111111111111111", u"caching": u"ReadOnly"}}, u"vmId": u"22222222-oooo-uuuu-hhhh-333333333333", u"hardwareProfile": {}, u"latestModelApplied": False, u"provisioningState": u"Succeeded"}, u"location": u"brazilsouth", u"type": u"Microsoft.Compute/virtualMachineScaleSets/virtualMachines", u"id": u"/subscriptions/99999999-aaaa-bbbb-cccc-888888888888/resourceGroups/dashdemo/providers/Microsoft.Compute/virtualMachineScaleSets/dashdemo/virtualMachines/0"}]})
+
 #Basic Logging...
 #logging.basicConfig(format='%(asctime)s - %(levelname)s:%(message)s', datefmt='%H:%M:%S', level=logLevel, filename=logName)
 logging.basicConfig(format='%(asctime)s - %(levelname)s:%(message)s', level=logLevel, filename=logName)
@@ -260,7 +271,7 @@ def fill_vmss_info(window, vmssget, net):
 	write_str(window['vmss_info'], 2, 14, rgname.upper());
 	write_str(window['vmss_info'], 2, 48, vmssname.upper());
 	write_str(window['vmss_info'], 2, 76, tier.upper());
-	write_str(window['vmss_info'], 3, 37, location.upper());
+	write_str(window['vmss_info'], 3, 45, location.upper());
 	write_str(window['vmss_info'], 3, 76, vmsku);
 	write_str(window['vmss_info'], 4, 79, capacity);
 
@@ -344,10 +355,9 @@ def set_vmss_variables(vmssget, net):
 	ipaddr = net['value'][0]['properties']['ipAddress'];
 	return (name, capacity, location, offer, sku, provisioningState, dns, ipaddr);
 
-
 # thread to loop around monitoring the VM Scale Set state and its VMs
 # sleep between loops sets the update frequency
-def get_vmss_properties(access_token, run_event, window_information, panel_information, window_continents, panel_continents):
+def get_vmss_properties(access_token, run_event, window_information, panel_information, window_continents, panel_continents, demo):
 	global vmssProperties, vmssVmProperties, countery, capacity, region, tier, vmsku, vm_selected, window_vm, panel_vm, instances_deployed, vm_details, vm_nic, page;
 
 	ROOM = 5; DEPLOYED = 0;
@@ -369,11 +379,16 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			#Clean Forms...
 			clean_forms(window_information);
 
-			#Get VMSS details
-			vmssget = azurerm.get_vmss(access_token, subscription_id, rgname, vmssname);
-
-			# Get public ip address for RG (First IP) - modify this if your RG has multiple ips
-			net = azurerm.list_public_ips(access_token, subscription_id, rgname);
+			if demo:
+			    #Get DEMO VMSS details
+			    vmssget = json.loads(VMSSGET_DEMO);
+			    # Get DEMO public ip address for RG (First IP) - modify this if your RG has multiple ips
+			    net = json.loads(NET_DEMO);
+			else:
+			    #Get REAL VMSS details
+			    vmssget = azurerm.get_vmss(access_token, subscription_id, rgname, vmssname);
+			    # Get public ip address for RG (First IP) - modify this if your RG has multiple ips
+			    net = azurerm.list_public_ips(access_token, subscription_id, rgname);
 
 			#Clean Info and Sys Windows...
 			clean_infoandsys(window_information);
@@ -393,8 +408,12 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			region = location;
 			continent_location = get_continent_dc(location);
 
-			#Quota...
-			quota = azurerm.get_compute_usage(access_token, subscription_id, location);
+			if demo:
+			    #Quota...
+			    quota = json.loads(QUOTA_DEMO);
+			else:
+			    #Quota...
+			    quota = azurerm.get_compute_usage(access_token, subscription_id, location);
 			fill_quota_info(window_information, quota);
 
 			#Mark Datacenter where VMSS is deployed...
@@ -407,9 +426,14 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 				new_window_dc = mark_vmss_dc(continent_location, window_continents[continent_location], location, window_continents[continent_location], location, window_dc);
 				window_dc = new_window_dc;
 
-			#Our arrays...
-			vmssProperties = [name, capacity, location, rgname, offer, sku, provisioningState, dns, ipaddr];
-			vmssvms = azurerm.list_vmss_vms(access_token, subscription_id, rgname, vmssname);
+			if demo:
+			    #Our DEMO arrays...
+			    vmssProperties = json.loads(VMSSPROPERTIES_DEMO);
+			    vmssvms = json.loads(VMSSVMS_DEMO);
+			else:
+			    #Our REAL arrays...
+			    vmssProperties = [name, capacity, location, rgname, offer, sku, provisioningState, dns, ipaddr];
+			    vmssvms = azurerm.list_vmss_vms(access_token, subscription_id, rgname, vmssname);
 			vmssVmProperties = [];
 
 			#All VMs are created in the following coordinates...
@@ -727,25 +751,35 @@ def insights_in_window(log, window, run_event):
 		doupdate();
 		time.sleep(insightsInterval);
 
-def vmss_monitor_thread(window_information, panel_information, window_continents, panel_continents):
+# REAL monitor thread...
+def vmss_monitor_thread(window_information, panel_information, window_continents, panel_continents, demoEnabled):
 	global access_token, insightsOneEnabled, insightsTwoEnabled;
 
 	run_event = threading.Event()
 	run_event.set()
 
+	demo = 0;
+        #Are we for real??
+	if (demoEnabled.lower() == 'yes'):
+            demo = 1;
+
 	# start a timer in order to refresh the access token in 10 minutes
 	start_time = time.time();
-
-	# get an access token for Azure authentication
-	access_token = azurerm.get_access_token(str(tenant_id), str(app_id), str(app_secret));
+	
+	if demo:
+	    # This is a DEMO access token...
+	    access_token = '--DemoToken-FORTISFORTUNAADIUVAT-DemoToken--';
+	else:
+	    # get an access token for Azure authentication
+	    access_token = azurerm.get_access_token(str(tenant_id), str(app_id), str(app_secret));
 
 	# ---= ASCii Dashboard THREADS =---
 	# Logtail Thread...
 	log_thread = threading.Thread(target=tail_in_window, args=(logName, window_information['log'], panel_information['log'], run_event))
 	log_thread.start()
 
-	# VMSS Monitoring Thread...
-	vmss_thread = threading.Thread(target=get_vmss_properties, args=(access_token, run_event, window_information, panel_information, window_continents, panel_continents))
+	# Demo VMSS Monitoring Thread...
+	vmss_thread = threading.Thread(target=get_vmss_properties, args=(access_token, run_event, window_information, panel_information, window_continents, panel_continents, demo))
 	vmss_thread.start()
 
 	# start a CMD Interpreter thread
@@ -790,3 +824,4 @@ def vmss_monitor_thread(window_information, panel_information, window_continents
 		write_str_color(window_information['exit'], 3, 6, "Console Update threads successfully closed.", 4, 1);
 		update_panels();
 		doupdate();
+

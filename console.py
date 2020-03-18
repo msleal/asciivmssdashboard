@@ -29,6 +29,12 @@ except FileNotFoundError:
         sys.exit()
 
 try:
+        demoEnabled = configData['demoEnabled']
+except:
+        print("Missing 'demoEnabled' configuration parameter. You can disable some features, but the config option must be present.")
+        print("Use the asciivmssdashboard.json.tmpl file as a template to fill in your custom values...")
+
+try:
         animationEnabled = configData['animationEnabled']
         configFile.close()
 except:
@@ -98,6 +104,9 @@ def main(): #{
 	COLSTART=100; SZ = 0;
 	ourhome = platform.system();
 	stdscr = initscr();
+        modo = "REAL";
+	if (demoEnabled.lower() == 'yes'):
+            modo = "DEMO";
 
 	if (ourhome == "Disabledbecausewasconsuming1proconLinux"):
 		# Non-block when waiting for getch (cmd prompt).
@@ -145,6 +154,12 @@ def main(): #{
 	write_str(window, 0, 77, "| Platform: ");
 	write_str(window, 0, 89, ourhome);
 	write_str(window, 0, 89 + len(ourhome), " |");
+	write_str(window, 0, 108, "| Execution Mode: ");
+        if modo == "REAL":
+            write_str_color(window, 0, 126, modo, 6, 0);
+        else:
+            write_str(window, 0, 126, modo);
+	write_str(window, 0, 126 + len(modo), " |");
 	write_str(window, 0, termsize[1] - 28, " Window Size: ");
 	write_str(window, 0, termsize[1] - 14, str(termsize));
 
@@ -286,8 +301,9 @@ def main(): #{
 	update_panels();
 	doupdate();
 
-	#Our thread that updates all VMSS info (Default Refresh Interval: 60)...
-	vmss_monitor_thread(window_information, panel_information, window_continents, panel_continents);
+        #Are we for real??
+    	#Our thread that updates all VMSS info (Default Refresh Interval: 5)...
+        vmss_monitor_thread(window_information, panel_information, window_continents, panel_continents, demoEnabled);
 	endwin();
 	return 0;
 
