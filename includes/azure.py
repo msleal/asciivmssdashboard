@@ -27,7 +27,7 @@ filepresent = 1
 try:
 	with open('asciivmssdashboard.json') as configFile:
 		configData = json.load(configFile)
-except FileNotFoundError:
+except IOError or FileNotFoundError:
         # ---> In case we do not find our asciivmssdashboard.json config file, we will run in demo mode...
         filepresent = 0
         #sys.exit()
