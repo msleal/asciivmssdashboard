@@ -11,6 +11,7 @@ License: MIT (see LICENSE.txt file for details)
 import sys
 import time
 import json
+import random
 import azurerm
 import threading
 import platform
@@ -449,11 +450,28 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			if demo:
 			    #Our DEMO arrays...
 			    vmssProperties = json.loads(VMSSPROPERTIES_DEMO);
-			    vmssvms = json.loads(VMSSVMS_DEMO);
+			    #vmssvms = json.loads(VMSSVMS_DEMO);
+                            payload_head = '{"value": ['
+                            payload_tail = ']}'
+                            payload_str = '{"name": "vmssdash_0", "instanceId": "0", "properties": {"provisioningState": "Succeeded"}}, '
+			    #In demo mode we can have more fun... ;-)  
+
+                            DEMOVIRTUALMACHINES = random.randint(2, 99)
+                            if (DEMOVIRTUALMACHINES % 2) == 0:
+                                prov_state = "Succeeded"
+                            else:
+                                prov_state = "Creating"
+
+                            for nr in range(1, DEMOVIRTUALMACHINES):
+                               payload_str = payload_str + '{"name": "vmssdash_' + str(nr) + '", "instanceId": "' + str(nr) + '", "properties": {"provisioningState": "' + prov_state + '"}}, '
+
+                            payload_str = payload_str[:-2]
+                            vmssvms = json.loads(payload_head + payload_str + payload_tail)
 			else:
 			    #Our REAL arrays...
 			    vmssProperties = [name, capacity, location, rgname, offer, sku, provisioningState, dns, ipaddr];
 			    vmssvms = azurerm.list_vmss_vms(access_token, subscription_id, rgname, vmssname);
+                            logging.info(vmssvms)
 			vmssVmProperties = [];
 
 			#All VMs are created in the following coordinates...
