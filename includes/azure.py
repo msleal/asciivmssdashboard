@@ -186,6 +186,8 @@ def exec_cmd(window, access_token, cap, cmd, demo):
 
 	#Execution...
 	if (op == "add" or op == "del"):
+		if demo: 
+			return execsuccess;
 		if (qtd > 99): 
 			return capacityerror;
 		#Scale-in or Scale-out...
@@ -224,6 +226,8 @@ def exec_cmd(window, access_token, cap, cmd, demo):
 		set_page(window, page_new);
 		return execsuccess;
 	else:
+		if demo: 
+			return execsuccess;
 		#Test to be sure the resource group and vmss provided do exist...
 		rgoutput = azurerm.get_vmss(access_token, subscription_id, rgname_new, vmssname_new);
 		try:
