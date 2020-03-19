@@ -401,8 +401,15 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			clean_forms(window_information);
 
 			if demo:
+                            X = random.randint(1, 2)
+                            if (X % 2) == 0:
+                                vmss_state = "Succeeded"
+                                vmssget_tmp = VMSSGET_DEMO.replace("Updating", vmss_state)
+                            else:
+                                vmss_state = "Updating"
+                                vmssget_tmp = VMSSGET_DEMO.replace("Succeeded", vmss_state)
 			    #Get DEMO VMSS details
-			    vmssget = json.loads(VMSSGET_DEMO);
+			    vmssget = json.loads(vmssget_tmp);
 			    # Get DEMO public ip address for RG (First IP) - modify this if your RG has multiple ips
 			    net = json.loads(NET_DEMO);
 			else:
@@ -455,11 +462,9 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
                             payload_tail = ']}'
                             payload_str = '{"name": "vmssdash_0", "instanceId": "0", "properties": {"provisioningState": "Succeeded"}}, '
 			    #In demo mode we can have more fun... ;-)  
-
                             DEMOVIRTUALMACHINES = random.randint(2, 99)
-                            if (DEMOVIRTUALMACHINES % 2) == 0:
-                                prov_state = "Succeeded"
-                            else:
+                            prov_state = "Succeeded"
+                            if (vmss_state == 'Updating'):
                                 prov_state = "Creating"
 
                             for nr in range(1, DEMOVIRTUALMACHINES):

@@ -11,7 +11,7 @@ import json
 
 rgname = "dashdemo"
 vmssname = "dashdemo"
-interval = 10
+interval = 15
 tenantId = "xxx"
 insightsAppId = "xxx"
 insightsKey = "xxx"
