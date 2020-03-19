@@ -21,27 +21,33 @@ from datacenters import *
 import requests.packages.urllib3
 
 # Load Azure app defaults
+filepresent = 1
 try:
         with open('asciivmssdashboard.json') as configFile:
                 configData = json.load(configFile)
 except FileNotFoundError:
-        print("Error: Expecting asciivmssdashboard.json in current folder")
-        sys.exit()
+        # ---> In case we do not find our asciivmssdashboard.json config file, we will run in demo mode...
+        filepresent = 0
+        #sys.exit()
 
 try:
         demoEnabled = configData['demoEnabled']
 except:
-        print("Missing 'demoEnabled' configuration parameter. You can disable some features, but the config option must be present.")
-        print("Use the asciivmssdashboard.json.tmpl file as a template to fill in your custom values...")
+        demoEnabled = "Yes"
+        # ---> "Missing 'demoEnabled' configuration parameter. So, to keep it simple, we will run in demo mode..."
+        # ---> "Use the asciivmssdashboard.json.tmpl file as a template to fill in your custom values..."
 
 try:
         animationEnabled = configData['animationEnabled']
-        configFile.close()
+        if filepresent: 
+            configFile.close()
 except:
-        print("Missing 'animationEnabled' configuration parameter. You can disable some features, but the config option must be present.")
-        print("Use the asciivmssdashboard.json.tmpl file as a template to fill in your custom values...")
-        configFile.close()
-        sys.exit()
+        animationEnabled = "Yes"
+        # ---> "Missing 'animationEnabled' configuration parameter. Because we like it and was not simple to implement, we will assume you also like it..."
+        # ---> "Use the asciivmssdashboard.json.tmpl file as a template to fill in your custom values..."
+        if filepresent: 
+            configFile.close()
+        #sys.exit()
 
 # app state variables
 vmssProperties = [];
@@ -104,7 +110,7 @@ def main(): #{
 	COLSTART=100; SZ = 0;
 	ourhome = platform.system();
 	stdscr = initscr();
-        modo = "REAL";
+	modo = "REAL";
 	if (demoEnabled.lower() == 'yes'):
             modo = "DEMO";
 
@@ -155,9 +161,9 @@ def main(): #{
 	write_str(window, 0, 89, ourhome);
 	write_str(window, 0, 89 + len(ourhome), " |");
 	write_str(window, 0, 108, "| Execution Mode: ");
-        if modo == "REAL":
+	if modo == "REAL":
             write_str_color(window, 0, 126, modo, 6, 0);
-        else:
+	else:
             write_str(window, 0, 126, modo);
 	write_str(window, 0, 126 + len(modo), " |");
 	write_str(window, 0, termsize[1] - 28, " Window Size: ");
@@ -303,7 +309,7 @@ def main(): #{
 
         #Are we for real??
     	#Our thread that updates all VMSS info (Default Refresh Interval: 5)...
-        vmss_monitor_thread(window_information, panel_information, window_continents, panel_continents, demoEnabled);
+	vmss_monitor_thread(window_information, panel_information, window_continents, panel_continents, demoEnabled);
 	endwin();
 	return 0;
 

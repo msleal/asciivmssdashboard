@@ -9,6 +9,23 @@ License: MIT (see LICENSE.txt file for details)
 
 import json
 
+rgname = "dashdemo"
+vmssname = "dashdemo"
+interval = 10
+tenantId = "xxx"
+insightsAppId = "xxx"
+insightsKey = "xxx"
+insightsUrl = "xxx"
+insightsOneEnabled = "No"
+insightsOneUrl = "xxx"
+insightsOneMetric = "xxx"
+insightsOneTitle = "xxx"
+insightsTwoEnabled = "No"
+insightsTwoUrl = "xxx"
+insightsTwoMetric = "xxx"
+insightsTwoTitle = "xxx"
+insightsInterval = 10
+
 #DEMO Assets...
 VMSSGET_DEMO = json.dumps({"name": "dashdemo", "id": "/subscriptions/99999999-aaaa-bbbb-cccc-888888888888/resourceGroups/dashdemo/providers/Microsoft.Compute/virtualMachineScaleSets/dashdemo", "type": "Microsoft.Compute/virtualMachineScaleSets", "location": "brazilsouth", "sku": {"name": "Standard_A2", "tier": "Standard", "capacity": 1}, "properties": {"singlePlacementGroup": True, "upgradePolicy": {"mode": "Manual", "automaticOSUpgrade": False}, "virtualMachineProfile": {"osProfile": {"computerNamePrefix": "dashdemo", "adminUsername": "blackpanther", "linuxConfiguration": {"disablePasswordAuthentication": False}, "secrets": []}, "storageProfile": {"osDisk": {"vhdContainers": ["https://ababababababcdashdemosa.blob.core.windows.net/dashdemovhd", "https://ababababababcdashdemosa.blob.core.windows.net/dashdemovhd", "https://8765432123456dashdemosa.blob.core.windows.net/dashdemovhd", "https://ababababababcdashdemosa.blob.core.windows.net/dashdemovhd", "https://ababababababcdashdemosa.blob.core.windows.net/dashdemovhd"], "name": "dashdemoosdisk", "createOption": "FromImage", "caching": "ReadOnly"}, "imageReference": {"publisher": "Canonical", "offer": "UbuntuServer", "sku": "16.04.0-LTS", "version": "latest"}}, "networkProfile": {"networkInterfaceConfigurations": [{"name": "dashdemonic", "properties": {"primary": True, "ipConfigurations": [{"name": "dashdemoipconfig", "properties": {"subnet": {"id": "/subscriptions/99999999-aaaa-bbbb-cccc-888888888888/resourceGroups/VMSSDASH/providers/Microsoft.Network/virtualNetworks/dashdemovnet/subnets/dashdemosubnet"}}}]}}]}}, "provisioningState": "Succeeded", "overprovision": False, "uniqueId": "88888888-cccc-bbbb-aaaa-999999999999"}})
  

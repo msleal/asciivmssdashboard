@@ -23,12 +23,21 @@ from windows import *
 from datacenters import *
 
 # Load Azure app defaults
+filepresent = 1
 try:
 	with open('asciivmssdashboard.json') as configFile:
 		configData = json.load(configFile)
 except FileNotFoundError:
-	print("Error: Expecting asciivmssdashboard.json in current folder")
-	sys.exit()
+        # ---> In case we do not find our asciivmssdashboard.json config file, we will run in demo mode...
+        filepresent = 0
+        #sys.exit()
+
+try:
+        demoEnabled = configData['demoEnabled']
+except:
+        demoEnabled = "Yes"
+        # ---> "Missing 'demoEnabled' configuration parameter. So, to keep it simple, we will run in demo mode..."
+        # ---> "Use the asciivmssdashboard.json.tmpl file as a template to fill in your custom values."
 
 try:
 	tenant_id = configData['tenantId']
@@ -58,10 +67,17 @@ try:
 	insightsInterval = configData['insightsInterval']
 	configFile.close()
 except:
-	print("Missing configuration parameter. You can disable some features, but the config option must be present.")
-	print("Use the asciivmssdashboard.json.tmpl file as a template to fill in your custom values...")
-	configFile.close()
-	sys.exit()
+	if (demoEnabled.lower() == 'yes'):
+            # ---> "Missing some configuration parameter. Because we are in demo mode, we will keep going..."
+            # ---> "Use the asciivmssdashboard.json.tmpl file as a template to fill in your custom values."
+            if filepresent:
+                configFile.close()
+	else:
+            print("Missing configuration parameter. You can disable some features, but all config options must be present when running in REAL mode...")
+            print("Use the asciivmssdashboard.json.tmpl file as a template to fill in your custom values.")
+            if filepresent:
+                configFile.close()
+                sys.exit()
 
 #Region...
 region=""
@@ -82,13 +98,17 @@ page = 1;
 quit = 0;
 
 #Remove old log file if requested (default behavior)...
-if (purgeLog.lower() == "yes"):
-	if (os.path.isfile(logName)):
-		os.remove(logName);
+if (demoEnabled.lower() != 'yes'):
+    if (purgeLog.lower() == "yes"):
+        if (os.path.isfile(logName)):
+            os.remove(logName);
+else:
+    logName = "/dev/null"
 
 #Basic Logging...
 #logging.basicConfig(format='%(asctime)s - %(levelname)s:%(message)s', datefmt='%H:%M:%S', level=logLevel, filename=logName)
-logging.basicConfig(format='%(asctime)s - %(levelname)s:%(message)s', level=logLevel, filename=logName)
+if (demoEnabled.lower() != 'yes'):
+    logging.basicConfig(format='%(asctime)s - %(levelname)s:%(message)s', level=logLevel, filename=logName)
 
 #Exec command...
 def exec_cmd(window, access_token, cap, cmd, demo):
