@@ -401,6 +401,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			clean_forms(window_information);
 
 			if demo:
+                            Y = random.randint(0, len(REGIONS_DEMO)-1)
                             X = random.randint(1, 2)
                             if (X % 2) == 0:
                                 vmss_state = "Succeeded"
@@ -408,10 +409,12 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
                             else:
                                 vmss_state = "Updating"
                                 vmssget_tmp = VMSSGET_DEMO.replace("Succeeded", vmss_state)
+                            vmssget_tmp = VMSSGET_DEMO.replace("brazilsouth", REGIONS_DEMO[Y])
+
 			    #Get DEMO VMSS details
-			    vmssget = json.loads(vmssget_tmp);
+                            vmssget = json.loads(vmssget_tmp);
 			    # Get DEMO public ip address for RG (First IP) - modify this if your RG has multiple ips
-			    net = json.loads(NET_DEMO);
+                            net = json.loads(NET_DEMO);
 			else:
 			    #Get REAL VMSS details
 			    vmssget = azurerm.get_vmss(access_token, subscription_id, rgname, vmssname);
@@ -437,15 +440,25 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			continent_location = get_continent_dc(location);
 
 			if demo:
-			    #Quota...
-			    quota = json.loads(QUOTA_DEMO);
-	                    quota['value'][0]['currentValue'] = random.randint(2, 1800)
-	                    quota['value'][1]['currentValue'] = random.randint(2, 900)
-	                    quota['value'][2]['currentValue'] = random.randint(2, 20000)
-	                    quota['value'][3]['currentValue'] = random.randint(2, 1800)
+				#Quota...
+				quota = json.loads(QUOTA_DEMO);
+				quota['value'][0]['currentValue'] = random.randint(1, 1300)
+				quota['value'][1]['currentValue'] = random.randint(500, 1000)
+				quota['value'][2]['currentValue'] = random.randint(1500, 25000)
+				quota['value'][3]['currentValue'] = random.randint(1, 2000)
 			else:
 			    #Quota...
 			    quota = azurerm.get_compute_usage(access_token, subscription_id, location);
+
+			#First a clean up...
+			#Clean Usage window (used / limit)...
+			clean_usage(window_information['usage']);
+
+			#Clean Gauge window AS, RC, VM and SS)...
+			gauge_list = ["gaugeas", "gaugerc", "gaugevm", "gaugess"]
+			for gauge_graph in gauge_list:
+			    clean_gauge(window_information[gauge_graph]);
+
 			fill_quota_info(window_information, quota);
 
 			#Mark Datacenter where VMSS is deployed...
@@ -462,25 +475,24 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			    #Our DEMO arrays...
 			    vmssProperties = json.loads(VMSSPROPERTIES_DEMO);
 			    #vmssvms = json.loads(VMSSVMS_DEMO);
-                            payload_head = '{"value": ['
-                            payload_tail = ']}'
-                            payload_str = '{"name": "vmssdash_0", "instanceId": "0", "properties": {"provisioningState": "Succeeded"}}, '
+			    payload_head = '{"value": ['
+			    payload_tail = ']}'
+			    payload_str = '{"name": "vmssdash_0", "instanceId": "0", "properties": {"provisioningState": "Succeeded"}}, '
 			    #In demo mode we can have more fun... ;-)  
-                            DEMOVIRTUALMACHINES = random.randint(2, 99)
-                            prov_state = "Succeeded"
-                            if (vmss_state == 'Updating'):
+			    DEMOVIRTUALMACHINES = random.randint(2, 99)
+			    prov_state = "Succeeded"
+			    if (vmss_state == 'Updating'):
                                 prov_state = "Creating"
 
-                            for nr in range(1, DEMOVIRTUALMACHINES):
+			    for nr in range(1, DEMOVIRTUALMACHINES):
                                payload_str = payload_str + '{"name": "vmssdash_' + str(nr) + '", "instanceId": "' + str(nr) + '", "properties": {"provisioningState": "' + prov_state + '"}}, '
 
-                            payload_str = payload_str[:-2]
-                            vmssvms = json.loads(payload_head + payload_str + payload_tail)
+			    payload_str = payload_str[:-2]
+			    vmssvms = json.loads(payload_head + payload_str + payload_tail)
 			else:
 			    #Our REAL arrays...
 			    vmssProperties = [name, capacity, location, rgname, offer, sku, provisioningState, dns, ipaddr];
 			    vmssvms = azurerm.list_vmss_vms(access_token, subscription_id, rgname, vmssname);
-                            logging.info(vmssvms)
 			vmssVmProperties = [];
 
 			#All VMs are created in the following coordinates...

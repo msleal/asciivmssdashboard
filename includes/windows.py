@@ -149,16 +149,17 @@ def write_str_color(window, a, b, char, cor, flag):
 def draw_gauge(window, used, limit):
 	if (used > 0):
 		a = used / limit;
-		b = a * 100;
+		b = int(a * 100);
 	else:
 		b = 0;
 
-	if ( b < 30):
+        #Now let's draw the graph...
+	if (b <= 30):
 		write_str_color(window, 3, 1, "    ", 5, 1);
-	elif (b < 60):
+	if (b > 30 and b <= 70):
 		write_str_color(window, 3, 1, "    ", 2, 1);
 		write_str_color(window, 2, 1, "    ", 2, 1);
-	else:
+	if (b > 70):
 		write_str_color(window, 3, 1, "    ", 9, 1);
 		write_str_color(window, 2, 1, "    ", 9, 1);
 		write_str_color(window, 1, 1, "    ", 9, 1);
@@ -179,6 +180,18 @@ def resize_terminal():
 	#errnr = call(["resize", "-s 55 235 >/dev/null"]);
 	errnr = 1;
 	return errnr;
+
+def clean_gauge(window):
+        #A quick clean up first...
+	write_str(window, 3, 1, "    ");
+	write_str(window, 2, 1, "    ");
+	write_str(window, 1, 1, "    ");
+
+def clean_usage(window):
+	write_str_color(window, 2, 2, "[Availability Sets] [     /     ]", 4, 1);
+	write_str_color(window, 3, 2, "[ Regional  Cores ] [     /     ]", 4, 1);
+	write_str_color(window, 4, 2, "[Virtual  Machines] [     /     ]", 4, 1);
+	write_str_color(window, 5, 2, "[  VM Scale Sets  ] [     /     ]", 4, 1);
 
 def clean_monitor_form(window):
 	#Window Update Monitor...

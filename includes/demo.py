@@ -11,22 +11,24 @@ import json
 
 rgname = "dashdemo"
 vmssname = "dashdemo"
-interval = 15
+interval = 10
 tenantId = "xxx"
 insightsAppId = "xxx"
 insightsKey = "xxx"
 insightsUrl = "xxx"
-insightsOneEnabled = "No"
+insightsOneEnabled = "Yes"
 insightsOneUrl = "xxx"
 insightsOneMetric = "xxx"
 insightsOneTitle = "xxx"
-insightsTwoEnabled = "No"
+insightsTwoEnabled = "Yes"
 insightsTwoUrl = "xxx"
 insightsTwoMetric = "xxx"
 insightsTwoTitle = "xxx"
 insightsInterval = 10
 
 #DEMO Assets...
+REGIONS_DEMO = ["brazilsouth", "southcentralus", "northcentralus", "westcentralus", "eastus", "eastus2", "centralus", "westus", "westus2", "canadacentral", "canadaeast", "northeurope", "uksouth", "ukwest", "westeurope", "francecentral", "francesouth", "germanynorth", "germanywestcentral", "norwaywest", "norwayeast", "eastasia", "southeastasia", "japaneast", "japanwest", "westindia", "centralindia", "southindia", "chinaeast", "chinanorth", "chinanorth2", "koreacentral", "koreasouth", "uaecentral", "uaenorth", "southafricanorth", "southafricawest", "australiaeast", "australiacentral2", "australiacentral", "australiasoutheast"]
+
 VMSSGET_DEMO = json.dumps({"name": "dashdemo", "location": "brazilsouth", "sku": {"name": "Standard_A2", "tier": "Standard", "capacity": 1}, "properties": {"virtualMachineProfile": {"osProfile": {"adminUsername": "blackpanther"}, "storageProfile": {"imageReference": {"publisher": "Canonical", "offer": "UbuntuServer", "sku": "16.04.0-LTS", "version": "latest"}}}, "provisioningState": "Succeeded"}})
 
 NET_DEMO = json.dumps({"value": [{"name": "dashdemopip", "location": "brazilsouth", "properties": {"provisioningState": "Succeeded", "ipAddress": "999.999.999.999", "publicIPAddressVersion": "IPv4", "publicIPAllocationMethod": "Dynamic", "idleTimeoutInMinutes": 4, "dnsSettings": {"domainNameLabel": "dashdemo", "fqdn": "dashdemo.brazilsouth.cloudapp.azure.com"}}, "type": "Microsoft.Network/publicIPAddresses", "sku": {"name": "Basic"}}]})
