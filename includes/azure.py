@@ -439,6 +439,10 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			if demo:
 			    #Quota...
 			    quota = json.loads(QUOTA_DEMO);
+	                    quota['value'][0]['currentValue'] = random.randint(2, 1800)
+	                    quota['value'][1]['currentValue'] = random.randint(2, 900)
+	                    quota['value'][2]['currentValue'] = random.randint(2, 20000)
+	                    quota['value'][3]['currentValue'] = random.randint(2, 1800)
 			else:
 			    #Quota...
 			    quota = azurerm.get_compute_usage(access_token, subscription_id, location);
