@@ -9,23 +9,6 @@ License: MIT (see LICENSE.txt file for details)
 
 import json
 
-rgname = "dashdemo"
-vmssname = "dashdemo"
-interval = 10
-tenantId = "xxx"
-insightsAppId = "xxx"
-insightsKey = "xxx"
-insightsUrl = "xxx"
-insightsOneEnabled = "Yes"
-insightsOneUrl = "xxx"
-insightsOneMetric = "xxx"
-insightsOneTitle = "xxx"
-insightsTwoEnabled = "Yes"
-insightsTwoUrl = "xxx"
-insightsTwoMetric = "xxx"
-insightsTwoTitle = "xxx"
-insightsInterval = 10
-
 #DEMO Assets...
 REGIONS_DEMO = ["brazilsouth", "southcentralus", "northcentralus", "westcentralus", "eastus", "eastus2", "centralus", "westus", "westus2", "canadacentral", "canadaeast", "northeurope", "uksouth", "ukwest", "westeurope", "francecentral", "francesouth", "germanynorth", "germanywestcentral", "norwaywest", "norwayeast", "eastasia", "southeastasia", "japaneast", "japanwest", "westindia", "centralindia", "southindia", "chinaeast", "chinanorth", "chinanorth2", "koreacentral", "koreasouth", "uaecentral", "uaenorth", "southafricanorth", "southafricawest", "australiaeast", "australiacentral2", "australiacentral", "australiasoutheast"]
 

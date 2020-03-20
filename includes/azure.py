@@ -80,6 +80,21 @@ except:
                 configFile.close()
                 sys.exit()
 
+#If we are in demo mode, we need to make sure the following variables are in synch...
+if (demoEnabled.lower() == "yes"):
+    rgname = "dashdemo"
+    vmssname = "dashdemo"
+    interval = 10
+    logEnabled = "Yes"
+    logLevel = "INFO"
+    purgeLog = "Yes"
+    logName = "asciivmssdashboard.log"
+    insightsOneEnabled = "Yes"
+    insightsOneTitle = "REQS"
+    insightsTwoEnabled = "Yes"
+    insightsTwoTitle = "RT(ms)"
+    insightsInterval = 1
+
 #Region...
 region=""
 
@@ -99,17 +114,13 @@ page = 1;
 quit = 0;
 
 #Remove old log file if requested (default behavior)...
-if (demoEnabled.lower() != 'yes'):
-    if (purgeLog.lower() == "yes"):
-        if (os.path.isfile(logName)):
-            os.remove(logName);
-else:
-    logName = "/dev/null"
+if (purgeLog.lower() == "yes"):
+    if (os.path.isfile(logName)):
+        os.remove(logName);
 
 #Basic Logging...
 #logging.basicConfig(format='%(asctime)s - %(levelname)s:%(message)s', datefmt='%H:%M:%S', level=logLevel, filename=logName)
-if (demoEnabled.lower() != 'yes'):
-    logging.basicConfig(format='%(asctime)s - %(levelname)s:%(message)s', level=logLevel, filename=logName)
+logging.basicConfig(format='%(asctime)s - %(levelname)s:%(message)s', level=logLevel, filename=logName)
 
 #Exec command...
 def exec_cmd(window, access_token, cap, cmd, demo):
@@ -409,12 +420,15 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
                             else:
                                 vmss_state = "Updating"
                                 vmssget_tmp = VMSSGET_DEMO.replace("Succeeded", vmss_state)
-                            vmssget_tmp = VMSSGET_DEMO.replace("brazilsouth", REGIONS_DEMO[Y])
+                            vmssget_tmp = vmssget_tmp.replace("brazilsouth", REGIONS_DEMO[Y])
 
 			    #Get DEMO VMSS details
                             vmssget = json.loads(vmssget_tmp);
+                            logging.info(" VMSS: " + str(vmssget))
 			    # Get DEMO public ip address for RG (First IP) - modify this if your RG has multiple ips
-                            net = json.loads(NET_DEMO);
+                            net_tmp = NET_DEMO.replace("brazilsouth", REGIONS_DEMO[Y]);
+                            net = json.loads(net_tmp);
+                            logging.info(" Network: " + str(net))
 			else:
 			    #Get REAL VMSS details
 			    vmssget = azurerm.get_vmss(access_token, subscription_id, rgname, vmssname);
@@ -446,6 +460,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 				quota['value'][1]['currentValue'] = random.randint(500, 1000)
 				quota['value'][2]['currentValue'] = random.randint(1500, 25000)
 				quota['value'][3]['currentValue'] = random.randint(1, 2000)
+				logging.info(" Subscription Quota: " + str(quota))
 			else:
 			    #Quota...
 			    quota = azurerm.get_compute_usage(access_token, subscription_id, location);
@@ -489,6 +504,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 
 			    payload_str = payload_str[:-2]
 			    vmssvms = json.loads(payload_head + payload_str + payload_tail)
+			    #logging.info(vmssvms)
 			else:
 			    #Our REAL arrays...
 			    vmssProperties = [name, capacity, location, rgname, offer, sku, provisioningState, dns, ipaddr];
@@ -741,7 +757,7 @@ def get_cmd(access_token, run_event, window_information, panel_information, demo
 			update_panels();
 			doupdate();
 
-def insights_in_window(log, window, run_event):
+def insights_in_window(log, window, run_event, demo):
 	global insights_flag, insightsOneUrl, insightsTwoUrl;
 
 	lock = threading.Lock()
@@ -769,19 +785,27 @@ def insights_in_window(log, window, run_event):
 			#Open space to a new sample...
 			values_insightsone.append(index_one);
 			try:
-				if (insightsOneUrl == ""):
-					insightsOneUrl = insightsUrl + insightsAppId + "/metrics/" + insightsOneMetric + "?timespan=PT" + str(insightsInterval) + "S";
-
-				metricone = requests.get(insightsOneUrl, headers=customheader);
-				metriconevalue = metricone.json();
-				if (metriconevalue['value'][insightsOneMetric].values()[-1] is not None):
-					values_insightsone[index_one] = int(metriconevalue['value'][insightsOneMetric].values()[-1]);
+				if demo:
+				    values_insightsone[index_one] = random.randint(0, 100);
 				else:
-					values_insightsone[index_one] = 0;
+				    if (insightsOneUrl == ""):
+					    insightsOneUrl = insightsUrl + insightsAppId + "/metrics/" + insightsOneMetric + "?timespan=PT" + str(insightsInterval) + "S";
+				    metricone = requests.get(insightsOneUrl, headers=customheader);
+				    logging.info(metricone);
+				    metriconevalue = metricone.json();
+				    logging.info(metriconevalue);
+
+				    if (metriconevalue['value'][insightsOneMetric].values()[-1] is not None):
+					    values_insightsone[index_one] = int(metriconevalue['value'][insightsOneMetric].values()[-1]);
+				    else:
+					    values_insightsone[index_one] = 0;
+
 				logging.info("INSIGHTS %s: %s", insightsOneTitle, values_insightsone[index_one]);
+
 				if (index_one == total_values_one):
 					values_insightsone.pop(0);
 					index_one = (total_values_one - 1);
+
 				index_one += 1;
 				draw_insights(window['insightsone'], values_insightsone, insightsOneTitle, "One", flag);
 			except:
@@ -792,16 +816,22 @@ def insights_in_window(log, window, run_event):
 			#Open space to a new sample...
 			values_insightstwo.append(index_two);
 			try:
-				if (insightsTwoUrl == ""):
-					insightsTwoUrl = insightsUrl + insightsAppId + "/metrics/" + insightsTwoMetric + "?timespan=PT" + str(insightsInterval) + "S";
 
-				metrictwo = requests.get(insightsTwoUrl, headers=customheader);
-				metrictwovalue = metrictwo.json();
-				if (metrictwovalue['value'][insightsTwoMetric].values()[-1] is not None):
-					values_insightstwo[index_two] = int(metrictwovalue['value'][insightsTwoMetric].values()[-1]);
+				if demo:
+				    values_insightstwo[index_two] = random.randint(0, 10);
 				else:
-					values_insightstwo[index_two] = 0;
+				    if (insightsTwoUrl == ""):
+					    insightsTwoUrl = insightsUrl + insightsAppId + "/metrics/" + insightsTwoMetric + "?timespan=PT" + str(insightsInterval) + "S";
+				    metrictwo = requests.get(insightsTwoUrl, headers=customheader);
+				    metrictwovalue = metrictwo.json();
+
+				    if (metrictwovalue['value'][insightsTwoMetric].values()[-1] is not None):
+					    values_insightstwo[index_two] = int(metrictwovalue['value'][insightsTwoMetric].values()[-1]);
+				    else:
+					    values_insightstwo[index_two] = 0;
+
 				logging.info("INSIGHTS %s: %s", insightsTwoTitle, values_insightstwo[index_two]);
+
 				if (index_two == total_values_two):
 					values_insightstwo.pop(0);
 					index_two = (total_values_two - 1);
@@ -852,18 +882,20 @@ def vmss_monitor_thread(window_information, panel_information, window_continents
 
 	#Simple consistent check for the Insights configuration...
 	if (insightsOneEnabled.lower() == "yes"):
-		if ((insightsOneUrl == "" and insightsUrl == "") or (insightsOneTitle == "") or (insightsOneMetric == "")):
-			logging.warning("Configuration for insightsOne Graph is inconsistent. You need to configure insightsUrl or insightsOneUrl AND insightsOneTitle AND insightsOneMetric");
-			insightsOneEnabled = "No";
+		if demo == 0:
+		    if ((insightsOneUrl == "" and insightsUrl == "") or (insightsOneTitle == "") or (insightsOneMetric == "")):
+                        logging.warning("Configuration for insightsOne Graph is inconsistent. You need to configure insightsUrl or insightsOneUrl AND insightsOneTitle AND insightsOneMetric");
+                        insightsOneEnabled = "No";
 
 	if (insightsTwoEnabled.lower() == "yes"):
-		if ((insightsTwoUrl == "" and insightsUrl == "") or (insightsTwoTitle == "") or (insightsTwoMetric == "")):
-			logging.warning("Configuration for InsightsTwo Graph is inconsistent. You need to configure insightsUrl or insightsTwoUrl AND insightsTwoTitle AND insightsTwoMetric");
-			insightsTwoEnabled = "No";
+		if demo == 0:
+		    if ((insightsTwoUrl == "" and insightsUrl == "") or (insightsTwoTitle == "") or (insightsTwoMetric == "")):
+		        logging.warning("Configuration for InsightsTwo Graph is inconsistent. You need to configure insightsUrl or insightsTwoUrl AND insightsTwoTitle AND insightsTwoMetric");
+		        insightsTwoEnabled = "No";
 
 	# Insights Thread...
 	if (insightsOneEnabled.lower() == "yes" or insightsTwoEnabled.lower() == "yes"):
-		insights_thread = threading.Thread(target=insights_in_window, args=(logName, window_information, run_event))
+		insights_thread = threading.Thread(target=insights_in_window, args=(logName, window_information, run_event, demo))
 		insights_thread.start()
 
 	time.sleep(.2);
