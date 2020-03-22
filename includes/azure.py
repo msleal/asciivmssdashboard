@@ -795,8 +795,12 @@ def insights_in_window(log, window, run_event, demo):
 				    metriconevalue = metricone.json();
 				    logging.info(metriconevalue);
 
-				    if (metriconevalue['value'][insightsOneMetric].values()[-1] is not None):
-					    values_insightsone[index_one] = int(metriconevalue['value'][insightsOneMetric].values()[-1]);
+				    #The following code is not compatible with Python3, so changed it to work on Python2 AND Python3...
+				    #new_metriconevalue = metriconevalue['value'][insightsOneMetric].values()[-1]:
+				    new_metriconevalue = list(metriconevalue['value'][insightsOneMetric].values());
+				    if (new_metriconevalue[0] is not None):
+					    values_insightsone[index_one] = int(new_metriconevalue[0]);
+					    logging.info(str(new_metriconevalue[0]));
 				    else:
 					    values_insightsone[index_one] = 0;
 
@@ -825,8 +829,12 @@ def insights_in_window(log, window, run_event, demo):
 				    metrictwo = requests.get(insightsTwoUrl, headers=customheader);
 				    metrictwovalue = metrictwo.json();
 
-				    if (metrictwovalue['value'][insightsTwoMetric].values()[-1] is not None):
-					    values_insightstwo[index_two] = int(metrictwovalue['value'][insightsTwoMetric].values()[-1]);
+				    #The following code is not compatible with Python3, so changed it to work on Python2 AND Python3...
+				    #new_metrictwovalue = metrictwovalue['value'][insightsTwoMetric].values()[-1]:
+				    new_metrictwovalue = list(metrictwovalue['value'][insightsTwoMetric].values());
+				    if (new_metrictwovalue[0] is not None):
+					    values_insightstwo[index_two] = int(new_metrictwovalue[0]);
+					    logging.info(str(new_metrictwovalue[0]));
 				    else:
 					    values_insightstwo[index_two] = 0;
 
