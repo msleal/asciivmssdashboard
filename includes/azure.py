@@ -390,7 +390,7 @@ def set_vmss_variables(vmssget, net):
 # thread to loop around monitoring the VM Scale Set state and its VMs
 # sleep between loops sets the update frequency
 def get_vmss_properties(access_token, run_event, window_information, panel_information, window_continents, panel_continents, demo):
-	global vmssProperties, vmssVmProperties, countery, capacity, region, tier, vmsku, vm_selected, window_vm, panel_vm, instances_deployed, vm_details, vm_nic, page;
+	global  countery, capacity, region, tier, vmsku, vm_selected, window_vm, panel_vm, instances_deployed, vm_details, vm_nic, page;
 
 	ROOM = 5; DEPLOYED = 0;
 
@@ -487,29 +487,25 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 				window_dc = new_window_dc;
 
 			if demo:
-			    #Our DEMO arrays...
-			    vmssProperties = json.loads(VMSSPROPERTIES_DEMO);
-			    #vmssvms = json.loads(VMSSVMS_DEMO);
-			    payload_head = '{"value": ['
-			    payload_tail = ']}'
-			    payload_str = '{"name": "vmssdash_0", "instanceId": "0", "properties": {"provisioningState": "Succeeded"}}, '
-			    #In demo mode we can have more fun... ;-)  
-			    DEMOVIRTUALMACHINES = random.randint(2, 99)
 			    prov_state = "Succeeded"
 			    if (vmss_state == 'Updating'):
                                 prov_state = "Creating"
+			    #vmssvms = json.loads(VMSSVMS_DEMO);
+			    payload_head = '{"value": ['
+			    payload_tail = ']}'
+			    payload_str = '{"name": "vmssdash_0", "instanceId": "0", "properties": {"provisioningState": "' + prov_state + '"}}, '
+
+			    #In demo mode we can have more fun... ;-)  
+			    DEMOVIRTUALMACHINES = random.randint(2, 99)
 
 			    for nr in range(1, DEMOVIRTUALMACHINES):
                                payload_str = payload_str + '{"name": "vmssdash_' + str(nr) + '", "instanceId": "' + str(nr) + '", "properties": {"provisioningState": "' + prov_state + '"}}, '
 
 			    payload_str = payload_str[:-2]
 			    vmssvms = json.loads(payload_head + payload_str + payload_tail)
-			    #logging.info(vmssvms)
 			else:
 			    #Our REAL arrays...
-			    vmssProperties = [name, capacity, location, rgname, offer, sku, provisioningState, dns, ipaddr];
 			    vmssvms = azurerm.list_vmss_vms(access_token, subscription_id, rgname, vmssname);
-			vmssVmProperties = [];
 
 			#All VMs are created in the following coordinates...
 			qtd = vmssvms['value'].__len__();
@@ -543,7 +539,6 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 				vmsel = 0;
 				vmName = vm['name'];
 				provisioningState = vm['properties']['provisioningState'];
-				vmssVmProperties.append([instanceId, vmName, provisioningState]);
 				if (counter > DEPLOYED):
 					window_vm.append(DEPLOYED); panel_vm.append(DEPLOYED); instances_deployed.append(DEPLOYED);
 					instances_deployed[DEPLOYED] = int(instanceId);

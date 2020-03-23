@@ -36,7 +36,7 @@ dc_coords = {
              'norwaywest':[9,8], \
              'norwayeast':[8,11], \
              'eastasia':[20,64], \
-             'southeastasia':[24,60], \
+             'southeastasia':[23,60], \
              'japaneast':[15,81], \
              'japanwest':[16,79], \
              'westindia':[20,43], \
