@@ -47,8 +47,8 @@ dc_coords = {
              'chinanorth2':[14,69], \
              'koreacentral':[15,73], \
              'koreasouth':[17,74], \
-             'uaecentral':[5,35], \
-             'uaenorth':[4,37], \
+             'uaecentral':[5,33], \
+             'uaenorth':[4,35], \
              'southafricanorth':[16,24], \
              'southafricawest':[18,19], \
              'australiaeast':[8,33], \

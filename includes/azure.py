@@ -513,22 +513,21 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 
 			#All VMs are created in the following coordinates...
 			qtd = vmssvms['value'].__len__();
-			factor = (vmssvms['value'].__len__() / 100);
+			#Our progress bar 'step'...
+			step = qtd / 12;
 
+			factor = (vmssvms['value'].__len__() / 100);
 			write_str(window_information['system'], 3, 22, qtd);
 
-			step = qtd / 10;
-			if (step < 1): step = 1;	
-
 			#We take more time on our VM effects depending on how many VMs we are talking about...
-			if (qtd < 10): ts = 0.01;
-			elif (qtd < 25): ts = 0.002;
-			elif (qtd < 50): ts = 0.0002;
-			elif (qtd < 101): ts = 0.00002;
+			if (qtd < 10): ts = 0.0002;
+			elif (qtd >= 25 and qtd < 50 ): ts = 0.0004;
+			elif (qtd >= 50 and qtd < 100): ts = 0.0008;
 			else: ts = 0;
 
-			counter = 1; counter_page = 0; nr_pages = 1;
-
+			counter = 1;
+			counter_page = 0;
+			nr_pages = 1;
 			snap_page = page;
 			page_top = (snap_page * 100);
 			page_base = ((snap_page - 1) * 100);
@@ -597,12 +596,10 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 							fill_vm_details(window_information, instanceId, vmName, provisioningState);
 				update_panels();
 				doupdate();
+				if (counter > step):
+				    do_update_bar(window_information['status'], step, 0);
+				    step += step;
 				counter += 1;
-				do_update_bar(window_information['status'], step, 0);
-				step += step;
-			#Last mile...
-			write_str(window_information['monitor'], 1, 30, "Done.");
-			do_update_bar(window_information['status'], step, 1);
 
 			#Remove destroyed VMs...
 			counter_page = 0;
@@ -610,7 +607,7 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 				time.sleep(0.5);
 				write_str_color(window_information['monitor'], 1, 30, "Removing VM's...", 7, 0);
 				wrefresh(window_information['monitor']);
-				time.sleep(1);
+				time.sleep(0.5);
 				clean_monitor_form(window_information);
 	
 			while (DEPLOYED >= counter):
@@ -643,8 +640,10 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 				DEPLOYED -= 1;
 				update_panels();
 				doupdate();
+
 			write_str(window_information['monitor'], 1, 30, "Done.");
 			ourtime = time.strftime("%H:%M:%S");
+			#Last mile...
 			do_update_bar(window_information['status'], step, 1);
 			write_str(window_information['status'], 1, 13, ourtime);
 			write_str_color(window_information['status'], 1, 22, "     OK     ", 6, 0);
@@ -654,13 +653,13 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			time.sleep(interval);
 		except:
 			logging.exception("Getting VMSS Information...")
-			write_str(window_information['error'], 1, 24, "Let's sleep for 30 seconds and try to refresh the dashboard again...");
+			write_str(window_information['error'], 1, 24, "Let's sleep for 45 seconds and try to refresh the dashboard again...");
 			show_panel(panel_information['error']);
 			update_panels();
 			doupdate();
 			## break out of loop when an error is encountered
 			#break
-			time.sleep(30);
+			time.sleep(45);
 			hide_panel(panel_information['error']);
 
 def get_cmd(access_token, run_event, window_information, panel_information, demo):
