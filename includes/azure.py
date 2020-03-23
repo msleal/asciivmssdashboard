@@ -683,6 +683,7 @@ def get_cmd(access_token, run_event, window_information, panel_information, demo
 
 			#Read the command...
 			inputcommand = mvwgetstr(window_information['cmd'], 1, 5);
+
 			if (ourhome == 'Windows'):
 				command = inputcommand;
 			else:
