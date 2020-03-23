@@ -8,6 +8,7 @@ License: MIT (see LICENSE.txt file for details)
 """
 
 import time
+import logging
 from subprocess import call
 from unicurses import *
 
