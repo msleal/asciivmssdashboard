@@ -431,14 +431,18 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			clean_forms(window_information);
 
 			if demo:
+                            #In demo mode we can have more fun... ;-)  
+                            DEMOVIRTUALMACHINES = random.randint(2, 99)
                             Y = random.randint(0, len(REGIONS_DEMO)-1)
                             X = random.randint(1, 2)
+
                             if (X % 2) == 0:
                                 vmss_state = "Succeeded"
                                 vmssget_tmp = VMSSGET_DEMO.replace("Updating", vmss_state)
                             else:
                                 vmss_state = "Updating"
                                 vmssget_tmp = VMSSGET_DEMO.replace("Succeeded", vmss_state)
+                            vmssget_tmp = vmssget_tmp.replace(": 1", ": " + str(DEMOVIRTUALMACHINES))
                             vmssget_tmp = vmssget_tmp.replace("brazilsouth", REGIONS_DEMO[Y])
 
 			    #Get DEMO VMSS details
@@ -513,9 +517,6 @@ def get_vmss_properties(access_token, run_event, window_information, panel_infor
 			    payload_head = '{"value": ['
 			    payload_tail = ']}'
 			    payload_str = '{"name": "vmssdash_0", "instanceId": "0", "properties": {"provisioningState": "' + prov_state + '"}}, '
-
-			    #In demo mode we can have more fun... ;-)  
-			    DEMOVIRTUALMACHINES = random.randint(2, 99)
 
 			    for nr in range(1, DEMOVIRTUALMACHINES):
                                payload_str = payload_str + '{"name": "vmssdash_' + str(nr) + '", "instanceId": "' + str(nr) + '", "properties": {"provisioningState": "' + prov_state + '"}}, '
