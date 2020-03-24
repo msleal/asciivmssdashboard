@@ -29,10 +29,14 @@ dc_coords = {
              'uksouth':[13,2], \
              'ukwest':[12,4], \
              'westeurope':[12,8], \
-             'francecentral':[14,6], \
-             'francesouth':[15,7], \
-             'germanynorth':[12,15], \
-             'germanywestcentral':[13,14], \
+             'francecentral':[13,6], \
+             'francesouth':[14,8], \
+             'germanynorth':[11,14], \
+             'germanywestcentral':[12,12], \
+             'germanynortheast':[12,16], \
+             'germanycentral':[13,14], \
+             'switzerlandwest':[13,10], \
+             'switzerlandnorth':[14,12], \
              'norwaywest':[9,8], \
              'norwayeast':[8,11], \
              'eastasia':[20,64], \
@@ -63,7 +67,7 @@ dc_symbol = u"\u2588";
 #CONTINENTS
 southamerica = ['brazilsouth']
 northandcentralamerica = ['southcentralus', 'northcentralus', 'westcentralus', 'eastus', 'eastus2', 'centralus', 'westus', 'westus2', 'canadacentral', 'canadaeast']
-europeandasia = ['northeurope', 'uksouth', 'ukwest', 'westeurope', 'francecentral', 'francesouth', 'germanynorth', 'germanywestcentral', 'eastasia', 'southeastasia', 'japaneast', 'japanwest', 'centralindia', 'westindia', 'southindia', 'chinaeast', 'chinanorth', 'chinanorth2', 'koreacentral', 'koreasouth', 'norwaywest', 'norwayeast']
+europeandasia = ['northeurope', 'uksouth', 'ukwest', 'westeurope', 'francecentral', 'francesouth', 'germanycentral', 'germanynorth', 'germanynortheast', 'germanywestcentral', 'switzerlandwest', 'switzerlandnorth', 'eastasia', 'southeastasia', 'japaneast', 'japanwest', 'centralindia', 'westindia', 'southindia', 'chinaeast', 'chinanorth', 'chinanorth2', 'koreacentral', 'koreasouth', 'norwaywest', 'norwayeast']
 africa = ['uaecentral', 'uaenorth', 'southafricanorth', 'southafricawest']
 oceania = ['australiaeast', 'australiacentral', 'australiacentral2', 'australiasoutheast']
 

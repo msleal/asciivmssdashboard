@@ -170,7 +170,7 @@ def get_continent_dc(dc):
 		return 'southamerica';
 	if (dc == "southcentralus" or dc == "northcentralus" or dc == "westcentralus" or dc == "eastus" or dc == "eastus2" or dc == "centralus" or dc == "westus" or dc == "westus2" or dc == "canadacentral" or dc == "canadaeast"):
 		return 'northandcentralamerica';
-	if (dc == "northeurope" or dc == "uksouth" or dc == "ukwest" or dc == "westeurope" or dc == "francecentral" or dc == "francesouth" or dc == "germanynorth" or dc == "germanywestcentral" or dc == "eastasia" or dc == "southeastasia" or dc == "japaneast" or dc == "japanwest" or dc == "westindia" or dc == "centralindia" or dc == "southindia" or dc == "chinaeast" or dc == "chinanorth" or dc == "koreacentral" or dc == "koreasouth" or dc == "chinanorth2" or dc == "norwaywest" or dc == "norwayeast"):
+	if (dc == "northeurope" or dc == "uksouth" or dc == "ukwest" or dc == "westeurope" or dc == "francecentral" or dc == "francesouth" or dc == "germanycentral" or dc == "germanynorth" or dc == "germanynortheast" or dc == "germanywestcentral" or dc == "switzerlandwest" or dc == "switzerlandnorth" or dc == "eastasia" or dc == "southeastasia" or dc == "japaneast" or dc == "japanwest" or dc == "westindia" or dc == "centralindia" or dc == "southindia" or dc == "chinaeast" or dc == "chinanorth" or dc == "koreacentral" or dc == "koreasouth" or dc == "chinanorth2" or dc == "norwaywest" or dc == "norwayeast"):
 		return 'europeandasia';
 	if (dc == "uaecentral" or dc == "uaenorth" or dc == "southafricanorth" or dc == "southafricawest"):
 		return 'africa';
