@@ -10,8 +10,7 @@ License: MIT (see LICENSE.txt file for details)
 import json
 
 #DEMO Assets...
-REGIONS_DEMO = ["chinaeast", "chinaeast2"]
-#REGIONS_DEMO = ["brazilsouth", "southcentralus", "northcentralus", "westcentralus", "eastus", "eastus2", "centralus", "westus", "westus2", "canadacentral", "canadaeast", "northeurope", "uksouth", "ukwest", "westeurope", "francecentral", "francesouth", "germanynorth", "germanynortheast", "germanycentral", "germanywestcentral", "switzerlandnorth", "switzerlandwest", "norwaywest", "norwayeast", "eastasia", "southeastasia", "japaneast", "japanwest", "westindia", "centralindia", "southindia", "chinaeast", "chinanorth", "chinanorth2", "koreacentral", "koreasouth", "uaecentral", "uaenorth", "southafricanorth", "southafricawest", "australiaeast", "australiacentral", "australiacentral2", "australiasoutheast"]
+REGIONS_DEMO = ["brazilsouth", "southcentralus", "northcentralus", "westcentralus", "eastus", "eastus2", "centralus", "westus", "westus2", "canadacentral", "canadaeast", "northeurope", "uksouth", "ukwest", "westeurope", "francecentral", "francesouth", "germanynorth", "germanynortheast", "germanycentral", "germanywestcentral", "switzerlandnorth", "switzerlandwest", "norwaywest", "norwayeast", "eastasia", "southeastasia", "japaneast", "japanwest", "westindia", "centralindia", "southindia", "chinaeast", "chinanorth", "chinanorth2", "koreacentral", "koreasouth", "uaecentral", "uaenorth", "southafricanorth", "southafricawest", "australiaeast", "australiacentral", "australiacentral2", "australiasoutheast"]
 
 VMSSGET_DEMO = json.dumps({"name": "dashdemo", "location": "brazilsouth", "sku": {"name": "Standard_A2", "tier": "Standard", "capacity": 1}, "properties": {"virtualMachineProfile": {"osProfile": {"adminUsername": "blackpanther"}, "storageProfile": {"imageReference": {"publisher": "Canonical", "offer": "UbuntuServer", "sku": "16.04.0-LTS", "version": "latest"}}}, "provisioningState": "Succeeded"}})
 
