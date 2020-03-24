@@ -22,11 +22,22 @@ from logtail import *
 from unicurses import *
 from windows import *
 from datacenters import *
+from os.path import expanduser
+
+#Our Home...
+HOMEUSER = expanduser("~")
+HOMEDIR = HOMEUSER + "/.asciivmssdashboard"
+
+# Make sure we have our home...
+try:
+        os.mkdir(HOMEDIR)
+except FileExistsError:
+        DONOTHING = "Our Home Directory already exists..."
 
 # Load Azure app defaults
 filepresent = 1
 try:
-	with open('asciivmssdashboard.json') as configFile:
+	with open(HOMEDIR + '/asciivmssdashboard.json') as configFile:
 		configData = json.load(configFile)
 except IOError or FileNotFoundError:
         # ---> In case we do not find our asciivmssdashboard.json config file, we will run in demo mode...
@@ -52,6 +63,7 @@ try:
 	tier = configData['tier']
 	purgeLog = configData['purgeLog']
 	logName = configData['logName']
+	logEnabled = configData['logEnabled']
 	logLevel = configData['logLevel']
 	interval = configData['interval']
 	insightsAppId = configData['insightsAppId']
@@ -88,7 +100,7 @@ if (demoEnabled.lower() == "yes"):
     logEnabled = "Yes"
     logLevel = "INFO"
     purgeLog = "Yes"
-    logName = "asciivmssdashboard.log"
+    logName = HOMEDIR + "/asciivmssdashboard.log"
     insightsOneEnabled = "Yes"
     insightsOneTitle = "REQS"
     insightsTwoEnabled = "Yes"
@@ -118,9 +130,16 @@ if (purgeLog.lower() == "yes"):
     if (os.path.isfile(logName)):
         os.remove(logName);
 
+if not os.path.exists(logName):
+    os.mknod(logName)
+
 #Basic Logging...
 #logging.basicConfig(format='%(asctime)s - %(levelname)s:%(message)s', datefmt='%H:%M:%S', level=logLevel, filename=logName)
 logging.basicConfig(format='%(asctime)s - %(levelname)s:%(message)s', level=logLevel, filename=logName)
+
+#We told you that we would add our mark in the world...
+if (logEnabled.lower() == 'yes'):
+    logging.info(" ->>> ASCii VM Scale Set Dashboard Started...")
 
 #Exec command...
 def exec_cmd(window, access_token, cap, cmd, demo):
@@ -774,7 +793,6 @@ def insights_in_window(log, window, run_event, demo):
 			index_one = 0; index_two = 0;
 
 		#Get the Insights metrics and draw graph...
-		customheader = {'X-Api-Key': insightsKey}
 		if (insightsOneEnabled.lower() == "yes"):
 			clean_insights(window['insightsone'], 10);
 			#Open space to a new sample...
@@ -783,6 +801,7 @@ def insights_in_window(log, window, run_event, demo):
 				if demo:
 				    values_insightsone[index_one] = random.randint(0, 100);
 				else:
+				    customheader = {'X-Api-Key': insightsKey}
 				    if (insightsOneUrl == ""):
 					    insightsOneUrl = insightsUrl + insightsAppId + "/metrics/" + insightsOneMetric + "?timespan=PT" + str(insightsInterval) + "S";
 				    metricone = requests.get(insightsOneUrl, headers=customheader);

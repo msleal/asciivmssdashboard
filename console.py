@@ -19,11 +19,16 @@ from azure import *
 from windows import *
 from datacenters import *
 import requests.packages.urllib3
+from os.path import expanduser
+
+#Our Home...
+HOMEUSER = expanduser("~") 
+HOMEDIR = HOMEUSER + "/.asciivmssdashboard"
 
 # Load Azure app defaults
 filepresent = 1
 try:
-        with open('asciivmssdashboard.json') as configFile:
+        with open(HOMEDIR + '/asciivmssdashboard.json') as configFile:
                 configData = json.load(configFile)
 except IOError or FileNotFoundError:
         # ---> In case we do not find our asciivmssdashboard.json config file, we will run in demo mode...
