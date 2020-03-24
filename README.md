@@ -1,4 +1,4 @@
-# ASCii VMSS Dashboard v1.8
+# ASCii VMSS Dashboard v2.0
 Dashboard to show and configure Azure VM Scale Set status, properties...
 ![Image of ASCii VMSS Dashboard](https://raw.githubusercontent.com/msleal/msleal.github.com/master/screencast-win_animation.gif)
 
@@ -66,6 +66,12 @@ Don't forget to subscribe to the channel for updates...
 Enjoy some code and loud music!
 
 ## FEATURES:
+Release Version 1.8 has animations for the Windows (Continents), Azure Regions updated,, and change of the color for the regions on map
+for better visibility. Other than that, I changed the character for representing the regions to be a 'block' and not just a space, so I 
+could add bright color and have it highlighted (just works for foreground, so space was not working).
+
+Version 1.6 features Telemetry data on graphs integrated on the ASCiiVMSSDashboard now is fully integrated and flexible.
+
 The Version 1.4 brings many new features and commands for the ASCiiVMSSDashboard utility. 
 This version has an option to create a log file with many useful information that can be watched live directly in the ASCiiVMSSDashboard.
 It's very simple to display the log on the screen, just issue the command: 'log'. Using the console config file, you can set the log level 
