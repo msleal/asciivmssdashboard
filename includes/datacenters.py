@@ -47,6 +47,7 @@ dc_coords = {
              'centralindia':[21,46], \
              'southindia':[23,47], \
              'chinaeast':[18,70], \
+             'chinaeast2':[18,68], \
              'chinanorth':[14,67], \
              'chinanorth2':[14,69], \
              'koreacentral':[15,73], \
@@ -67,7 +68,7 @@ dc_symbol = u"\u2588";
 #CONTINENTS
 southamerica = ['brazilsouth']
 northandcentralamerica = ['southcentralus', 'northcentralus', 'westcentralus', 'eastus', 'eastus2', 'centralus', 'westus', 'westus2', 'canadacentral', 'canadaeast']
-europeandasia = ['northeurope', 'uksouth', 'ukwest', 'westeurope', 'francecentral', 'francesouth', 'germanycentral', 'germanynorth', 'germanynortheast', 'germanywestcentral', 'switzerlandwest', 'switzerlandnorth', 'eastasia', 'southeastasia', 'japaneast', 'japanwest', 'centralindia', 'westindia', 'southindia', 'chinaeast', 'chinanorth', 'chinanorth2', 'koreacentral', 'koreasouth', 'norwaywest', 'norwayeast']
+europeandasia = ['northeurope', 'uksouth', 'ukwest', 'westeurope', 'francecentral', 'francesouth', 'germanycentral', 'germanynorth', 'germanynortheast', 'germanywestcentral', 'switzerlandwest', 'switzerlandnorth', 'eastasia', 'southeastasia', 'japaneast', 'japanwest', 'centralindia', 'westindia', 'southindia', 'chinaeast', 'chinaeast2', 'chinanorth', 'chinanorth2', 'koreacentral', 'koreasouth', 'norwaywest', 'norwayeast']
 africa = ['uaecentral', 'uaenorth', 'southafricanorth', 'southafricawest']
 oceania = ['australiaeast', 'australiacentral', 'australiacentral2', 'australiasoutheast']
 
