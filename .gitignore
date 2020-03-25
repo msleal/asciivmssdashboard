@@ -11,7 +11,8 @@ asciivmssdashboard.log
 # Compiled python modules.
 *.pyc
 
-# Setuptools distribution folder.
+# Setuptools distribution and build folders.
+/build/
 /dist/
 
 # Python egg metadata, regenerated from source files by setuptools.
