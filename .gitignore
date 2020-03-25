@@ -1,7 +1,18 @@
 # Application files
 asciivmssdashboard.json
-# Python cache and pdcurses DLL...
+
+# Python cache and pdcurses DLL.
 includes/__pycache__/
 pdcurses.dll
-# Log...
+
+# Log file.
 asciivmssdashboard.log
+
+# Compiled python modules.
+*.pyc
+
+# Setuptools distribution folder.
+/dist/
+
+# Python egg metadata, regenerated from source files by setuptools.
+/*.egg-info
