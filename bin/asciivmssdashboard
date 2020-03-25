@@ -1,3 +1,12 @@
 #!/usr/bin/env python
 
-console.py
+import os
+import azurerm
+
+#Iam sure there is a better way to do this...
+azurerm_path = (azurerm.__file__)
+dash_script = "python " + azurerm_path.replace("azurerm/__init__.py", "asciivmssdashboard/console.py")
+
+#Anyway, now we have a good guess where our script is installed...
+print("Executing: " + dash_script)
+os.system(dash_script)
