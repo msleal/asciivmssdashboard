@@ -24,7 +24,7 @@ USING DOCKER (Ubuntu):
   3. su - architect
   4. cd asciivmssdashboard
   5. git pull origin master
-  6. cp asciivmssdashboard.json.tmpl asciivmssdashboard.json
+  6. cp asciivmssdashboard.json.tmpl /home/your-username/.asciivmssdashboard/asciivmssdashboard.json
 - Fill in the asciivmssdashboard.json config file with your custom values...
   8. export TERM=screen; export PYTHONDONTWRITEBYTECODE=1; ./console.py 
 
@@ -39,7 +39,7 @@ OR:
 After you have the application installed, you will need:
 
   1. Register an Azure application, create a service principal, and get your tenant id. See "Using ASCiiVMSSDashboard".
-  2. Put in values for your application along with your resource group name and VM Scale Set name in asciivmssdashboard.json file.
+  2. Put in values for your application along with your resource group name and VM Scale Set name in /home/your-username/asciivmssdashboard.json file.
   3. If you want to watch the Insights Telemetry Graphs (for the Azure Service), you will need to configure Azure Insights. See "Using Application Insights Telemetry Data".
 
      You can use a custom URL (e.g.: Your own Telemetry API). For that, you will need to have an Telemetry API that provides the metrics (e.g.: JSON), similar to Azure Application Insights.
