@@ -13,7 +13,7 @@ import json
 import platform
 from unicurses import *
 #Now to load our modules, we need to inform our modules path first...
-sys.path.append('./includes/')
+#sys.path.append('./includes/')
 from maps import *
 from azure import *
 from windows import *
