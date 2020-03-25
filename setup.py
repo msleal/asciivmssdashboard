@@ -10,9 +10,9 @@ setuptools.setup(name='asciivmssdashboard',
     license='MIT',
     scripts=['bin/asciivmssdashboard'],
     packages=['asciivmssdashboard'],
-    dependency_links=['https://sourceforge.net/projects/pyunicurses/files/unicurses-1.2/UniCurses-1.2.zip/download'],
     install_requires=[
         'azurerm',
         'requests',
+        'UniCurses',
     ],
     zip_safe=False)
