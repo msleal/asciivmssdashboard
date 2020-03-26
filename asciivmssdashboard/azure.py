@@ -17,8 +17,13 @@ HOMEDIR = HOMEUSER + "/.asciivmssdashboard"
 # Make sure we have our home...
 try:
         os.mkdir(HOMEDIR)
-except FileExistsError:
-        DONOTHING = "Our Home Directory already exists..."
+#except FileExistsError:
+#        DONOTHING = "Our Home Directory already exists..."
+except OSError as e:
+       if e.errno == errno.EEXIST: 
+           DONOTHING = "Our Home Directory already exists..."
+       else:
+           raise
 
 # Load Azure app defaults
 filepresent = 1

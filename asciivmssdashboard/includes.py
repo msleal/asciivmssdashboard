@@ -11,6 +11,7 @@ License: MIT (see LICENSE.txt file for details)
 from sys import *
 import time
 import json
+import errno
 import random
 import azurerm
 import logging
