@@ -11,6 +11,7 @@ setuptools.setup(name='asciivmssdashboard',
     license='MIT',
     scripts=['bin/asciivmssdashboard'],
     packages=['asciivmssdashboard'],
+    package_data={"asciivmssdashboard": ["pdc34dll/*"]},
     install_requires=[
         'azurerm',
         'requests',
