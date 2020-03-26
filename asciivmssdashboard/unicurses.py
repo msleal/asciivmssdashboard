@@ -55,7 +55,7 @@ except ImportError:
         print("Expecting pdcurses at: " + path_to_pdcurses)
         if not (os.access(pdcurses, os.F_OK) or os.access(path_to_pdcurses, os.F_OK)):
             print("Fatal error: can't find pdc34dll\pdcurses.dll for linking, make sure PDCurses v3.4+ is in the same folder as UniCurses if you want to use UniCurses on a "+sys.platform+" platform.\n")
-            raise ImportError("UniCurses initialization error - pdc34dll\pdcurses.dll not found.")
+            raise ImportError("UniCurses initialization error - pdc34dll\pdcurses.dll not found: " + path_to_pdcurses)
         pdlib = ctypes.CDLL(path_to_pdcurses)   # we're on winXX, use pdcurses instead of native ncurses
 
 
