@@ -7,19 +7,7 @@ Description: The power is in the terminal...
 License: MIT (see LICENSE.txt file for details)
 """
 
-import sys
-import time
-import json
-import platform
-from unicurses import *
-#Now to load our modules, we need to inform our modules path first...
-#sys.path.append('./includes/')
-from maps import *
 from azure import *
-from windows import *
-from datacenters import *
-import requests.packages.urllib3
-from os.path import expanduser
 
 #Our Home...
 HOMEUSER = expanduser("~") 

@@ -8,21 +8,7 @@ Description: The power is in the terminal...
 License: MIT (see LICENSE.txt file for details)
 """
 
-import sys
-import time
-import json
-import random
-import azurerm
-import threading
-import platform
-import logging
-import requests
-from demo import *
-from logtail import *
-from unicurses import *
-from windows import *
-from datacenters import *
-from os.path import expanduser
+from includes import *
 
 #Our Home...
 HOMEUSER = expanduser("~")

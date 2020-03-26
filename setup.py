@@ -14,6 +14,5 @@ setuptools.setup(name='asciivmssdashboard',
     install_requires=[
         'azurerm',
         'requests',
-        'UniCurses',
     ],
     zip_safe=False)
