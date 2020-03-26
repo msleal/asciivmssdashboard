@@ -32,8 +32,9 @@ OR:
 
   1. Install Python 2.x or 3.x.
   2. Install the azurerm REST wrappers for Microsoft Azure: pip install azurerm.
-  3. Install [Pyunicurses](https://sourceforge.net/projects/pyunicurses/).
-  4. On Windows, Install [pdcurses](http://pdcurses.sourceforge.net/). I have used the: pdc34dllw.zip file. See 'PDCURSES' bellow...
+  3. This application uses Unicurses: https://pypi.org/project/UniCurses, and a version of UniCurses (+pdcurses for Windows plataform), already comes with asciivmssdashboard.
+     OBSOLETE: a) Install [Pyunicurses](https://sourceforge.net/projects/pyunicurses/).
+               b) On Windows, Install [pdcurses](http://pdcurses.sourceforge.net/). I have used the: pdc34dllw.zip file. See 'PDCURSES' bellow...
   5. Clone this repo locally.
 
 After you have the application installed, you will need:
@@ -163,6 +164,7 @@ I'm looking for an alternative non-block call to use on windows and fix this.
 - It would be nice to have any feedback of this program running on MacOS or any other platform... 
 
 ##PDCURSES
+- This application uses Unicurses: https://pypi.org/project/UniCurses, and a version of UniCurses (+pdcurses for Windows plataform), already comes with asciivmssdashboard.
 - If you have problems installing pdcurses on windows (not able to load uniCurses: import error), you can just add the DLL directly
 on the current directory of the ASCiiVMSSDashboard installation. To run the ASCiiVMSSDashboard on Windows, I have tested it 
 just cloning the repo on Windows 10, and copying the 'pdcurses.dll' file to the cloned folder, and it runs without any issues (you
