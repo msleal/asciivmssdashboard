@@ -8,8 +8,8 @@ License: MIT (see LICENSE.txt file for details)
 """
 
 import sys
+import platform
 from maps import *
-from platform import *
 from unicurses import *
 
 #DC Coordinates (row x col)...
