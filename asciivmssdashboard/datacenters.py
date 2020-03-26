@@ -66,11 +66,6 @@ dc_coords = {
 #Linux or Windows?
 oursystem = platform.system();
 
-#SYMBOL
-if (oursystem == "Linux"):
-    dc_symbol = u"\u2588";
-else:
-    dc_symbol = " ";
 
 #CONTINENTS
 southamerica = ['brazilsouth']
@@ -81,6 +76,13 @@ oceania = ['australiaeast', 'australiacentral', 'australiacentral2', 'australias
 
 #Do the work...
 def do_dcmark(window, coords, cor=11):
+	#SYMBOL
+	if (oursystem == "Linux"):
+	    dc_symbol = u"\u2588";
+	else:
+	    cor = 5;
+	    dc_symbol = " ";
+
 	if sys.version_info.major >= 3:
 		#In Python +3 we can print in unicode a nice and bright block out-of-the-box!
 		wmove(window, coords[0], coords[1]); waddstr(window, dc_symbol, color_pair(cor) + A_BOLD);
