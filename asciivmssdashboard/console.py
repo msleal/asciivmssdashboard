@@ -9,6 +9,9 @@ License: MIT (see LICENSE.txt file for details)
 
 from azure import *
 
+#Linux or Windows?
+oursystem = platform.system();
+
 #Our Home...
 HOMEUSER = expanduser("~") 
 HOMEDIR = HOMEUSER + "/.asciivmssdashboard"
@@ -35,7 +38,10 @@ try:
         if filepresent: 
             configFile.close()
 except:
-        animationEnabled = "Yes"
+        if (oursystem == "Linux"):
+            animationEnabled = "Yes"
+        else:
+            animationEnabled = "No"
         # ---> "Missing 'animationEnabled' configuration parameter. Because we like it and was not simple to implement, we will assume you also like it..."
         # ---> "Use the asciivmssdashboard.json.tmpl file as a template to fill in your custom values..."
         if filepresent: 
@@ -101,13 +107,13 @@ def draw_helper(geo, termsize):
 def main(): #{
 	#Initialize...
 	COLSTART=100; SZ = 0;
-	ourhome = platform.system();
+	oursystem = platform.system();
 	stdscr = initscr();
 	modo = "REAL";
 	if (demoEnabled.lower() == 'yes'):
             modo = "DEMO";
 
-	if (ourhome == "Disabledbecausewasconsuming1proconLinux"):
+	if (oursystem == "Disabledbecausewasconsuming1proconLinux"):
 		# Non-block when waiting for getch (cmd prompt).
 		# This does not work on Windows, so we will not be able to exit nicely...
 		stdscr.nodelay(1);
@@ -120,7 +126,7 @@ def main(): #{
 	if (termsize[0] >= 55 and termsize[1] >= 235):
 		SZ = 1;
 	else:
-		if (ourhome == "Linux"):
+		if (oursystem == "Linux"):
 			errnr = resize_terminal();
 			SZ == errnr;
 		else:
@@ -151,8 +157,8 @@ def main(): #{
 	write_str(window, 0, 67, cur_version.major);
 	write_str(window, 0, 68, "x ");
 	write_str(window, 0, 77, "| Platform: ");
-	write_str(window, 0, 89, ourhome);
-	write_str(window, 0, 89 + len(ourhome), " |");
+	write_str(window, 0, 89, oursystem);
+	write_str(window, 0, 89 + len(oursystem), " |");
 	write_str(window, 0, 108, "| Execution Mode: ");
 	if modo == "REAL":
             write_str_color(window, 0, 126, modo, 6, 0);

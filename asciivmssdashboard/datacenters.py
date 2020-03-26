@@ -8,8 +8,9 @@ License: MIT (see LICENSE.txt file for details)
 """
 
 import sys
-from unicurses import *
 from maps import *
+from platform import *
+from unicurses import *
 
 #DC Coordinates (row x col)...
 # Do not forget to update the mark_regions_map function in this file, and also the file windows.py...
@@ -62,8 +63,14 @@ dc_coords = {
              'australiasoutheast':[10,27]
 };
 
+#Linux or Windows?
+oursystem = platform.system();
+
 #SYMBOL
-dc_symbol = u"\u2588";
+if (oursystem == "Linux"):
+    dc_symbol = u"\u2588";
+else:
+    dc_symbol = " ";
 
 #CONTINENTS
 southamerica = ['brazilsouth']
@@ -78,7 +85,10 @@ def do_dcmark(window, coords, cor=11):
 		#In Python +3 we can print in unicode a nice and bright block out-of-the-box!
 		wmove(window, coords[0], coords[1]); waddstr(window, dc_symbol, color_pair(cor) + A_BOLD);
 	else:
-		wmove(window, coords[0], coords[1]); waddstr(window, dc_symbol.encode("utf-8"), color_pair(cor) + A_BOLD);
+		if (oursystem == "Linux"):
+		    wmove(window, coords[0], coords[1]); waddstr(window, dc_symbol.encode("utf-8"), color_pair(cor) + A_BOLD);
+		else:
+		    wmove(window, coords[0], coords[1]); waddstr(window, dc_symbol, color_pair(cor) + A_BOLD);
 
 #Mark Datacenters on world map...
 def mark_regions_map(window, continent):

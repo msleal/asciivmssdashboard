@@ -117,7 +117,10 @@ if (purgeLog.lower() == "yes"):
         os.remove(logName);
 
 if not os.path.exists(logName):
-    os.mknod(logName)
+    #The following call (mknode) is not xplat...
+    #os.mknod(logName)
+    f = open(logName, 'w')
+    f.close()
 
 #Basic Logging...
 #logging.basicConfig(format='%(asctime)s - %(levelname)s:%(message)s', datefmt='%H:%M:%S', level=logLevel, filename=logName)
