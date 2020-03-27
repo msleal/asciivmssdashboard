@@ -57,7 +57,7 @@ except ImportError:
 
         current_dir = os.path.dirname(os.path.realpath(__file__))
         path_to_pdcurses = current_dir + "/" + pdcurses
-        print("Expecting pdcurses at: " + path_to_pdcurses)
+        #print("Expecting pdcurses at: " + path_to_pdcurses)
         if not (os.access(pdcurses, os.F_OK) or os.access(path_to_pdcurses, os.F_OK)):
             print("Fatal error: can't find " + pdcurses + " for linking, make sure PDCurses v3.4+ is in the same folder as UniCurses if you want to use UniCurses on a "+sys.platform+" platform.\n")
             raise ImportError("UniCurses initialization error = " + pdcurses + " not found: " + path_to_pdcurses)
