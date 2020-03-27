@@ -1,12 +1,13 @@
-#!/usr/bin/env python
+#!/home/architect/.virtualenvs/asciivmssconsole3/bin/python3.6
 
 import os
-import azurerm
+import sys
 
-#Iam sure there is a better way to do this...
-azurerm_path = (azurerm.__file__)
-dash_script = "python " + azurerm_path.replace("azurerm/__init__.py", "asciivmssdashboard/console.py")
+our_version = "python" + str(sys.version_info.major) + "." + str(sys.version_info.minor)
+our_abs_path = os.path.dirname(os.path.abspath(__file__))
 
-#Anyway, now we have a good guess where our script is installed...
+dash_script  = "python " + our_abs_path.replace("bin", "lib/" + our_version + "/site-packages/asciivmssdashboard/console.py")
+
+#Well, now we have a good guess where our script is installed...
 print("Executing: " + dash_script)
 os.system(dash_script)
