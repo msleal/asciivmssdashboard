@@ -2,11 +2,22 @@
 
 import os
 import sys
+import platform
 
 our_version = "python" + str(sys.version_info.major) + "." + str(sys.version_info.minor)
 our_abs_path = os.path.dirname(os.path.abspath(__file__))
 
-dash_script  = "python " + our_abs_path.replace("bin", "lib/" + our_version + "/site-packages/asciivmssdashboard/console.py")
+#Linux or Windows?
+oursystem = platform.system();
+
+if (oursystem == "Linux"):
+    program_prefix = "bin";
+    program_suffix = "lib/" + our_version + "/site-packages/asciivmssdashboard/console.py"
+else:
+    program_prefix = "Scripts";
+    program_suffix = "lib/" + "site-packages/asciivmssdashboard/console.py"
+
+dash_script  = "python " + our_abs_path.replace(program_prefix, program_suffix)
 
 #Well, now we have a good guess where our script is installed...
 print("Executing: " + dash_script)
