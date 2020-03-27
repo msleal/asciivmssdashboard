@@ -18,6 +18,7 @@
 import sys
 import os
 import locale
+import platform
 global pdlib
 global NCURSES
 global PDC_LEAVEOK
@@ -49,16 +50,18 @@ except ImportError:
         print("Fatal error: this platform is not supported by UniCurses (either you're running a very old Python distribution below v2.6, or you're using an exotic operating system that's neither Win nor *nix).\n")
         raise ImportError("UniCurses initialization error - unsupported platform.")
     else:
-        pdcurses = "pdc34dll/pdcurses.dll"
+        if (platform.architecture()[0] == "32bit"):
+            pdcurses = "pdc34dll/pdcurses32.dll"
+        else:
+            pdcurses = "pdc34dll/pdcurses64.dll"
+
         current_dir = os.path.dirname(os.path.realpath(__file__))
         path_to_pdcurses = current_dir + "/" + pdcurses
         print("Expecting pdcurses at: " + path_to_pdcurses)
         if not (os.access(pdcurses, os.F_OK) or os.access(path_to_pdcurses, os.F_OK)):
-            print("Fatal error: can't find pdc34dll\pdcurses.dll for linking, make sure PDCurses v3.4+ is in the same folder as UniCurses if you want to use UniCurses on a "+sys.platform+" platform.\n")
-            raise ImportError("UniCurses initialization error - pdc34dll\pdcurses.dll not found: " + path_to_pdcurses)
+            print("Fatal error: can't find " + pdcurses + " for linking, make sure PDCurses v3.4+ is in the same folder as UniCurses if you want to use UniCurses on a "+sys.platform+" platform.\n")
+            raise ImportError("UniCurses initialization error = " + pdcurses + " not found: " + path_to_pdcurses)
         pdlib = ctypes.CDLL(path_to_pdcurses)   # we're on winXX, use pdcurses instead of native ncurses
-
-
 
 # +++ PDCurses/NCurses curses.h marco wrappers and other prereqs +++
 
