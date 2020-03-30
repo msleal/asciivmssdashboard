@@ -33,6 +33,7 @@ OR:
   1. Install Python 2.x or 3.x.
   2. Install the azurerm REST wrappers for Microsoft Azure: pip install azurerm.
   3. This application uses Unicurses: https://pypi.org/project/UniCurses, and a version of UniCurses (+pdcurses for Windows plataform), already comes with asciivmssdashboard.
+
      OBSOLETE: a) Install [Pyunicurses](https://sourceforge.net/projects/pyunicurses/).
                b) On Windows, Install [pdcurses](http://pdcurses.sourceforge.net/). I have used the: pdc34dllw.zip file. See 'PDCURSES' bellow...
   5. Clone this repo locally.
