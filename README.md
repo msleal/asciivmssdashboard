@@ -1,5 +1,11 @@
 # ASCii VMSS Dashboard v2.0
 Dashboard to show and configure Azure VM Scale Set status, properties...
+Version 2.0 New Features:
+ 1. New Azure regions (GA), now the dashboard shows 46 Azure Regions!
+ 2. UniCurses included in the tool and a pip package for easy of installation (just execute: pip install asciivmssdashboard).
+ 3. PDCurses library included as well (32bits and 64bits versions) for Windows machines (ps.: 64bits version needs a fix as it compiled OK but is crashing in runtime).
+ 4. Linux and Windows, Python 2 and 3 as well as 32bits and 64bits packages ready to install! Just a note above for the Windows 64bits version of PDCurses. 
+
 ![Image of ASCii VMSS Dashboard](https://raw.githubusercontent.com/msleal/msleal.github.com/master/screencast-win_animation.gif)
 
 Simple and easy to start VMs...
@@ -31,16 +37,14 @@ USING DOCKER (Ubuntu):
 OR:
 
   1. Install Python 2.x or 3.x.
-  2. Install the azurerm REST wrappers for Microsoft Azure: pip install azurerm.
+  2. Install the ASCii VMSS Dashboard: pip install asciivmssdashboard.
   3. This application uses Unicurses: https://pypi.org/project/UniCurses, and a version of UniCurses (+pdcurses for Windows plataform), already comes with asciivmssdashboard.
 
-     OBSOLETE: a) Install [Pyunicurses](https://sourceforge.net/projects/pyunicurses/).
-
-               b) On Windows, Install [pdcurses](http://pdcurses.sourceforge.net/). I have used the: pdc34dllw.zip file. See 'PDCURSES' bellow...
-  5. Clone this repo locally.
-
 After you have the application installed, you will need:
+  _For DEMO (No real vmss config)_
+  1. Just run: asciivmssdashboard
 
+  _For use it in a Real VMSS Dashboard_
   1. Register an Azure application, create a service principal, and get your tenant id. See "Using ASCiiVMSSDashboard".
   2. Put in values for your application along with your resource group name and VM Scale Set name in /home/your-username/asciivmssdashboard.json file.
   3. If you want to watch the Insights Telemetry Graphs (for the Azure Service), you will need to configure Azure Insights. See "Using Application Insights Telemetry Data".
@@ -50,7 +54,7 @@ After you have the application installed, you will need:
      NOTE: If you want to use custom telemetry APIs Services, leave the 'insightsUrl' config option 'empty'. If the insightsUrl is configured, it will have precedence and ASCiiVMSSDashboard will use it
            in conjuction with the metric (e.g.: insightsOneMetric) configured. If it is not configured, and (for example): insightsOne is enabled, the insightsOneUrl will be used to get the first metric.
 
-  4. Run (on Linux): ./console.py or (on Windows): python console.py.
+  4. Run (on Linux): asciivmssdashboard or (on Windows): path_to_python path_to_asciivmssdashboard_script.
   5. To Exit the Console, just hit: Ctrl+C or use the command: 'quit' (for a 'clean' exit, we will wait for the update threads to finish).
      In the Windows Platform you can just use the command: 'quit' for now (See "CAVEATS" bellow).
 
