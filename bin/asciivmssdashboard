@@ -13,11 +13,13 @@ oursystem = platform.system();
 if (oursystem == "Linux"):
     program_prefix = "bin";
     program_suffix = "lib/" + our_version + "/site-packages/asciivmssdashboard/console.py"
+    python_path = our_abs_path + "/python "
 else:
     program_prefix = "Scripts";
     program_suffix = "lib/" + "site-packages/asciivmssdashboard/console.py"
+    python_path = our_abs_path.replace("Scripts", "\python.exe ")
 
-dash_script  = "python " + our_abs_path.replace(program_prefix, program_suffix)
+dash_script  = python_path + our_abs_path.replace(program_prefix, program_suffix)
 
 #Well, now we have a good guess where our script is installed...
 print("Executing: " + dash_script)
