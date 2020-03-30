@@ -5,6 +5,7 @@ Version 2.0 New Features:
  2. UniCurses included in the tool and a pip package for easy of installation (just execute: pip install asciivmssdashboard).
  3. PDCurses library included as well (32bits and 64bits versions) for Windows machines (ps.: 64bits version needs a fix as it compiled OK but is crashing in runtime).
  4. Linux and Windows, Python 2 and 3 as well as 32bits and 64bits packages ready to install! Just a note above for the Windows 64bits version of PDCurses. 
+ 5. New DEMO Execution Mode where you can just install the tool and execute it for a quick and nice demo (no need to have a real VMSS setup). Ideal to quickly see the tool in action and Azure/VMSS demos.
 
 ![Image of ASCii VMSS Dashboard](https://raw.githubusercontent.com/msleal/msleal.github.com/master/screencast-win_animation.gif)
 
