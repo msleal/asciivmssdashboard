@@ -1,4 +1,4 @@
-#!/home/architect/.virtualenvs/asciivmssconsole3/bin/python3.6
+#!/usr/bin/env python
 
 import os
 import sys
@@ -13,14 +13,31 @@ oursystem = platform.system();
 if (oursystem == "Linux"):
     program_prefix = "bin";
     program_suffix = "lib/" + our_version + "/site-packages/asciivmssdashboard/console.py"
-    python_path = our_abs_path + "/python "
+    python_path = our_abs_path + "/python" + str(sys.version_info.major) + " "
 else:
     program_prefix = "Scripts";
     program_suffix = "lib/" + "site-packages/asciivmssdashboard/console.py"
     python_path = our_abs_path.replace("Scripts", "\python.exe ")
 
+
+#We got some difficulties with Python installation files on Ubuntu...
+#Python Binary first...
+if os.path.isfile(python_path):
+    print("-> Python installation seems OK...")
+else:
+    print("--> Seems like the Python installation path: " + python_path + "is broken, trying an alternative path...")
+    python_path = python_path.replace("local/", "")
+
+#Now our package files...
+if os.path.isfile(our_abs_path):
+    print("-> Our Python package installation seems OK...")
+else:
+    print("--> Seems like our package installation path: " + our_abs_path + " is broken, trying an alternative path...")
+    program_suffix = program_suffix.replace("site-packages", "dist-packages")
+
 dash_script  = python_path + our_abs_path.replace(program_prefix, program_suffix)
 
 #Well, now we have a good guess where our script is installed...
 print("Executing: " + dash_script)
+print("Wait a second...")
 os.system(dash_script)
