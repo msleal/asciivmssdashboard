@@ -39,7 +39,7 @@ OR:
 
   1. Install Python 2.x or 3.x.
   2. Install the ASCii VMSS Dashboard: pip install asciivmssdashboard.
-  3. This application uses Unicurses: https://pypi.org/project/UniCurses, and a version of UniCurses (+pdcurses for Windows plataform), already comes with asciivmssdashboard.
+  3. This application uses Unicurses: https://pypi.org/project/UniCurses, and a version of UniCurses (+pdcurses for Windows platform), already comes with asciivmssdashboard.
 
 After you have the application installed, you will need:
   _For DEMO (No real vmss config)_
@@ -171,7 +171,7 @@ I'm looking for an alternative non-block call to use on windows and fix this.
 - It would be nice to have any feedback of this program running on MacOS or any other platform... 
 
 ##PDCURSES
-- This application uses Unicurses: https://pypi.org/project/UniCurses, and a version of UniCurses (+pdcurses for Windows plataform), already comes with asciivmssdashboard.
+- This application uses Unicurses: https://pypi.org/project/UniCurses, and a version of UniCurses (+pdcurses for Windows platform), already comes with asciivmssdashboard.
 - If you have problems installing pdcurses on windows (not able to load uniCurses: import error), you can just add the DLL directly
 on the current directory of the ASCiiVMSSDashboard installation. To run the ASCiiVMSSDashboard on Windows, I have tested it 
 just cloning the repo on Windows 10, and copying the 'pdcurses.dll' file to the cloned folder, and it runs without any issues (you
