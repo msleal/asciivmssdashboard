@@ -35,7 +35,7 @@ USING DOCKER (Ubuntu):
 - Fill in the asciivmssdashboard.json config file with your custom values...
   8. export TERM=screen; export PYTHONDONTWRITEBYTECODE=1; ./console.py 
 
-OR:
+Or:
 
   1. Install Python 2.x or 3.x.
   2. Install the ASCii VMSS Dashboard: pip install asciivmssdashboard.
